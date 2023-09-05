@@ -655,6 +655,11 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
         return App::if ($this->role, fn($role) => $role->getIsAdmin());
     }
 
+    public function getIsClient()
+    {
+        return App::if ($this->role, fn($role) => $role->getIsClient());
+    }
+
     public static function findByKeywords($keywords = '', $attributes = [], $limit = 10, $andFilterWhere = [])
     {
         return parent::findByKeywordsData(
