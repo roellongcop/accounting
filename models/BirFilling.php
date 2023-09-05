@@ -5,7 +5,7 @@ namespace app\models;
 use app\widgets\Anchor;
 
 /**
- * This is the model class for table "tbl_bir_fillings".
+ * This is the model class for table "{{%bir_fillings}}".
  *
  * @property int $id
  * @property string $name
@@ -25,7 +25,7 @@ class BirFilling extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'tbl_bir_fillings';
+        return '{{%bir_fillings}}';
     }
 
     public function config()

@@ -5,7 +5,7 @@ namespace app\models;
 use app\widgets\Anchor;
 
 /**
- * This is the model class for table "tbl_kpis".
+ * This is the model class for table "{{%kpis}}".
  *
  * @property int $id
  * @property string $name
@@ -25,7 +25,7 @@ class Kpi extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'tbl_kpis';
+        return '{{%kpis}}';
     }
 
     public function config()

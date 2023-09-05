@@ -5,7 +5,7 @@ namespace app\models;
 use app\widgets\Anchor;
 
 /**
- * This is the model class for table "tbl_inventories".
+ * This is the model class for table "{{%inventories}}".
  *
  * @property int $id
  * @property string $name
@@ -25,7 +25,7 @@ class Inventory extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'tbl_inventories';
+        return '{{%inventories}}';
     }
 
     public function config()

@@ -5,7 +5,7 @@ namespace app\models;
 use app\widgets\Anchor;
 
 /**
- * This is the model class for table "tbl_accounting_reports".
+ * This is the model class for table "{{%accounting_reports}}".
  *
  * @property int $id
  * @property string $name
@@ -25,7 +25,7 @@ class AccountingReport extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'tbl_accounting_reports';
+        return '{{%accounting_reports}}';
     }
 
     public function config()

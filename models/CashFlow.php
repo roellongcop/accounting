@@ -5,7 +5,7 @@ namespace app\models;
 use app\widgets\Anchor;
 
 /**
- * This is the model class for table "tbl_cash_flows".
+ * This is the model class for table "{{%cash_flows}}".
  *
  * @property int $id
  * @property string $name
@@ -25,7 +25,7 @@ class CashFlow extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'tbl_cash_flows';
+        return '{{%cash_flows}}';
     }
 
     public function config()

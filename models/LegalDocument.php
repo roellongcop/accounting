@@ -5,7 +5,7 @@ namespace app\models;
 use app\widgets\Anchor;
 
 /**
- * This is the model class for table "tbl_legal_documents".
+ * This is the model class for table "{{%legal_documents}}".
  *
  * @property int $id
  * @property string $name
@@ -25,7 +25,7 @@ class LegalDocument extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'tbl_legal_documents';
+        return '{{%legal_documents}}';
     }
 
     public function config()
