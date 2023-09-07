@@ -28,6 +28,7 @@ class SetNewPasswordForm extends \yii\base\Model
         if ($this->validate()) {
             if (($user = $this->getUser()) != null) {
                 $user->setPassword($this->password);
+                $user->generatePasswordResetToken();
                 if ($user->save()) {
                     return $user;
                 }

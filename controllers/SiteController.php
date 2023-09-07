@@ -184,6 +184,6 @@ class SiteController extends Controller
             ]);
         }
 
-        throw new NotFoundHttpException('User not found.');
+        throw new NotFoundHttpException('Reset Token Invalid');
     }
 }
