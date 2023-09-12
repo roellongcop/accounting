@@ -15,6 +15,6 @@ use app\helpers\Url;
     </div>
     <div class="footer">
       <p>If you did not take this action, please ignore this email.</p>
-      <p>Regards,<br><?= App::appName() ?></p>
+      <p>sent via <?= Url::home(true) ?></p>
     </div>
   </div>
