@@ -16,9 +16,9 @@ class MailerComponent extends \yii\symfonymailer\Mailer
 
 	public $useFileTransport = true;
 
-	public function init()
-	{
-		parent::init();
-		$this->setTransport(self::TRANSPORT);
-	}
+	// public function init()
+	// {
+	// 	parent::init();
+	// 	$this->setTransport(self::TRANSPORT);
+	// }
 }
