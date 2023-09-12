@@ -2,16 +2,30 @@
 
 use app\helpers\App;
 use app\helpers\Html;
+
+$this->registerCss(<<< CSS
+    #kt_quick_user_toggle {
+        display: flex !important;
+        gap: 10px;
+        align-items: center;
+        color: white;
+        font-weight: 500;
+    }
+CSS)
+
 ?>
 <div class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
     <!--begin::Brand-->
     <div class="brand flex-column-auto" id="kt_brand">
         <!--begin::Logo-->
-        <a href="/" class="brand-logo">
-            <?= Html::image(App::setting('image')->primary_logo, ['w' => 50, 'quality' => 90], [
-                'class' => 'h-30px',
-                'alt' => 'Primary Logo',
+        <a href="#" class="brand-logo text-hover-primary" id="kt_quick_user_toggle">
+            <?= Html::image(App::identity('photo'), ['w' => 100, 'quality' => 90], [
+                'class' => 'h-50px align-self-end',
+                'alt' => 'Company Logo',
             ]) ?>
+            <span>
+                <?= App::identity('username') ?>
+            </span>
         </a>
         <!--end::Logo-->
         <!--begin::Toggle-->

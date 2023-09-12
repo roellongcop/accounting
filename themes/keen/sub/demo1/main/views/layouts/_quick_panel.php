@@ -1,5 +1,5 @@
 <div class="topbar-item mr-1">
-    <div class="btn btn-icon btn-clean btn-lg" id="kt_quick_panel_toggle">
+    <div class="btn btn-clean font-weight-bold" id="kt_quick_panel_toggle">
         <span class="svg-icon svg-icon-xl svg-icon-primary">
             <!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -11,5 +11,6 @@
             </svg>
             <!--end::Svg Icon-->
         </span>
+        Advanced Filter
     </div>
 </div>
