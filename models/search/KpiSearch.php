@@ -17,7 +17,7 @@ class KpiSearch extends Kpi
 
     public $searchTemplate = 'kpi/_search';
     public $searchAction = ['kpi/index'];
-    public $searchLabel = 'Kpi';
+    public $searchLabel = 'KPI';
 
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class KpiSearch extends Kpi
     {
         return [
             [['id', 'created_by', 'updated_by'], 'integer'],
-            [['name', 'description', 'slug', 'files', 'created_at', 'updated_at'], 'safe'],
+            [['name', 'description', 'slug', 'created_at', 'updated_at', 'user_id'], 'safe'],
             [['keywords', 'pagination', 'date_range', 'record_status'], 'safe'],
             [['keywords'], 'trim'],
         ];
@@ -55,7 +55,10 @@ class KpiSearch extends Kpi
      */
     public function search($params)
     {
-        $query = Kpi::find();
+        $query = Kpi::find()
+            ->alias('kpi')
+            ->joinWith('user u')
+            ->groupBy('kpi.id');
 
         // add conditions that should always apply here
         $this->load($params);
@@ -68,6 +71,11 @@ class KpiSearch extends Kpi
             ]
         ]);
 
+        $dataProvider->sort->attributes['username'] = [
+            'asc' => ['u.username' => SORT_ASC],
+            'desc' => ['u.username' => SORT_DESC],
+        ];
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             $query->where('0=1');
@@ -76,25 +84,18 @@ class KpiSearch extends Kpi
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'record_status' => $this->record_status,
-            'created_by' => $this->created_by,
-            'updated_by' => $this->updated_by,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'kpi.id' => $this->id,
+            'kpi.user_id' => $this->user_id,
+            'kpi.record_status' => $this->record_status,
+            'kpi.created_by' => $this->created_by,
+            'kpi.updated_by' => $this->updated_by,
+            'kpi.created_at' => $this->created_at,
+            'kpi.updated_at' => $this->updated_at,
         ]);
-        
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'files', $this->files]);
-        
                 
         $query->andFilterWhere(['or', 
-            ['like', 'name', $this->keywords],  
-            ['like', 'description', $this->keywords],  
-            ['like', 'slug', $this->keywords],  
-            ['like', 'files', $this->keywords],  
+            ['like', 'kpi.name', $this->keywords],  
+            ['like', 'kpi.description', $this->keywords],  
         ]);
 
         $query->daterange($this->date_range);

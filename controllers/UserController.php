@@ -6,6 +6,7 @@ use app\helpers\App;
 use app\models\User;
 use app\models\form\ChangePasswordForm;
 use app\models\search\UserSearch;
+use yii\web\NotFoundHttpException;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -53,7 +54,11 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new User();
+        $model = new User([
+            'status' => User::STATUS_ACTIVE,
+            'record_status' => User::RECORD_ACTIVE,
+            'is_blocked' => User::UNBLOCKED
+        ]);
 
         if ($model->load(App::post()) && $model->validate()) {
             $model->setPassword($model->password);
@@ -155,19 +160,57 @@ class UserController extends Controller
         ]);
     }
 
-    public function actionProfile($slug)
+    public function actionMyAccountant($tab='personal')
     {
-        $user = User::controllerFind($slug, 'slug');
+        $user = User::controllerFind(App::identity('accountant_id'));
+
+        if (!$user) throw new NotFoundHttpException('User not found.');
+        
         $model = $user->profile;
 
-        if ($model->load(App::post()) && $model->save()) {
-            App::success('Profile Updated');
-            return $this->redirect(['profile', 'slug' => $user->slug]);
-        }
-
-        return $this->render('profile', [
+        return $this->render('my-accountant', [
             'user' => $user,
             'model' => $model,
+            'tab' => $tab,
+        ]);
+    }
+
+    public function actionAccountant($slug='', $tab='personal')
+    {
+        $user = User::findOne(['slug' => $slug]) ?: User::findOne(App::identity('accountant_id'));
+
+        if (!$user) throw new NotFoundHttpException('User not found.');
+        
+        $model = $user->profile;
+
+        return $this->render('accountant', [
+            'user' => $user,
+            'model' => $model,
+            'tab' => $tab,
+        ]);
+    }
+
+    public function actionProfile($slug='', $tab='personal')
+    {
+        $user = User::findOne(['slug' => $slug]) ?: App::identity();
+        $model = $user->profile;
+
+        if (($post = App::post()) != null) {
+            $post[App::className($model)]['certification'] = $post[App::className($model)]['certification'] ?? '';
+
+            if ($model->load($post) && $model->save()) {
+                App::success('Profile Updated');
+                return $this->redirect(['profile', 
+                    'slug' => $user->slug,
+                    'tab' => $tab,
+                ]);
+            }
+        }
+
+        return $this->render($model::META_NAME, [
+            'user' => $user,
+            'model' => $model,
+            'tab' => $tab,
         ]);
     }
 

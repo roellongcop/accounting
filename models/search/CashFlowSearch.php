@@ -17,7 +17,7 @@ class CashFlowSearch extends CashFlow
 
     public $searchTemplate = 'cash-flow/_search';
     public $searchAction = ['cash-flow/index'];
-    public $searchLabel = 'CashFlow';
+    public $searchLabel = 'AR/AP Management';
 
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class CashFlowSearch extends CashFlow
     {
         return [
             [['id', 'created_by', 'updated_by'], 'integer'],
-            [['name', 'description', 'slug', 'files', 'created_at', 'updated_at'], 'safe'],
+            [['name', 'description', 'slug', 'created_at', 'updated_at', 'user_id'], 'safe'],
             [['keywords', 'pagination', 'date_range', 'record_status'], 'safe'],
             [['keywords'], 'trim'],
         ];
@@ -55,7 +55,10 @@ class CashFlowSearch extends CashFlow
      */
     public function search($params)
     {
-        $query = CashFlow::find();
+        $query = CashFlow::find()
+            ->alias('cf')
+            ->joinWith('user u')
+            ->groupBy('cf.id');
 
         // add conditions that should always apply here
         $this->load($params);
@@ -68,6 +71,11 @@ class CashFlowSearch extends CashFlow
             ]
         ]);
 
+        $dataProvider->sort->attributes['username'] = [
+            'asc' => ['u.username' => SORT_ASC],
+            'desc' => ['u.username' => SORT_DESC],
+        ];
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             $query->where('0=1');
@@ -76,25 +84,18 @@ class CashFlowSearch extends CashFlow
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'record_status' => $this->record_status,
-            'created_by' => $this->created_by,
-            'updated_by' => $this->updated_by,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'cf.id' => $this->id,
+            'cf.user_id' => $this->user_id,
+            'cf.record_status' => $this->record_status,
+            'cf.created_by' => $this->created_by,
+            'cf.updated_by' => $this->updated_by,
+            'cf.created_at' => $this->created_at,
+            'cf.updated_at' => $this->updated_at,
         ]);
-        
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'files', $this->files]);
-        
                 
         $query->andFilterWhere(['or', 
-            ['like', 'name', $this->keywords],  
-            ['like', 'description', $this->keywords],  
-            ['like', 'slug', $this->keywords],  
-            ['like', 'files', $this->keywords],  
+            ['like', 'cf.name', $this->keywords],  
+            ['like', 'cf.description', $this->keywords],  
         ]);
 
         $query->daterange($this->date_range);

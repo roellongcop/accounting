@@ -5,8 +5,8 @@ use app\models\search\BirFillingSearch;
 /* @var $this yii\web\View */
 /* @var $model app\models\BirFilling */
 
-$this->title = 'Update Bir Filling: ' . $model->mainAttribute;
-$this->params['breadcrumbs'][] = ['label' => 'Bir Fillings', 'url' => $model->indexUrl];
+$this->title = 'Update BIR Filling: ' . $model->mainAttribute;
+$this->params['breadcrumbs'][] = ['label' => 'BIR Fillings', 'url' => $model->indexUrl];
 $this->params['breadcrumbs'][] = ['label' => $model->mainAttribute, 'url' => $model->viewUrl];
 $this->params['breadcrumbs'][] = 'Update';
 $this->params['searchModel'] = new BirFillingSearch();

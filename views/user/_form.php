@@ -4,18 +4,38 @@ use app\helpers\App;
 use app\helpers\Html;
 use app\models\search\RoleSearch;
 use app\widgets\ActiveForm;
+use app\models\Role;
+use app\models\User;
+use app\widgets\Reminder;
+use app\widgets\ModelAttribute;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 /* @var $form app\widgets\ActiveForm */
 ?>
 <?php $form = ActiveForm::begin(['id' => 'user-form']); ?>
+    <?= Reminder::widget([
+        'head' => 'Important Notice!',
+        'message' => 'Email cannot be updated',
+        'type' => 'info'
+    ]) ?>
     <div class="row">
         <div class="col-md-5">
-            <?= $form->bootstrapSelect($model, 'role_id', RoleSearch::dropdown()) ?>
-           
+            <?= ModelAttribute::widget([
+                'model' => $model,
+                'attribute' => 'email',
+            ]) ?>
+
+            <?= App::identity('isClient') || App::identity('isAdmin') ?'': $form->bootstrapSelect($model, 'role_id', RoleSearch::dropdown('id', 'name', [
+                'id' => App::identity('roleAccess')
+            ])) ?>
+
             <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+
+            <?= App::identity('isClient') || App::identity('isAdmin') ?'': $form->bootstrapSelect($model, 'accountant_id', User::dropdown('id', 'email', [
+                'role_id' => Role::ADMIN
+            ])) ?>
+             
             
             <?= Html::if($model->isNewRecord, implode(' ', [
                 $form->field($model, 'password')->passwordInput(['maxlength' => true]),

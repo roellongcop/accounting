@@ -2,6 +2,7 @@
 
 use app\models\search\UserSearch;
 use app\widgets\ActiveForm;
+use app\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ip */

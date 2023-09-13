@@ -14,7 +14,7 @@ class KpiController extends Controller
     public function actionFindByKeywords($keywords = '')
     {
         return $this->asJson(
-            Kpi::findByKeywords($keywords, ['id'])
+            Kpi::findByKeywords($keywords, ['name', 'description'])
         );
     }
 
@@ -35,14 +35,14 @@ class KpiController extends Controller
 
     /**
      * Displays a single Kpi model.
-     * @param integer $id
+     * @param string $slug
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($slug)
     {
         return $this->render('view', [
-            'model' => Kpi::controllerFind($id),
+            'model' => Kpi::controllerFind($slug, 'slug'),
         ]);
     }
 
@@ -69,11 +69,12 @@ class KpiController extends Controller
     /**
      * Duplicates a new Kpi model.
      * If duplication is successful, the browser will be redirected to the 'view' page.
+     * @param string $slug
      * @return mixed
      */
-    public function actionDuplicate($id)
+    public function actionDuplicate($slug)
     {
-        $originalModel = Kpi::controllerFind($id);
+        $originalModel = Kpi::controllerFind($slug, 'slug');
         $model = new Kpi();
         $model->attributes = $originalModel->attributes;
 
@@ -92,17 +93,21 @@ class KpiController extends Controller
     /**
      * Updates an existing Kpi model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $slug
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($slug)
     {
-        $model = Kpi::controllerFind($id);
+        $model = Kpi::controllerFind($slug, 'slug');
 
-        if ($model->load(App::post()) && $model->save()) {
-            App::success('Successfully Updated');
-            return $this->redirect($model->viewUrl);
+        if (($post = App::post()) != null) {
+            $post['Kpi']['file_tokens'] = $post['Kpi']['file_tokens'] ?? [];
+
+            if ($model->load($post) && $model->save()) {
+                App::success('Successfully Updated');
+                return $this->redirect($model->viewUrl);
+            }
         }
 
         return $this->render('update', [
@@ -113,13 +118,13 @@ class KpiController extends Controller
     /**
      * Deletes an existing Kpi model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $slug
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($slug)
     {
-        $model = Kpi::controllerFind($id);
+        $model = Kpi::controllerFind($slug, 'slug');
 
         if($model->delete()) {
             App::success('Successfully Deleted');

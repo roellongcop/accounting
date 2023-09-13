@@ -4,6 +4,7 @@ use app\models\search\UserSearch;
 use app\widgets\Anchor;
 use app\widgets\Anchors;
 use app\widgets\Detail;
+use app\helpers\App;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
@@ -19,7 +20,7 @@ $this->params['showCreateButton'] = true;
     	'names' => ['update', 'duplicate', 'delete', 'log'], 
     	'model' => $model,
     ]) ?>  
-    <?= Anchor::widget([
+    <?= $model->isClient ? '': Anchor::widget([
     	'title' => 'Profile', 
     	'link' => ['profile', 'slug' => $model->slug],
     	'options' => ['class' => 'btn btn-success']
@@ -40,6 +41,4 @@ $this->params['showCreateButton'] = true;
         'options' => ['class' => 'btn btn-secondary']
     ]) ?>
     <?= Detail::widget(['model' => $model]) ?>
-    <p class="lead">Profile</p>
-    <?= Detail::widget(['model' => $model->profile]) ?>
 </div>

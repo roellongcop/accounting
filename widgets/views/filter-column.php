@@ -47,7 +47,7 @@ JS);
                 <li class="navi-item">
                     <div class="checkbox-list">
                         <?= Html::foreach($searchModel->tableColumns, function($value, $key) use ($model, $filterColumns) {
-                            return '<label class="checkbox">
+                            return isset($value['visible']) && !$value['visible'] ? '': '<label class="checkbox">
                                 '. Html::activeInput('checkbox', $model, 'columns[]', [
                                     'value' => $key,
                                     'class' => '_filter_column_checkbox',

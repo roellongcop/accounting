@@ -4,18 +4,31 @@ use app\helpers\App;
 use app\helpers\Html;
 use app\models\search\RoleSearch;
 use app\widgets\ActiveForm;
+use app\widgets\Reminder;
+use app\widgets\ModelAttribute;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 /* @var $form app\widgets\ActiveForm */
 ?>
 <?php $form = ActiveForm::begin(['id' => 'user-form-my-account']); ?>
-    <div class="row">
+
+    <?= Reminder::widget([
+        'head' => 'Important Notice!',
+        'message' => 'Email cannot be updated',
+        'type' => 'info'
+    ]) ?>
+    <div class="row my-5">
         <div class="col-md-5">
-            <?= $form->bootstrapSelect($model, 'role_id', RoleSearch::dropdown()) ?>
             
+            <?= ModelAttribute::widget([
+                'model' => $model,
+                'attribute' => 'email',
+            ]) ?>
+            <?= App::identity('isClient') ?'': $form->bootstrapSelect($model, 'role_id', RoleSearch::dropdown('id', 'name', [
+                'id' => App::identity('roleAccess')
+            ])) ?>
             <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
             <?= $form->bootstrapSelect($model, 'status', App::keyMapParams('user_status'), [
                 'searchable' => false,
             ]) ?>

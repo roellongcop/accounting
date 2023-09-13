@@ -9,7 +9,7 @@ use app\widgets\Grid;
 /* @var $searchModel app\models\search\KpiSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Kpis';
+$this->title = 'KPIs';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['searchModel'] = $searchModel; 
 $this->params['showCreateButton'] = true; 

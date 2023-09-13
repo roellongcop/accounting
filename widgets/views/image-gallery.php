@@ -45,7 +45,7 @@ JS);
     <!-- type, model, model attribute name, options -->
     <?= Html::activeInput('hidden', $model, $attribute, ['class' => 'file-id-input']) ?>
 
-    <div class="button-container">
+    <div class="button-container mt-2">
         <?= Html::button($buttonTitle, $buttonOptions) ?>
     </div>
 

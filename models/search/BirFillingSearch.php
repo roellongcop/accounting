@@ -17,7 +17,7 @@ class BirFillingSearch extends BirFilling
 
     public $searchTemplate = 'bir-filling/_search';
     public $searchAction = ['bir-filling/index'];
-    public $searchLabel = 'BirFilling';
+    public $searchLabel = 'BIR Filling';
 
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class BirFillingSearch extends BirFilling
     {
         return [
             [['id', 'created_by', 'updated_by'], 'integer'],
-            [['name', 'description', 'slug', 'files', 'created_at', 'updated_at'], 'safe'],
+            [['name', 'description', 'slug', 'created_at', 'updated_at', 'user_id'], 'safe'],
             [['keywords', 'pagination', 'date_range', 'record_status'], 'safe'],
             [['keywords'], 'trim'],
         ];
@@ -55,7 +55,10 @@ class BirFillingSearch extends BirFilling
      */
     public function search($params)
     {
-        $query = BirFilling::find();
+        $query = BirFilling::find()
+            ->alias('bf')
+            ->joinWith('user u')
+            ->groupBy('bf.id');
 
         // add conditions that should always apply here
         $this->load($params);
@@ -68,6 +71,11 @@ class BirFillingSearch extends BirFilling
             ]
         ]);
 
+        $dataProvider->sort->attributes['username'] = [
+            'asc' => ['u.username' => SORT_ASC],
+            'desc' => ['u.username' => SORT_DESC],
+        ];
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             $query->where('0=1');
@@ -76,25 +84,18 @@ class BirFillingSearch extends BirFilling
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'record_status' => $this->record_status,
-            'created_by' => $this->created_by,
-            'updated_by' => $this->updated_by,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'bf.id' => $this->id,
+            'bf.user_id' => $this->user_id,
+            'bf.record_status' => $this->record_status,
+            'bf.created_by' => $this->created_by,
+            'bf.updated_by' => $this->updated_by,
+            'bf.created_at' => $this->created_at,
+            'bf.updated_at' => $this->updated_at,
         ]);
-        
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'files', $this->files]);
-        
                 
         $query->andFilterWhere(['or', 
-            ['like', 'name', $this->keywords],  
-            ['like', 'description', $this->keywords],  
-            ['like', 'slug', $this->keywords],  
-            ['like', 'files', $this->keywords],  
+            ['like', 'bf.name', $this->keywords],  
+            ['like', 'bf.description', $this->keywords],  
         ]);
 
         $query->daterange($this->date_range);

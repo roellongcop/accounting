@@ -6,9 +6,9 @@ use app\widgets\AnchorBack;
 
 <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
     <!--begin::Header Menu-->
-    <div id="kt_header_menu" class="header-menu header-menu-mobile header-menu-layout-default">
+    <div id="kt_header_menu" class="header-menu header-menu-mobile header-menu-layout-default align-items-center">
         <!--begin::Header Nav-->
-        <div style="margin-top: 17px;">
+        <div>
             <?= AnchorBack::widget([
                 'title' => '<i class="fa fa-angle-left"></i>',
                 'options' => [

@@ -17,7 +17,7 @@ class AccountingReportSearch extends AccountingReport
 
     public $searchTemplate = 'accounting-report/_search';
     public $searchAction = ['accounting-report/index'];
-    public $searchLabel = 'AccountingReport';
+    public $searchLabel = 'Accounting Report';
 
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class AccountingReportSearch extends AccountingReport
     {
         return [
             [['id', 'created_by', 'updated_by'], 'integer'],
-            [['name', 'description', 'slug', 'files', 'created_at', 'updated_at'], 'safe'],
+            [['name', 'description', 'slug', 'created_at', 'updated_at', 'user_id'], 'safe'],
             [['keywords', 'pagination', 'date_range', 'record_status'], 'safe'],
             [['keywords'], 'trim'],
         ];
@@ -55,7 +55,10 @@ class AccountingReportSearch extends AccountingReport
      */
     public function search($params)
     {
-        $query = AccountingReport::find();
+        $query = AccountingReport::find()
+            ->alias('ar')
+            ->joinWith('user u')
+            ->groupBy('ar.id');
 
         // add conditions that should always apply here
         $this->load($params);
@@ -68,6 +71,11 @@ class AccountingReportSearch extends AccountingReport
             ]
         ]);
 
+        $dataProvider->sort->attributes['username'] = [
+            'asc' => ['u.username' => SORT_ASC],
+            'desc' => ['u.username' => SORT_DESC],
+        ];
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             $query->where('0=1');
@@ -76,25 +84,18 @@ class AccountingReportSearch extends AccountingReport
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'record_status' => $this->record_status,
-            'created_by' => $this->created_by,
-            'updated_by' => $this->updated_by,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'ar.id' => $this->id,
+            'ar.user_id' => $this->user_id,
+            'ar.record_status' => $this->record_status,
+            'ar.created_by' => $this->created_by,
+            'ar.updated_by' => $this->updated_by,
+            'ar.created_at' => $this->created_at,
+            'ar.updated_at' => $this->updated_at,
         ]);
-        
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'files', $this->files]);
-        
                 
         $query->andFilterWhere(['or', 
-            ['like', 'name', $this->keywords],  
-            ['like', 'description', $this->keywords],  
-            ['like', 'slug', $this->keywords],  
-            ['like', 'files', $this->keywords],  
+            ['like', 'ar.name', $this->keywords],  
+            ['like', 'ar.description', $this->keywords],  
         ]);
 
         $query->daterange($this->date_range);

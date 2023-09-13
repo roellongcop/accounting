@@ -9,7 +9,7 @@ use app\widgets\Grid;
 /* @var $searchModel app\models\search\BirFillingSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Bir Fillings';
+$this->title = 'BIR Fillings';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['searchModel'] = $searchModel; 
 $this->params['showCreateButton'] = true; 

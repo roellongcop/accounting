@@ -8,6 +8,7 @@ use app\helpers\Html;
 use app\models\form\export\ExportForm;
 use app\models\form\user\MySettingForm;
 use app\models\form\user\ProfileForm;
+use app\models\form\user\AccountantProfileForm;
 use app\widgets\Anchor;
 use app\widgets\Label;
 
@@ -89,6 +90,9 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
             [['password_hint', 'password_reset_token', 'password_hash', 'photo'], 'safe'],
             ['role_id', 'exist', 'targetRelation' => 'role'],
             ['role_id', 'validateRoleId'],
+            ['accountant_id', 'validateAccountantId'],
+            ['accountant_id', 'integer'],
+            ['accountant_id', 'default', 'value' => 0],
         ]);
     }
 
@@ -97,7 +101,9 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
         return $this->setAttributeLabels([
             'role_id' => 'Role',
             'is_blocked' => 'Blocked',
-            'username' => 'Username/Company'
+            'username' => 'Username/Company',
+            'accountant_id' => 'Accountant',
+            'accountantName' => 'Accountant'
         ]);
     }
 
@@ -113,6 +119,13 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public function getCanDelete()
     {
         return false;
+    }
+
+    public function validateAccountantId($attribute, $params)
+    {
+        if ($this->accountant_id && User::findOne($this->accountant_id) === null) {
+            $this->addError($attribute, 'Accountant must set');
+        }
     }
 
     public function validateRoleId($attribute, $params)
@@ -539,6 +552,15 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
             'roleName:raw',
             'username:raw',
             'email:raw',
+            [
+                'format' => 'raw',
+                'value' => fn ($model) => $model->accountant ? Anchor::widget([
+                    'title' => $model->accountantName,
+                    'link' => ['user/accountant', 'slug' => $model->accountant->slug],
+                    'text' => true
+                ]): 'N/A',
+                'label' => 'Accountant'
+            ],
             'auth_key:raw',
             'password_hash:raw',
             'password_hint:raw',
@@ -548,6 +570,21 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
             'userStatusHtml:raw',
             'blockedStatusHtml:raw',
         ];
+    }
+
+    public function getFullname()
+    {
+        return $this->profile->fullname;
+    }
+
+    public function getAccountantName()
+    {
+        return App::if($this->accountant, fn ($accountant) => $accountant->fullname);
+    }
+
+    public function getAccountant()
+    {
+        return $this->hasOne(User::class, ['id' => 'accountant_id']);
     }
 
     public function getBulkActions()
@@ -588,6 +625,10 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
 
     public function getProfile()
     {
+        if ($this->isAdmin) {
+            return new AccountantProfileForm(['user_id' => $this->id]);
+        }
+
         return new ProfileForm(['user_id' => $this->id]);
     }
 
@@ -676,5 +717,12 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
                 ->asArray()
                 ->all()
         );
+    }
+
+    public static function clientDropdown()
+    {
+        return self::dropdown('id', 'username', [
+            'role_id' => Role::CLIENT
+        ]);
     }
 }

@@ -30,6 +30,7 @@ class Anchor extends BaseWidget
         $this->isExternalLink = Url::isExternal($this->stringLink);
 
         if (!$this->isExternalLink) {
+            if (!$this->stringLink) return;
             $request = new RequestComponent(['url' => parse_url($this->stringLink, PHP_URL_PATH)]);
             $url = App::urlManager()->parseRequest($request);
             list($controller, $actionID) = App::app()->createController($url[0]);

@@ -14,7 +14,7 @@ class LegalDocumentController extends Controller
     public function actionFindByKeywords($keywords = '')
     {
         return $this->asJson(
-            LegalDocument::findByKeywords($keywords, ['id'])
+            LegalDocument::findByKeywords($keywords, ['name', 'description'])
         );
     }
 
@@ -35,14 +35,14 @@ class LegalDocumentController extends Controller
 
     /**
      * Displays a single LegalDocument model.
-     * @param integer $id
+     * @param string $slug
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($slug)
     {
         return $this->render('view', [
-            'model' => LegalDocument::controllerFind($id),
+            'model' => LegalDocument::controllerFind($slug, 'slug'),
         ]);
     }
 
@@ -69,11 +69,12 @@ class LegalDocumentController extends Controller
     /**
      * Duplicates a new LegalDocument model.
      * If duplication is successful, the browser will be redirected to the 'view' page.
+     * @param string $slug
      * @return mixed
      */
-    public function actionDuplicate($id)
+    public function actionDuplicate($slug)
     {
-        $originalModel = LegalDocument::controllerFind($id);
+        $originalModel = LegalDocument::controllerFind($slug, 'slug');
         $model = new LegalDocument();
         $model->attributes = $originalModel->attributes;
 
@@ -92,17 +93,21 @@ class LegalDocumentController extends Controller
     /**
      * Updates an existing LegalDocument model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $slug
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($slug)
     {
-        $model = LegalDocument::controllerFind($id);
+        $model = LegalDocument::controllerFind($slug, 'slug');
 
-        if ($model->load(App::post()) && $model->save()) {
-            App::success('Successfully Updated');
-            return $this->redirect($model->viewUrl);
+        if (($post = App::post()) != null) {
+            $post['LegalDocument']['file_tokens'] = $post['LegalDocument']['file_tokens'] ?? [];
+
+            if ($model->load($post) && $model->save()) {
+                App::success('Successfully Updated');
+                return $this->redirect($model->viewUrl);
+            }
         }
 
         return $this->render('update', [
@@ -113,13 +118,13 @@ class LegalDocumentController extends Controller
     /**
      * Deletes an existing LegalDocument model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $slug
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($slug)
     {
-        $model = LegalDocument::controllerFind($id);
+        $model = LegalDocument::controllerFind($slug, 'slug');
 
         if($model->delete()) {
             App::success('Successfully Deleted');

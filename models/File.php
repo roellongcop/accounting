@@ -211,9 +211,19 @@ class File extends ActiveRecord
             'ratio' => 'false',
             'quality' => 90
         ], [
-                'class' => 'img-thumbnail',
-                'loading' => 'lazy'
-            ]);
+            'class' => 'img-thumbnail',
+            'loading' => 'lazy'
+        ]);
+    }
+
+    public function getViewerUrl($fullpath=true)
+    {
+        $paramName = $this->paramName();
+        $url = [
+            implode('/', [$this->controllerID(), 'viewer']),
+            $paramName => $this->{$paramName}
+        ];
+        return ($fullpath)? Url::to($url, true): $url;
     }
 
     public function gridColumns()
@@ -363,9 +373,9 @@ class File extends ActiveRecord
 
     public function getCanDelete()
     {
-        if ($this->extension == 'sql') {
-            return false;
-        }
+        // if ($this->extension == 'sql') {
+        //     return false;
+        // }
 
         return parent::getCanDelete();
     }
@@ -447,5 +457,13 @@ class File extends ActiveRecord
     public static function imageExtensions()
     {
         return array_map(fn($val) => ".{$val}", self::EXTENSIONS['image']);
+    }
+
+    public function getNameWithExtension()
+    {
+        return implode('.', [
+            $this->name,
+            $this->extension,
+        ]);
     }
 }

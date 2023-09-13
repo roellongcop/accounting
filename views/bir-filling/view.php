@@ -1,14 +1,13 @@
 <?php
 
 use app\widgets\Anchors;
-use app\widgets\Detail;
 use app\models\search\BirFillingSearch;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\BirFilling */
 
-$this->title = 'Bir Filling: ' . $model->mainAttribute;
-$this->params['breadcrumbs'][] = ['label' => 'Bir Fillings', 'url' => $model->indexUrl];
+$this->title = 'BIR Filling: ' . $model->mainAttribute;
+$this->params['breadcrumbs'][] = ['label' => 'BIR Fillings', 'url' => $model->indexUrl];
 $this->params['breadcrumbs'][] = $model->mainAttribute;
 $this->params['searchModel'] = new BirFillingSearch();
 $this->params['showCreateButton'] = true; 
@@ -18,5 +17,5 @@ $this->params['showCreateButton'] = true;
     	'names' => ['update', 'duplicate', 'delete', 'log'], 
     	'model' => $model
     ]) ?> 
-    <?= Detail::widget(['model' => $model]) ?>
+    <?= $model->detailView ?>
 </div>

@@ -47,3 +47,24 @@ select.kt-selectpicker.is-invalid + button.dropdown-toggle {
 select.kt-selectpicker.is-valid + button.dropdown-toggle {
     border-color: #1BC5BD !important;
 }
+
+form.form .form-control {
+    background-color: #F3F6F9;
+    color: #3F4254;
+}
+.bootstrap-select > .dropdown-toggle.bs-placeholder {
+    background-color: #F3F6F9 !important;
+    color: #3F4254 !important;
+}
+.bootstrap-select > .dropdown-toggle.btn-light, 
+.bootstrap-select > .dropdown-toggle.btn-secondary {
+    background-color: #F3F6F9 !important;
+    color: #3F4254 !important;
+}
+.aside-minimize #kt_quick_user_toggle_container {
+    display: none;
+}
+
+.aside-minimize-hover #kt_quick_user_toggle_container {
+    display: block;
+}

@@ -1,7 +1,6 @@
 <?php
 
 use app\widgets\Anchors;
-use app\widgets\Detail;
 use app\models\search\AccountingReportSearch;
 
 /* @var $this yii\web\View */
@@ -18,5 +17,6 @@ $this->params['showCreateButton'] = true;
     	'names' => ['update', 'duplicate', 'delete', 'log'], 
     	'model' => $model
     ]) ?> 
-    <?= Detail::widget(['model' => $model]) ?>
+    
+    <?= $model->detailView ?>
 </div>

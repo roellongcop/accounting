@@ -3,6 +3,11 @@
 return [
     'user.passwordResetTokenExpire' => 3600,
     'pagination' => [25 => 25, 50 => 50, 75 => 75, 100 => 100],
+    'genders' => [
+        'male' => ['id' => 'male', 'label' => 'Male', 'class' => 'primary'],
+        'female' => ['id' => 'female', 'label' => 'Female', 'class' => 'danger'],
+        'other' => ['id' => 'other', 'label' => 'Other', 'class' => 'warning'],
+    ],
     'record_status' => [
         0 => ['id' => 0, 'label' => 'In-active', 'class' => 'danger'],
         1 => ['id' => 1, 'label' => 'Active', 'class' => 'success'],

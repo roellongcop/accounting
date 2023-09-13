@@ -142,4 +142,13 @@ class ActiveForm extends \yii\widgets\ActiveForm
 	        'options' => $options,
 	    ]);
 	}
+
+	public function datePicker($model, $attribute = '', $options = [])
+	{
+		$options['form'] = $this;
+		$options['model'] = $model;
+		$options['attribute'] = $attribute;
+
+		return DatePicker::widget($options);
+	}
 }

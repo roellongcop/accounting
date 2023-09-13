@@ -12,6 +12,7 @@ class PayrollTest extends \Codeception\Test\Unit
             'name' => 'Name',
             'description' => 'Description',
             'files' => 'Files',
+            'user_id' => 'User ID',
             'record_status' => Payroll::RECORD_ACTIVE
         ], $replace);
     }

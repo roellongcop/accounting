@@ -18,15 +18,19 @@ CSS)
     <!--begin::Brand-->
     <div class="brand flex-column-auto" id="kt_brand">
         <!--begin::Logo-->
-        <a href="#" class="brand-logo text-hover-primary" id="kt_quick_user_toggle">
-            <?= Html::image(App::identity('photo'), ['w' => 100, 'quality' => 90], [
-                'class' => 'h-50px align-self-end',
-                'alt' => 'Company Logo',
-            ]) ?>
-            <span>
-                <?= App::identity('username') ?>
-            </span>
-        </a>
+        <div id="kt_quick_user_toggle_container">
+            <a href="#" class="brand-logo text-hover-primary" id="kt_quick_user_toggle">
+                <div class="symbol symbol-circle">
+                    <?= Html::image(App::identity('photo'), ['w' => 100, 'quality' => 90], [
+                        'class' => 'h-50px align-self-end',
+                        'alt' => 'Company Logo',
+                    ]) ?>
+                </div>
+                <span>
+                    <?= App::identity('username') ?>
+                </span>
+            </a>
+        </div>
         <!--end::Logo-->
         <!--begin::Toggle-->
         <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">

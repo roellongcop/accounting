@@ -12,6 +12,7 @@ class InventoryTest extends \Codeception\Test\Unit
             'name' => 'Name',
             'description' => 'Description',
             'files' => 'Files',
+            'user_id' => 'User ID',
             'record_status' => Inventory::RECORD_ACTIVE
         ], $replace);
     }

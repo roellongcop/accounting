@@ -1,14 +1,13 @@
 <?php
 
 use app\widgets\Anchors;
-use app\widgets\Detail;
 use app\models\search\KpiSearch;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Kpi */
 
-$this->title = 'Kpi: ' . $model->mainAttribute;
-$this->params['breadcrumbs'][] = ['label' => 'Kpis', 'url' => $model->indexUrl];
+$this->title = 'KPI: ' . $model->mainAttribute;
+$this->params['breadcrumbs'][] = ['label' => 'KPIs', 'url' => $model->indexUrl];
 $this->params['breadcrumbs'][] = $model->mainAttribute;
 $this->params['searchModel'] = new KpiSearch();
 $this->params['showCreateButton'] = true; 
@@ -18,5 +17,5 @@ $this->params['showCreateButton'] = true;
     	'names' => ['update', 'duplicate', 'delete', 'log'], 
     	'model' => $model
     ]) ?> 
-    <?= Detail::widget(['model' => $model]) ?>
+    <?= $model->detailView ?>
 </div>

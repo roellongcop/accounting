@@ -14,7 +14,7 @@ class InventoryController extends Controller
     public function actionFindByKeywords($keywords = '')
     {
         return $this->asJson(
-            Inventory::findByKeywords($keywords, ['id'])
+            Inventory::findByKeywords($keywords, ['name', 'description'])
         );
     }
 
@@ -35,14 +35,14 @@ class InventoryController extends Controller
 
     /**
      * Displays a single Inventory model.
-     * @param integer $id
+     * @param string $slug
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($slug)
     {
         return $this->render('view', [
-            'model' => Inventory::controllerFind($id),
+            'model' => Inventory::controllerFind($slug, 'slug'),
         ]);
     }
 
@@ -69,11 +69,12 @@ class InventoryController extends Controller
     /**
      * Duplicates a new Inventory model.
      * If duplication is successful, the browser will be redirected to the 'view' page.
+     * @param string $slug
      * @return mixed
      */
-    public function actionDuplicate($id)
+    public function actionDuplicate($slug)
     {
-        $originalModel = Inventory::controllerFind($id);
+        $originalModel = Inventory::controllerFind($slug, 'slug');
         $model = new Inventory();
         $model->attributes = $originalModel->attributes;
 
@@ -92,17 +93,21 @@ class InventoryController extends Controller
     /**
      * Updates an existing Inventory model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $slug
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($slug)
     {
-        $model = Inventory::controllerFind($id);
+        $model = Inventory::controllerFind($slug, 'slug');
 
-        if ($model->load(App::post()) && $model->save()) {
-            App::success('Successfully Updated');
-            return $this->redirect($model->viewUrl);
+        if (($post = App::post()) != null) {
+            $post['Inventory']['file_tokens'] = $post['Inventory']['file_tokens'] ?? [];
+
+            if ($model->load($post) && $model->save()) {
+                App::success('Successfully Updated');
+                return $this->redirect($model->viewUrl);
+            }
         }
 
         return $this->render('update', [
@@ -113,13 +118,13 @@ class InventoryController extends Controller
     /**
      * Deletes an existing Inventory model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $slug
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($slug)
     {
-        $model = Inventory::controllerFind($id);
+        $model = Inventory::controllerFind($slug, 'slug');
 
         if($model->delete()) {
             App::success('Successfully Deleted');

@@ -18,6 +18,7 @@ class UrlManagerComponent extends \yii\web\UrlManager
         'my-role' => 'role/my-role',
         'my-account' => 'user/my-account',
         'my-password' => 'user/my-password',
+        'my-accountant' => 'user/my-accountant',
 
         '<action:index|login|reset-password|contact>' => 'site/<action>',
 
@@ -29,7 +30,7 @@ class UrlManagerComponent extends \yii\web\UrlManager
 
         '<controller>' => '<controller>/index',
         '<controller:(notification)>/<action>/<token>' => '<controller>/<action>',
-        '<controller:(ip|user|theme|backup|role)>/<action>/<slug>' => '<controller>/<action>',
+        '<controller:(ip|user|theme|backup|role|accounting-report|bir-filling|legal-document|kpi|cash-flow|payroll|inventory)>/<action>/<slug>' => '<controller>/<action>',
 
         '<controller>/<id:\d+>' => '<controller>/view',
         '<controller>/<action>/<id:\d+>' => '<controller>/<action>',

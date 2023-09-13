@@ -1,0 +1,17 @@
+.table-bordered th {
+    white-space: nowrap;
+}
+.table-bordered td {
+    overflow-wrap: anywhere;
+}
+#app {
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    vertical-align: middle;
+}
+.gutter-b {
+    margin-bottom: 0;
+    width:30vw;
+    height: 100vh;
+}

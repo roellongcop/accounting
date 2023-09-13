@@ -73,6 +73,7 @@ class Url extends \yii\helpers\Url
 
     public static function isExternal($url)
     {
+        if (!$url) return;
         $hostName = App::request('hostName');
 
         $components = parse_url($url);

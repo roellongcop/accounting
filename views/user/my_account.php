@@ -1,6 +1,7 @@
 <?php
 
 use app\models\search\UserSearch;
+use app\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
@@ -11,6 +12,7 @@ $this->params['breadcrumbs'][] = ['label' => $model->mainAttribute, 'url' => ['v
 $this->params['breadcrumbs'][] = 'Update';
 $this->params['searchModel'] = new UserSearch();
 $this->params['showCreateButton'] = true; 
+$this->params['activeMenuLink'] = Url::toRoute(['user/my-account']);
 ?>
 <div class="user-my-account-page">
 	<?= $this->render('_form_my_account', [

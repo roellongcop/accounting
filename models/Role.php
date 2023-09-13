@@ -27,6 +27,7 @@ class Role extends ActiveRecord
     const SUPERADMIN = 2;
     const ADMIN = 3;
     const CLIENT = 4;
+    
     /**
      * {@inheritdoc}
      */

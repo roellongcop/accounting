@@ -14,7 +14,7 @@ class PayrollController extends Controller
     public function actionFindByKeywords($keywords = '')
     {
         return $this->asJson(
-            Payroll::findByKeywords($keywords, ['id'])
+            Payroll::findByKeywords($keywords, ['name', 'description'])
         );
     }
 
@@ -35,14 +35,14 @@ class PayrollController extends Controller
 
     /**
      * Displays a single Payroll model.
-     * @param integer $id
+     * @param string $slug
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($slug)
     {
         return $this->render('view', [
-            'model' => Payroll::controllerFind($id),
+            'model' => Payroll::controllerFind($slug, 'slug'),
         ]);
     }
 
@@ -69,11 +69,12 @@ class PayrollController extends Controller
     /**
      * Duplicates a new Payroll model.
      * If duplication is successful, the browser will be redirected to the 'view' page.
+     * @param string $slug
      * @return mixed
      */
-    public function actionDuplicate($id)
+    public function actionDuplicate($slug)
     {
-        $originalModel = Payroll::controllerFind($id);
+        $originalModel = Payroll::controllerFind($slug, 'slug');
         $model = new Payroll();
         $model->attributes = $originalModel->attributes;
 
@@ -92,17 +93,21 @@ class PayrollController extends Controller
     /**
      * Updates an existing Payroll model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $slug
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($slug)
     {
-        $model = Payroll::controllerFind($id);
+        $model = Payroll::controllerFind($slug, 'slug');
 
-        if ($model->load(App::post()) && $model->save()) {
-            App::success('Successfully Updated');
-            return $this->redirect($model->viewUrl);
+        if (($post = App::post()) != null) {
+            $post['Payroll']['file_tokens'] = $post['Payroll']['file_tokens'] ?? [];
+
+            if ($model->load($post) && $model->save()) {
+                App::success('Successfully Updated');
+                return $this->redirect($model->viewUrl);
+            }
         }
 
         return $this->render('update', [
@@ -113,13 +118,13 @@ class PayrollController extends Controller
     /**
      * Deletes an existing Payroll model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $slug
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($slug)
     {
-        $model = Payroll::controllerFind($id);
+        $model = Payroll::controllerFind($slug, 'slug');
 
         if($model->delete()) {
             App::success('Successfully Deleted');

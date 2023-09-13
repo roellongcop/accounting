@@ -8,6 +8,7 @@ $model = new \app\helpers\FixtureData(function($params) {
 		'name' => 'Name',
 		'description' => 'Description',
 		'files' => 'Files',
+		'user_id' => 'User ID',
 		'record_status' => Payroll::RECORD_ACTIVE,
         'created_by' => 1,
         'updated_by' => 1,

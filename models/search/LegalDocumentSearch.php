@@ -17,7 +17,7 @@ class LegalDocumentSearch extends LegalDocument
 
     public $searchTemplate = 'legal-document/_search';
     public $searchAction = ['legal-document/index'];
-    public $searchLabel = 'LegalDocument';
+    public $searchLabel = 'Legal Document';
 
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class LegalDocumentSearch extends LegalDocument
     {
         return [
             [['id', 'created_by', 'updated_by'], 'integer'],
-            [['name', 'description', 'slug', 'files', 'created_at', 'updated_at'], 'safe'],
+            [['name', 'description', 'slug', 'created_at', 'updated_at', 'user_id'], 'safe'],
             [['keywords', 'pagination', 'date_range', 'record_status'], 'safe'],
             [['keywords'], 'trim'],
         ];
@@ -55,7 +55,10 @@ class LegalDocumentSearch extends LegalDocument
      */
     public function search($params)
     {
-        $query = LegalDocument::find();
+        $query = LegalDocument::find()
+            ->alias('ld')
+            ->joinWith('user u')
+            ->groupBy('ld.id');
 
         // add conditions that should always apply here
         $this->load($params);
@@ -68,6 +71,11 @@ class LegalDocumentSearch extends LegalDocument
             ]
         ]);
 
+        $dataProvider->sort->attributes['username'] = [
+            'asc' => ['u.username' => SORT_ASC],
+            'desc' => ['u.username' => SORT_DESC],
+        ];
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             $query->where('0=1');
@@ -76,25 +84,18 @@ class LegalDocumentSearch extends LegalDocument
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'record_status' => $this->record_status,
-            'created_by' => $this->created_by,
-            'updated_by' => $this->updated_by,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'ld.id' => $this->id,
+            'ld.user_id' => $this->user_id,
+            'ld.record_status' => $this->record_status,
+            'ld.created_by' => $this->created_by,
+            'ld.updated_by' => $this->updated_by,
+            'ld.created_at' => $this->created_at,
+            'ld.updated_at' => $this->updated_at,
         ]);
-        
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'files', $this->files]);
-        
                 
         $query->andFilterWhere(['or', 
-            ['like', 'name', $this->keywords],  
-            ['like', 'description', $this->keywords],  
-            ['like', 'slug', $this->keywords],  
-            ['like', 'files', $this->keywords],  
+            ['like', 'ld.name', $this->keywords],  
+            ['like', 'ld.description', $this->keywords],  
         ]);
 
         $query->daterange($this->date_range);

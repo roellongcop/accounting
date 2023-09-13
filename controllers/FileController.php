@@ -9,6 +9,8 @@ use app\models\form\UploadForm;
 use app\models\search\FileSearch;
 use app\widgets\ActiveForm;
 use yii\web\UploadedFile;
+use app\models\form\SpreadsheetReaderForm;
+
 /**
  * FileController implements the CRUD actions for File model.
  */
@@ -97,10 +99,21 @@ class FileController extends Controller
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionView($token)
+    public function actionView($token, $template='view')
     {
-        return $this->render('view', [
-            'model' => File::controllerFind($token, 'token'),
+        $model = File::controllerFind($token, 'token');
+
+        if (App::isAjax()) {
+            return $this->asJson([
+                'status' => 'success',
+                'form' => $this->renderAjax($template, [
+                    'model' => $model,
+                ])
+            ]);
+        }
+
+        return $this->render($template, [
+            'model' => $model,
         ]);
     }
 
@@ -146,6 +159,35 @@ class FileController extends Controller
         }
 
         return $this->redirect($model->indexUrl);
+    }
+
+    public function actionUpdate($token)
+    {
+        $model = File::controllerFind($token, 'token');
+
+        if (App::get('ajaxValidate')) {
+            return $this->_ajaxValidate($model);
+        }
+
+        $response = [];
+
+        if ($model->load(App::post())) {
+            if ($model->save()) {
+                $model->name = strtoupper($model->name);
+                $response['status'] = 'success';
+                $response['message'] = 'File Updated.';
+                $response['file'] = $model;
+            }
+            else {
+                $response['status'] = 'failed';
+                $response['error'] = $model->errorSummary;
+            }
+        }
+        else {
+            $response['status'] = 'failed';
+            $response['error'] = 'No post data';
+        }
+        return $this->asJson($response);
     }
 
     public function actionUpload()
@@ -266,5 +308,63 @@ class FileController extends Controller
             'status' => 'failed',
             'error' => 'No post data'
         ]);
+    }
+
+    public function actionViewer($token)
+    {
+        $model = File::controllerFind($token, 'token');
+
+        $this->layout = 'file-viewer';
+
+        switch ($model->extension) {
+            case 'pdf':
+                return $this->render('viewer/pdf', ['model' => $model]);
+                break;
+
+            case 'gif':
+                return $this->render('viewer', [
+                    'model' => $model, 
+                    'location' => App::baseUrl($model->location)
+                ]);
+                break;
+
+            case 'xls':
+            case 'xlsx':
+                if (App::isAjax()) {
+                    return $this->asJson(['data' => (new SpreadsheetReaderForm(['file' => $model]))->data]);
+                }
+                else {
+                    return $this->render('viewer/spreadsheet', ['model' => $model]);
+                }
+                break;
+
+            case 'jpeg':
+            case 'jpg':
+            case 'bmp':
+            case 'tiff':
+            case 'png':
+            case 'ico':
+            case 'webp':
+            case 'giff':
+            case 'jfif':
+                // return $this->redirect($model->drawUrl);
+                return $this->render('viewer', ['model' => $model]);
+                break;
+
+            case 'doc':
+            case 'docx':
+                return $this->render('viewer/docx', ['model' => $model]);
+                break;
+
+            case 'sql':
+            case 'txt':
+            case 'csv':
+                return $this->render('viewer/sql', ['model' => $model]);
+
+            default:
+                return 'No Preview Available';
+                return $this->redirect($model->getDisplayPath(500, 500));
+                break;
+        }
     }
 }

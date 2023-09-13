@@ -18,7 +18,7 @@ $params = [
     'data-mimetype' => $model->mimeType,
     'data-created_at' => App::formatter('asFulldate', $model->created_at),
     'title' => $model->name,
-    'data-can-delete' => $model->canDelete ? 'true': 'false',
+    'data-can-delete' => $model->canDelete && App::identity()->can('delete', 'file') ? 'true': 'false',
     'data-download-url' => Url::toRoute(['file/download', 'token' => $model->token], true),
 ];
 ?>

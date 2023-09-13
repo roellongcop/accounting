@@ -1,0 +1,19 @@
+.app-data-table .app-iconbox {
+    box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px 0
+}
+.app-data-table .th-file  {
+    width: 80% !important;
+}
+.app-data-table .dataTables_length label,
+.dataTables_filter label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.app-data-table .dataTables_length select {
+    max-width: 70px;
+}
+.app-data-table .dataTables_paginate {
+    display: flex;
+    justify-content: end;
+}

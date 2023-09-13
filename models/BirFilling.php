@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\widgets\Anchor;
+use app\helpers\App;
 
 /**
  * This is the model class for table "{{%bir_fillings}}".
@@ -11,7 +12,8 @@ use app\widgets\Anchor;
  * @property string $name
  * @property string|null $description
  * @property string|null $slug
- * @property string|null $files
+ * @property string|null $file_tokens
+ * @property int $user_id
  * @property int $record_status
  * @property int $created_by
  * @property int $updated_by
@@ -32,8 +34,8 @@ class BirFilling extends ActiveRecord
     {
         return [
             'controllerID' => 'bir-filling',
-            'mainAttribute' => 'id',
-            'paramName' => 'id',
+            'mainAttribute' => 'name',
+            'paramName' => 'slug',
         ];
     }
 
@@ -43,9 +45,12 @@ class BirFilling extends ActiveRecord
     public function rules()
     {
         return $this->setRules([
-            [['name'], 'required'],
-            [['description', 'files'], 'string'],
+            [['name', 'user_id'], 'required'],
+            [['description'], 'string'],
+            [['user_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
+            ['user_id', 'exist', 'targetRelation' => 'user'],
+            ['file_tokens', 'safe']
         ]);
     }
 
@@ -58,7 +63,9 @@ class BirFilling extends ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'description' => 'Description',
-            'files' => 'Files',
+            'file_tokens' => 'Files',
+            'user_id' => 'Client',
+            'username' => 'Client',
         ]);
     }
 
@@ -74,6 +81,18 @@ class BirFilling extends ActiveRecord
     public function gridColumns()
     {
         return [
+            'client' => [
+                'visible' => !App::identity('isClient'),
+                'attribute' => 'username',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Anchor::widget([
+                        'title' => $model->username,
+                        'link' => $model->userViewUrl,
+                        'text' => true
+                    ]);
+                }
+            ],
             'name' => [
                 'attribute' => 'name', 
                 'format' => 'raw',
@@ -86,16 +105,71 @@ class BirFilling extends ActiveRecord
                 }
             ],
             'description' => ['attribute' => 'description', 'format' => 'raw'],
-            'files' => ['attribute' => 'files', 'format' => 'raw'],
         ];
     }
 
     public function detailColumns()
     {
         return [
+            [
+                'label' => $this->getAttributeLabel('username'),
+                'value' => 'username',
+                'format' => 'raw',
+                'visible' => !App::identity('isClient'),
+            ],
             'name:raw',
             'description:raw',
-            'files:raw',
         ];
+    }
+
+    public function getFiles()
+    {
+        return File::findAll(['token' => $this->file_tokens]);
+    }
+
+    public function getFilePreviews()
+    {
+        return App::foreach ($this->file_tokens, function ($token) {
+            return Html::image($token, ['w' => 100, 'h' => 100, 'ratio' => 'false'], [
+                'class' => 'img-thumbnail'
+            ]);
+        });
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function getUsername()
+    {
+        return App::if($this->user, fn ($user) => $user->username);
+    }
+
+    public function getUserViewUrl()
+    {
+        return App::if ($this->user, fn($user) => $user->viewUrl);
+    }
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['JsonBehavior']['fields'] = [
+            'file_tokens',
+        ];
+        $behaviors['SluggableBehavior'] = [
+            'class' => 'yii\behaviors\SluggableBehavior',
+            'attribute' => 'name',
+            'ensureUnique' => true,
+        ];
+
+        return $behaviors;
+    }
+
+    public function getDetailView()
+    {
+        return App::partial('/layouts/generic/view', [
+            'model' => $this
+        ]);
     }
 }
