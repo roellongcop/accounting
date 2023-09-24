@@ -128,18 +128,18 @@ class UserController extends Controller
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionDelete($slug)
-    {
-        $model = User::controllerFind($slug, 'slug');
+    // public function _ctionDelete($slug)
+    // {
+    //     $model = User::controllerFind($slug, 'slug');
 
-        if ($model->delete()) {
-            App::success('Successfully Deleted');
-        } else {
-            App::danger(json_encode($model->errors));
-        }
+    //     if ($model->delete()) {
+    //         App::success('Successfully Deleted');
+    //     } else {
+    //         App::danger(json_encode($model->errors));
+    //     }
 
-        return $this->redirect($model->indexUrl);
-    }
+    //     return $this->redirect($model->indexUrl);
+    // }
 
     public function actionMyPassword($token = '')
     {
