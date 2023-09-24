@@ -3,7 +3,7 @@
 /* @var $searchModel app\models\search\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Dashboard';
+$this->title = 'Overview';
 $this->params['searchModel'] = $searchModel; 
 $this->params['wrapCard'] = false;
 
@@ -15,7 +15,6 @@ $this->addJsFile('amcharts/lib/3/serial');
 $this->addJsFile('amcharts/lib/3/plugins/animate/animate.min');
 $this->addJsFile('amcharts/lib/3/plugins/export/export.min');
 $this->addJsFile('amcharts/lib/3/themes/light');
-
 
 $this->registerJs(<<< JS
     
