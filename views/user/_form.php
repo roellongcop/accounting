@@ -14,14 +14,14 @@ use app\widgets\ModelAttribute;
 /* @var $form app\widgets\ActiveForm */
 ?>
 <?php $form = ActiveForm::begin(['id' => 'user-form']); ?>
-    <?= Reminder::widget([
+    <?= $model->isNewRecord ? '': Reminder::widget([
         'head' => 'Important Notice!',
         'message' => 'Email cannot be updated',
         'type' => 'info'
     ]) ?>
     <div class="row">
         <div class="col-md-5">
-            <?= ModelAttribute::widget([
+            <?= $model->isNewRecord ? $form->field($model, 'email')->textInput(['maxlength' => true]): ModelAttribute::widget([
                 'model' => $model,
                 'attribute' => 'email',
             ]) ?>
