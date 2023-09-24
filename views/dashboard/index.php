@@ -132,44 +132,36 @@ $this->registerJs(<<< JS
                     "year": 'May',
                     "income": 30.6,
                     "expenses": 28.2,
-                    "dashLengthLine": 5
                 }, {
                     "year": 'June',
                     "income": 34.1,
                     "expenses": 32.9,
-                    "dashLengthLine": 5,
                     // "alpha": 0.2,
                     // "additional": "(projection)"
                 },{
                     "year": 'July',
                     "income": 23.5,
                     "expenses": 21.1,
-                    "dashLengthLine": 5
                 }, {
                     "year": 'August',
                     "income": 26.2,
                     "expenses": 30.5,
-                    "dashLengthLine": 5
                 }, {
                     "year": 'September',
                     "income": 30.1,
                     "expenses": 34.9,
-                    "dashLengthLine": 5
                 }, {
                     "year": 'October',
                     "income": 29.5,
                     "expenses": 31.1,
-                    "dashLengthLine": 5
                 }, {
                     "year": 'November',
                     "income": 30.6,
                     "expenses": 28.2,
-                    "dashLengthLine": 5,
                 }, {
                     "year": 'December',
                     "income": 34.1,
                     "expenses": 32.9,
-                    "dashLengthLine": 5,
                     // "alpha": 0.2,
                     // "additional": "(projection)"
                 }],
