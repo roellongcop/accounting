@@ -50,6 +50,7 @@ class DashboardController extends Controller
     public function actionIndex()
     {
         $searchModel = new DashboardSearch();
+        App::access()->setSearchModels();
 
         if (($queryParams = App::queryParams()) != null) {
             $dataProviders = $searchModel->search(['DashboardSearch' => $queryParams]);

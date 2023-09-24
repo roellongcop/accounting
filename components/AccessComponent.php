@@ -132,7 +132,7 @@ class AccessComponent extends \yii\base\Component
 	public function init()
 	{
 		parent::init();
-		$this->setSearhModels();
+		// $this->setSearchModels();
 		$this->setControllerActions();
 		$this->setDefaultNavigation();
 	}
@@ -282,7 +282,7 @@ class AccessComponent extends \yii\base\Component
 		return $menus;
 	}
 
-	public function setSearhModels()
+	public function setSearchModels()
 	{
 		$searchModels = FileHelper::findFiles(Yii::getAlias('@app/models/search'), [
 			'recursive' => true
@@ -297,7 +297,14 @@ class AccessComponent extends \yii\base\Component
 			$name = str_replace('.php', '', basename($searchModel));
 
 			if (!in_array($name, $ignore)) {
-				$data[$name] = Inflector::camel2words(str_replace('Search', '', $name));
+
+				$searchModelInstance = Yii::createObject([
+	                'class' => "\\app\\models\\search\\{$name}",
+	            ]);
+
+	            if (App::identity()->can('index', $searchModelInstance->controllerID())) {
+					$data[$name] = Inflector::camel2words(str_replace('Search', '', $name));
+	            }
 			}
 		}
 

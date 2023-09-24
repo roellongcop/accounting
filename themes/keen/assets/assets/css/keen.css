@@ -68,3 +68,7 @@ form.form .form-control {
 .aside-minimize-hover #kt_quick_user_toggle_container {
     display: block;
 }
+
+a[title="JavaScript charts"] {
+    display: none !important;
+}
