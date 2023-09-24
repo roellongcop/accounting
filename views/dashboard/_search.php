@@ -1,13 +1,14 @@
 <?php
 
 use app\helpers\App;
+use yii\helpers\Inflector;
 use app\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $form app\widgets\ActiveForm */
 $modules = App::access('searchModels');
 $model->modules = $model->modules ?: array_keys($modules);
-$modules['*checkAll'] = ['name' => 'Check All', 'tags' => 'onclick="checkAllAccessModule(this)"'];
+$modules = array_filter($modules, fn ($module) => App::identity()->can('index', Inflector::camel2id($module)));
 ksort($modules);
 ?>
 <?php $form = ActiveForm::begin([

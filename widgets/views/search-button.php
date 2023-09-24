@@ -4,7 +4,7 @@ use app\widgets\Anchor;
 use app\helpers\Html;
 ?>
 <div class="text-center">
-    <div class="btn btn-group btn-block">
+    <div class="btn btn-group btn-block pr-0 pl-0">
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
     </div>
