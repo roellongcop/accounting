@@ -12,6 +12,7 @@ class DateRange extends BaseWidget
     public $end;
     public $all_start;
     public $all_end;
+    public $onChange;
 
     public $ranges = [
         'All',
@@ -76,6 +77,7 @@ class DateRange extends BaseWidget
             'all_start' => $this->all_start,
             'all_end' => $this->all_end,
             'ranges' => json_encode($this->ranges),
+            'onChange' => $this->onChange,
         ]);
     }
 }

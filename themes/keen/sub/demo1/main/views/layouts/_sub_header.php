@@ -5,6 +5,7 @@ use app\helpers\Html;
 use app\widgets\Anchors;
 use app\widgets\Breadcrumbs;
 use app\widgets\ExportButton;
+dd($this->params['displayTitle']);
 ?>
 <div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
     <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
@@ -14,9 +15,9 @@ use app\widgets\ExportButton;
             <!--begin::Page Heading-->
             <div class="d-flex align-items-baseline flex-wrap mr-5">
                 <!--begin::Page Title-->
-                <h5 class="text-dark font-weight-bold my-1 mr-5">
-                    <?= $this->title ?>
-                </h5>
+                <?= App::if($this->params['displayTitle'] ?? true, Html::tag('h5', $this->title, [
+                    'class' => 'text-dark font-weight-bold my-1 mr-5'
+                ])) ?>
                 <!--end::Page Title-->
                 <!--begin::Breadcrumb-->
                 <?= Breadcrumbs::widget([

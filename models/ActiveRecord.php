@@ -939,6 +939,15 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
         return App::formatter()->asDateToTimezone($date, 'F d, Y');
     }
 
+    public function getAllDaterange($format = 'Y-m-d')
+    {
+        $date = implode(' - ', [
+            date($format, strtotime($this->getStartDate(true))),
+            date($format, strtotime($this->getEndDate(true))),
+        ]);
+        return $date;
+    }
+
     public static function findByKeywordsData($attributes, $function)
     {
         $data = [];

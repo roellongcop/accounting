@@ -1,5 +1,6 @@
 <?php
 
+use app\helpers\App;
 use app\helpers\Html;
 use app\widgets\Breadcrumbs;
 ?>
@@ -10,9 +11,9 @@ use app\widgets\Breadcrumbs;
             <!--begin::Page Heading-->
             <div class="d-flex align-items-baseline flex-wrap mr-5">
                 <!--begin::Page Title-->
-                <h5 class="text-dark font-weight-bold my-1 mr-5">
-                    <?= $this->title ?>
-                </h5>
+                <?= App::if($this->params['displayTitle'] ?? true, Html::tag('h5', $this->title, [
+                    'class' => 'text-dark font-weight-bold my-1 mr-5'
+                ])) ?>
                 <!--end::Page Title-->
                 <!--begin::Breadcrumb-->
                 <?= Breadcrumbs::widget([

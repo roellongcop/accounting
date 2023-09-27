@@ -1,0 +1,23 @@
+.cashflow-card .card-toolbar p {
+	margin-bottom: 0 !important;
+	margin-right: 5px;
+}
+.cashflow-card #filter-form {
+    display: flex;
+    align-items: center;
+}
+.field-cashflow-user_id {
+    display: flex;
+    margin-bottom: 0 !important;
+    align-items: center;
+}
+.field-cashflow-user_id label {
+    display: inline-block;
+    margin-bottom: 0; 
+    text-wrap: nowrap;
+	margin-right: 5px;
+    font-weight: 500;
+}
+.bootstrap-select button {
+	min-width: 200px;
+}

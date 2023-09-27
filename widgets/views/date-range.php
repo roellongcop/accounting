@@ -10,6 +10,9 @@ $this->registerJs( <<< JS
         all_end: '{$all_end}',
         ranges: {$ranges},
         widgetId: '{$widgetId}',
+        onChange: ({start, end, label, inputValue}) => {
+            {$onChange}
+        }
     }).init();
 JS);
 ?>

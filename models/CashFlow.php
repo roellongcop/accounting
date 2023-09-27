@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\widgets\Anchor;
+use app\widgets\Label;
 use app\helpers\App;
 
 /**
@@ -14,6 +15,10 @@ use app\helpers\App;
  * @property string|null $slug
  * @property string|null $file_tokens
  * @property int $user_id
+ * @property int $type
+ * @property decimal $amount
+ * @property string $date
+ * @property int $status
  * @property int $record_status
  * @property int $created_by
  * @property int $updated_by
@@ -22,6 +27,11 @@ use app\helpers\App;
  */
 class CashFlow extends ActiveRecord
 {
+    const TYPE_PAYABLE = 0;
+    const TYPE_RECEIVABLE = 1;
+    const STATUS_PENDING = 0;
+    const STATUS_COMPLETED = 1;
+
     /**
      * {@inheritdoc}
      */
@@ -45,12 +55,22 @@ class CashFlow extends ActiveRecord
     public function rules()
     {
         return $this->setRules([
-            [['name', 'user_id'], 'required'],
+            [['name', 'user_id', 'type', 'status', 'amount', 'date'], 'required'],
             [['description'], 'string'],
-            [['user_id'], 'integer'],
+            [['user_id', 'status', 'type'], 'integer'],
+            [['amount'], 'number'],
             [['name'], 'string', 'max' => 255],
+            [['date'], 'string', 'max' => 16],
             ['user_id', 'exist', 'targetRelation' => 'user'],
-            ['file_tokens', 'safe']
+            ['file_tokens', 'safe'],
+            ['status', 'in', 'range' => [
+                self::STATUS_PENDING,
+                self::STATUS_COMPLETED
+            ]],
+            ['type', 'in', 'range' => [
+                self::TYPE_PAYABLE,
+                self::TYPE_RECEIVABLE,
+            ]],
         ]);
     }
 
@@ -66,6 +86,8 @@ class CashFlow extends ActiveRecord
             'file_tokens' => 'Files',
             'user_id' => 'Client',
             'username' => 'Client',
+            'typeBadge' => 'Type',
+            'statusBadge' => 'Status',
         ]);
     }
 
@@ -104,7 +126,10 @@ class CashFlow extends ActiveRecord
                     ]);
                 }
             ],
-            'description' => ['attribute' => 'description', 'format' => 'raw'],
+            'type' => ['attribute' => 'type', 'value' => 'typeBadge', 'format' => 'raw'],
+            'status' => ['attribute' => 'status', 'value' => 'statusBadge', 'format' => 'raw'],
+            'amount' => ['attribute' => 'amount', 'format' => 'raw'],
+            'date' => ['attribute' => 'date', 'format' => 'raw'],
         ];
     }
 
@@ -117,9 +142,23 @@ class CashFlow extends ActiveRecord
                 'format' => 'raw',
                 'visible' => !App::identity('isClient'),
             ],
+            'typeBadge:raw',
+            'statusBadge:raw',
+            'date:raw',
+            'amount:raw',
             'name:raw',
             'description:raw',
         ];
+    }
+
+    public function getStatusBadge()
+    {
+        return Label::widget(['options' => App::params('cash_flow_statuses')[$this->status]]);
+    }
+
+    public function getTypeBadge()
+    {
+        return Label::widget(['options' => App::params('cash_flow_types')[$this->type]]);
     }
 
     public function getFiles()
@@ -161,6 +200,10 @@ class CashFlow extends ActiveRecord
             'class' => 'yii\behaviors\SluggableBehavior',
             'attribute' => 'name',
             'ensureUnique' => true,
+        ];
+        $behaviors['DateBehavior'] = [
+            'class' => 'app\behaviors\DateBehavior',
+            'attributes' => ['date'],
         ];
 
         return $behaviors;

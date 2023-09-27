@@ -1,5 +1,11 @@
 <?php
 
+$this->registerCss(<<< CSS
+	.datepicker:hover {
+		z-index: 10001 !important;
+	}
+CSS);
+
 $this->registerWidgetJs($widgetFunction, <<< JS
 	$('.datepicker-{$widgetId}').datepicker({$options});
 JS);

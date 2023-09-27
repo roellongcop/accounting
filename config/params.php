@@ -3,6 +3,14 @@
 return [
     'user.passwordResetTokenExpire' => 3600,
     'pagination' => [25 => 25, 50 => 50, 75 => 75, 100 => 100],
+    'cash_flow_statuses' => [
+        0 => ['id' => 0, 'label' => 'Pending', 'class' => 'warning'],
+        1 => ['id' => 1, 'label' => 'Completed', 'class' => 'success'],
+    ],
+    'cash_flow_types' => [
+        0 => ['id' => 0, 'label' => 'Account Payable', 'class' => 'default'],
+        1 => ['id' => 1, 'label' => 'Account Receivable', 'class' => 'primary'],
+    ],
     'genders' => [
         'male' => ['id' => 'male', 'label' => 'Male', 'class' => 'primary'],
         'female' => ['id' => 'female', 'label' => 'Female', 'class' => 'danger'],
