@@ -14,7 +14,7 @@ class PayrollController extends Controller
     public function actionFindByKeywords($keywords = '')
     {
         return $this->asJson(
-            Payroll::findByKeywords($keywords, ['name', 'description'])
+            Payroll::findByKeywords($keywords, ['p.name', 'p.description'])
         );
     }
 

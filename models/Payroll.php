@@ -172,4 +172,18 @@ class Payroll extends ActiveRecord
             'model' => $this
         ]);
     }
+
+    public static function findByKeywords($keywords = '', $attributes = [], $limit = 10, $andFilterWhere = [])
+    {
+        return parent::findByKeywordsData($attributes, fn($attribute) => self::find()
+            ->select("{$attribute} AS data")
+            ->alias('p')
+            ->joinWith('user u')
+            ->groupBy($attribute)
+            ->where(['LIKE', $attribute, $keywords])
+            ->andFilterWhere($andFilterWhere)
+            ->limit($limit)
+            ->asArray()
+            ->all());
+    }
 }

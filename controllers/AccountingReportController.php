@@ -14,7 +14,7 @@ class AccountingReportController extends Controller
     public function actionFindByKeywords($keywords = '')
     {
         return $this->asJson(
-            AccountingReport::findByKeywords($keywords, ['name', 'description'])
+            AccountingReport::findByKeywords($keywords, ['ar.name', 'ar.description'])
         );
     }
 

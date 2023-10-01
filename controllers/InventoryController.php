@@ -14,7 +14,7 @@ class InventoryController extends Controller
     public function actionFindByKeywords($keywords = '')
     {
         return $this->asJson(
-            Inventory::findByKeywords($keywords, ['name', 'description'])
+            Inventory::findByKeywords($keywords, ['i.name', 'i.description'])
         );
     }
 

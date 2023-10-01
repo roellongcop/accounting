@@ -14,7 +14,7 @@ class CashFlowController extends Controller
     public function actionFindByKeywords($keywords = '')
     {
         return $this->asJson(
-            CashFlow::findByKeywords($keywords, ['name', 'description'])
+            CashFlow::findByKeywords($keywords, ['cf.name', 'cf.description'])
         );
     }
 

@@ -14,7 +14,7 @@ class BirFillingController extends Controller
     public function actionFindByKeywords($keywords = '')
     {
         return $this->asJson(
-            BirFilling::findByKeywords($keywords, ['name', 'description'])
+            BirFilling::findByKeywords($keywords, ['bf.name', 'bf.description'])
         );
     }
 

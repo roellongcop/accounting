@@ -14,7 +14,7 @@ class KpiController extends Controller
     public function actionFindByKeywords($keywords = '')
     {
         return $this->asJson(
-            Kpi::findByKeywords($keywords, ['name', 'description'])
+            Kpi::findByKeywords($keywords, ['kpi.name', 'kpi.description'])
         );
     }
 

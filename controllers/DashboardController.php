@@ -17,29 +17,46 @@ use app\models\User;
 use app\models\UserMeta;
 use app\models\VisitLog;
 use app\models\Visitor;
+use app\models\AccountingReport;
+use app\models\BirFilling;
 use app\models\CashFlow;
+use app\models\Inventory;
+use app\models\Kpi;
+use app\models\LegalDocument;
+use app\models\Payroll;
 use app\models\search\DashboardSearch;
 use yii\db\Expression;
+use yii\helpers\Inflector;
 
 class DashboardController extends Controller
 {
     public function actionFindByKeywords($keywords = '')
     {
+        $identity = App::identity();
+
         $data = array_merge(
-            File::findByKeywords($keywords, ['name', 'extension', 'token']),
-            Backup::findByKeywords($keywords, ['filename', 'tables', 'description']),
-            Ip::findByKeywords($keywords, ['name', 'description']),
-            Log::findByKeywords($keywords, ['method', 'action', 'controller', 'table_name', 'model_name']),
-            Notification::findByKeywords($keywords, ['message']),
-            Queue::findByKeywords($keywords, ['channel', 'job', 'pushed_at']),
-            Role::findByKeywords($keywords, ['name']),
-            Session::findByKeywords($keywords, ['id', 'expire', 'ip', 'browser', 'os', 'device']),
-            Setting::findByKeywords($keywords, ['name', 'value']),
-            Theme::findByKeywords($keywords, ['name', 'description']),
-            User::findByKeywords($keywords, ['u.username', 'u.email']),
-            UserMeta::findByKeywords($keywords, ['um.name', 'um.value']),
-            VisitLog::findByKeywords($keywords, ['v.ip']),
-            Visitor::findByKeywords($keywords, ['expire', 'cookie', 'ip', 'browser', 'os', 'device', 'location'])
+            ($identity->can('index', 'file') ? File::findByKeywords($keywords, ['name', 'extension', 'token']): []),
+            ($identity->can('index', 'backup') ? Backup::findByKeywords($keywords, ['filename', 'tables', 'description']): []),
+            ($identity->can('index', 'ip') ? Ip::findByKeywords($keywords, ['name', 'description']): []),
+            ($identity->can('index', 'log') ? Log::findByKeywords($keywords, ['method', 'action', 'controller', 'table_name', 'model_name']): []),
+            ($identity->can('index', 'notification') ? Notification::findByKeywords($keywords, ['message']): []),
+            ($identity->can('index', 'queue') ? Queue::findByKeywords($keywords, ['channel', 'job', 'pushed_at']): []),
+            ($identity->can('index', 'role') ? Role::findByKeywords($keywords, ['name']): []),
+            ($identity->can('index', 'session') ? Session::findByKeywords($keywords, ['id', 'expire', 'ip', 'browser', 'os', 'device']): []),
+            ($identity->can('index', 'setting') ? Setting::findByKeywords($keywords, ['name', 'value']): []),
+            ($identity->can('index', 'theme') ? Theme::findByKeywords($keywords, ['name', 'description']): []),
+            ($identity->can('index', 'user') ? User::findByKeywords($keywords, ['u.username', 'u.email']): []),
+            ($identity->can('index', 'user-meta') ? UserMeta::findByKeywords($keywords, ['um.name', 'um.value']): []),
+            ($identity->can('index', 'visit-log') ? VisitLog::findByKeywords($keywords, ['v.ip']): []),
+            ($identity->can('index', 'visitor') ? Visitor::findByKeywords($keywords, ['expire', 'cookie', 'ip', 'browser', 'os', 'device', 'location']): []),
+
+            ($identity->can('index', 'accounting-report') ? AccountingReport::findByKeywords($keywords, ['ar.name', 'ar.description']): []),
+            ($identity->can('index', 'bir-filling') ? BirFilling::findByKeywords($keywords, ['bf.name', 'bf.description']): []),
+            ($identity->can('index', 'cash-flow') ? CashFlow::findByKeywords($keywords, ['cf.name', 'cf.description']): []),
+            ($identity->can('index', 'inventory') ? Inventory::findByKeywords($keywords, ['i.name', 'i.description']): []),
+            ($identity->can('index', 'kpi') ? Kpi::findByKeywords($keywords, ['kpi.name', 'kpi.description']): []),
+            ($identity->can('index', 'legal-document') ? LegalDocument::findByKeywords($keywords, ['ld.name', 'ld.description']): []),
+            ($identity->can('index', 'payroll') ? Payroll::findByKeywords($keywords, ['p.name', 'p.description']): []),
         );
 
         $data = array_unique($data);

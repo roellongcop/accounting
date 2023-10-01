@@ -14,7 +14,7 @@ class LegalDocumentController extends Controller
     public function actionFindByKeywords($keywords = '')
     {
         return $this->asJson(
-            LegalDocument::findByKeywords($keywords, ['name', 'description'])
+            LegalDocument::findByKeywords($keywords, ['ld.name', 'ld.description'])
         );
     }
 
