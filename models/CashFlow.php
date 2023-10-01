@@ -46,6 +46,7 @@ class CashFlow extends ActiveRecord
             'controllerID' => 'cash-flow',
             'mainAttribute' => 'name',
             'paramName' => 'slug',
+            'dateAttribute' => 'date'
         ];
     }
 

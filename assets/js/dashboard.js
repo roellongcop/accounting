@@ -1,4 +1,13 @@
  function createChart(data) {
+    if (data.length === 0) {
+        document.getElementById("cashflow-chart").innerHTML = `
+            <div class="align-items-center d-flex justify-content-center" style="height:inherit">
+                <p class="lead font-weight-bold">No data found</p>
+            </div>
+        `;
+        return;
+    }
+    document.getElementById("cashflow-chart").innerHTML = '';
     var chart = AmCharts.makeChart("cashflow-chart", {
         "rtl": KTUtil.isRTL(),
         "type": "serial",

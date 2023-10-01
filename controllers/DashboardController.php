@@ -114,7 +114,7 @@ class DashboardController extends Controller
             }
 
             $query->where(['between', 'date', $startDate, $endDate])
-                ->andWhere(['user_id' => $post['userId'] ?: App::identity('id')])
+                ->andWhere(['user_id' => ($post['userId'] ?? App::identity('id'))])
                 ->orderBy(['date' => SORT_ASC]);
 
             $data = $query->asArray()->all();
