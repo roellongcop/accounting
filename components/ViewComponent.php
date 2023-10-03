@@ -21,6 +21,9 @@ class ViewComponent extends \yii\web\View
             'csrfParam' => App::request('csrfParam'),
             // 'params' => App::params(),
         ]);
+
+        $this->registerCss(App::setting('developer')->css, [], 'developer-css');
+        $this->registerJs(App::setting('developer')->js, self::POS_END, 'developer-js');
     }
 
     public function registerWidgetJs($widgetFunction, $js, $position = parent::POS_READY, $key = null)

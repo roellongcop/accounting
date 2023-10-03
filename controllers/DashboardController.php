@@ -20,6 +20,7 @@ use app\models\Visitor;
 use app\models\AccountingReport;
 use app\models\BirFilling;
 use app\models\CashFlow;
+use app\models\Event;
 use app\models\Inventory;
 use app\models\Kpi;
 use app\models\LegalDocument;
@@ -72,6 +73,7 @@ class DashboardController extends Controller
         App::access()->setSearchModels();
 
         $cashFlow = new CashFlow();
+        $event = new Event();
 
         if (($queryParams = App::queryParams()) != null) {
             $dataProviders = $searchModel->search(['DashboardSearch' => $queryParams]);
@@ -89,6 +91,7 @@ class DashboardController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'cashFlow' => $cashFlow,
+            'event' => $event,
         ]);
     }
 

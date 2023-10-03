@@ -725,4 +725,14 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
             'role_id' => Role::CLIENT
         ]);
     }
+
+    public function getMyClientIds()
+    {
+        $data = self::dropdown('id', 'username', [
+            'role_id' => Role::CLIENT,
+            'accountant_id' => App::identity('id')
+        ]);
+
+        return array_keys($data);
+    }
 }

@@ -42,6 +42,7 @@ class UserSeeder extends Seeder
 			]),
 			'created_at' => $created_at,
 			'updated_at' => $created_at,
+			'accountant_id' => User::findOne(['role_id' => Role::ADMIN])->id
 		];
 	}
 }

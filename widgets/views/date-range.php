@@ -10,14 +10,16 @@ $this->registerJs( <<< JS
         all_end: '{$all_end}',
         ranges: {$ranges},
         widgetId: '{$widgetId}',
+        time_picker: {$time_picker},
         onChange: ({start, end, label, inputValue}) => {
             {$onChange}
         }
     }).init();
 JS);
 ?>
-<br>
-<p class="font-weight-bold"><?= $title ?></p>
+<?= $header ?: <<< HTML
+    <br> <p class="font-weight-bold"><?= $title ?></p>
+HTML ?>
 <div class="date-range-search" id="<?= $widgetId ?>">
     <input name="<?= $name ?>" class="form-control pointer"  readonly placeholder="Select Date" type="hidden"  />
     <span class="form-control pointer"> </span>

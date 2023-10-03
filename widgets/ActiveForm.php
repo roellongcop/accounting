@@ -17,6 +17,7 @@ use app\widgets\BootstrapSelect;
 use app\widgets\ImageGallery;
 use app\widgets\JsonEditor;
 use app\widgets\Dropzone;
+use app\widgets\DateTimePicker;
 
 class ActiveForm extends \yii\widgets\ActiveForm
 {
@@ -150,5 +151,15 @@ class ActiveForm extends \yii\widgets\ActiveForm
 		$options['attribute'] = $attribute;
 
 		return DatePicker::widget($options);
+	}
+
+	public function dateTimePicker($model, $attribute = '', $options = ['useCurrent' => false])
+	{
+		return DateTimePicker::widget([
+			'form' => $this,
+			'model' => $model,
+			'attribute' => $attribute,
+			'options' => $options,
+		]);
 	}
 }

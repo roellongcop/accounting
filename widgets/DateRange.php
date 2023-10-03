@@ -13,6 +13,8 @@ class DateRange extends BaseWidget
     public $all_start;
     public $all_end;
     public $onChange;
+    public $header;
+    public $time_picker = false;
 
     public $ranges = [
         'All',
@@ -78,6 +80,8 @@ class DateRange extends BaseWidget
             'all_end' => $this->all_end,
             'ranges' => json_encode($this->ranges),
             'onChange' => $this->onChange,
+            'header' => $this->header,
+            'time_picker' => $this->time_picker ? 'true': 'false'
         ]);
     }
 }

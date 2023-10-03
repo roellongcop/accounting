@@ -1,7 +1,7 @@
 class DateRangeWidget {
     newRanges = {};
 
-    constructor({ start, end, all_start, all_end, ranges, widgetId, onChange }) {
+    constructor({ start, end, all_start, all_end, ranges, widgetId, onChange, time_picker }) {
         this.start = start;
         this.end = end;
         this.all_start = all_start;
@@ -9,6 +9,7 @@ class DateRangeWidget {
         this.ranges = ranges;
         this.widgetId = widgetId;
         this.onChange = onChange;
+        this.time_picker = time_picker;
     }
 
     init() {
@@ -32,23 +33,32 @@ class DateRangeWidget {
         for(let key in this.ranges) {
             this.newRanges[this.ranges[key]] = defaultRanges[this.ranges[key]];
         }
-        $(`#${this.widgetId}`).daterangepicker({
+
+        const spanFormat = this.time_picker ? 'MMMM DD, YYYY h:mm A': 'MMMM DD, YYYY';
+        const valueFormat = this.time_picker ? 'YYYY-MM-DD h:mm A': 'YYYY-MM-DD';
+
+        const options = {
             // buttonClasses: 'btn btn-sm',
             applyClass: 'btn-primary',
             cancelClass: 'btn-secondary',
             startDate: start,
             endDate: end,
-            ranges: this.newRanges
-        }, function(start, end, label) {
-            const spanValue = start.format('MMMM DD, YYYY') + ' - ' + end.format('MMMM DD, YYYY');
-            const inputValue = start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD');
+            timePicker: this.time_picker,
+        }
+        if (JSON.stringify(this.newRanges) !== '{}') options.ranges = this.newRanges;
+        if (this.time_picker) options.locale = {format: 'MM/DD/YYYY h:mm A'};
+
+        $(`#${this.widgetId}`).daterangepicker(options, (start, end, label) => {
+
+            const spanValue = [start.format(spanFormat), end.format(spanFormat)].join(' - ');
+            const inputValue = [start.format(valueFormat), end.format(valueFormat)].join(' - ');
 
             span.html(spanValue);
             input.val(inputValue);
             self.onChange({start, end, label, inputValue})
         });
-        span.html( start.format('MMMM DD, YYYY') + ' - ' + end.format('MMMM DD, YYYY'));
-        input.val( start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+        span.html([start.format(spanFormat), end.format(spanFormat)].join(' - '));
+        input.val([start.format(valueFormat), end.format(valueFormat)].join(' - '));
     }
 }
 

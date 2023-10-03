@@ -1,0 +1,14 @@
+.fc-content {
+	cursor: pointer !important;
+}
+.fc-unthemed .fc-event.fc-start .fc-content:before, 
+.fc-unthemed .fc-event-dot.fc-start .fc-content:before {
+    background: #fff;
+}
+.fc-unthemed .fc-event .fc-title, 
+.fc-unthemed .fc-event-dot .fc-title,
+.fc-unthemed .fc-description,
+.fc-unthemed .fc-event .fc-time, 
+.fc-unthemed .fc-event-dot .fc-time {
+    color: #fff;
+}

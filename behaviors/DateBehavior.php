@@ -26,10 +26,10 @@ class DateBehavior extends \yii\base\Behavior
         foreach ($this->attributes as $attribute) {
             if (is_array($attribute)) {
                 $field = $attribute['field'];
-                $format = ($type == 'in')? $attribute['inFormat']: $attribute['outFormat'];
+                $format = ($type == 'in')? $this->isCallable($attribute['inFormat']): $this->isCallable($attribute['outFormat']);
             }
             else {
-                $format = $format ?: $this->inFormat;
+                $format = $format ?: $this->isCallable($this->inFormat);
                 $field = $attribute;
             }
 
@@ -37,6 +37,11 @@ class DateBehavior extends \yii\base\Behavior
                 $this->owner->{$field} = date($format, strtotime($this->owner->{$field}));
             }
         }
+    }
+
+    public function isCallable($value)
+    {
+        return is_callable($value) ? call_user_func($value): $value;
     }
 
     public function eventBeforeValidate($event)

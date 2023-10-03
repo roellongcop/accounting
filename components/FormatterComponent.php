@@ -141,4 +141,11 @@ class FormatterComponent extends \yii\i18n\Formatter
 
         return ($return == 'start') ? $start : $end;
     }
+
+    public function asDate($date='', $format='F d, Y h:i:s A')
+    {
+        if (!$date) return;
+
+        return date($format, strtotime($date));
+    }
 }
