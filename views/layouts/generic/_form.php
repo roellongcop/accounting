@@ -2,6 +2,8 @@
 
 use app\widgets\ActiveForm;
 use app\models\User;
+use app\helpers\App;
+use yii\helpers\Inflector;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\AccountingReport */
@@ -15,7 +17,7 @@ use app\models\User;
             <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
         </div>
         <div class="col-md-6">
-            <?= $form->dropzone($model, 'file_tokens', $model::class, [
+            <?= $form->dropzone($model, 'file_tokens', Inflector::camel2words(App::className($model)), [
                 'files' => $model->files,
             ]) ?>
         </div>

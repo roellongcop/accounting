@@ -3,7 +3,7 @@
 use app\widgets\ActiveForm;
 use app\models\User;
 use app\helpers\App;
-
+use yii\helpers\Inflector;
 /* @var $this yii\web\View */
 /* @var $model app\models\AccountingReport */
 /* @var $form app\widgets\ActiveForm */
@@ -41,7 +41,7 @@ use app\helpers\App;
     <div class="row">
         <div class="col-md-12">
         	<label>Upload Document/s</label>
-			<?= $form->dropzone($model, 'file_tokens', $model::class, [
+			<?= $form->dropzone($model, 'file_tokens', Inflector::camel2words(App::className($model)), [
                 'files' => $model->files,
             ]) ?>
         </div>
