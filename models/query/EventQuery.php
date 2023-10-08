@@ -19,7 +19,7 @@ class EventQuery extends ActiveQuery
     	}
 
         if (App::identity('isAdmin')) {
-        	return $this->joinWith('accountant');
+        	return $this->innerJoinWith('accountant');
         }
 
         return $this;
