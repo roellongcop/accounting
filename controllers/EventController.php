@@ -49,7 +49,7 @@ class EventController extends Controller
      */
     public function actionView($slug)
     {
-        $model = Event::controllerFind($slug, 'slug');
+        $model = Event::controllerFind($slug, Event::tableName() . '.slug');
 
         if (App::isAjax()) {
             $can_update = App::identity()->can('update');

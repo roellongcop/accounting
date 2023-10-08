@@ -172,7 +172,7 @@ class Event extends ActiveRecord
     public function getAccountant()
     {
         return $this->hasOne(User::class, ['id' => 'user_id'])
-            ->onCondition(['accountant_id' => App::identity('id')]);
+            ->onCondition([User::tableName() . '.accountant_id' => App::identity('id')]);
     }
 
     public function getUser()
