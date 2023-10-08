@@ -1,6 +1,24 @@
 <?php
 
+use app\widgets\ActiveForm;
+use app\models\User;
+use app\models\Role;
+use app\models\CashFlow;
+
 /* @var $this yii\web\View */
-/* @var $model app\models\search\CashFlowSearch */
+/* @var $model app\models\search\AccountingReportSearch */
+/* @var $form yii\widgets\ActiveForm */
 ?>
-<?= $this->render('/layouts/generic/_search', ['model' => $model]) ?>
+<?php $form = ActiveForm::begin([
+    'action' => $model->searchAction,
+    'method' => 'get',
+    'id' => 'generic-search-form'
+]); ?>
+    <?= $form->search($model) ?>
+    <?= $form->dateRange($model) ?>
+    <?= $form->filter($model, 'user_id', User::dropdown('id', 'username', ['role_id' => Role::CLIENT]), 'Client') ?>
+    <?= $form->filter($model, 'biller', CashFlow::filter('biller')) ?>
+    <?= $form->recordStatusFilter($model) ?>
+    <?= $form->pagination($model) ?>
+    <?= $form->searchButton() ?>
+<?php ActiveForm::end(); ?>

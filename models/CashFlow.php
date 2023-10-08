@@ -55,12 +55,19 @@ class CashFlow extends ActiveRecord
      */
     public function rules()
     {
+        $type_payable = self::TYPE_PAYABLE;
+
         return $this->setRules([
             [['name', 'user_id', 'type', 'status', 'amount', 'date'], 'required'],
+            ['biller', 'required', 'when' => fn ($model) => $model->type == self::TYPE_PAYABLE, 
+            'whenClient' => "function (attribute, value) {
+                return $('#cashflow-type').val() == {$type_payable};
+            }"],
+
             [['description'], 'string'],
             [['user_id', 'status', 'type'], 'integer'],
             [['amount'], 'number'],
-            [['name'], 'string', 'max' => 255],
+            [['name', 'biller'], 'string', 'max' => 255],
             [['date'], 'string', 'max' => 16],
             ['user_id', 'exist', 'targetRelation' => 'user'],
             ['file_tokens', 'safe'],
@@ -128,6 +135,7 @@ class CashFlow extends ActiveRecord
                 }
             ],
             'type' => ['attribute' => 'type', 'value' => 'typeBadge', 'format' => 'raw'],
+            'biller' => ['attribute' => 'biller', 'format' => 'raw'],
             'status' => ['attribute' => 'status', 'value' => 'statusBadge', 'format' => 'raw'],
             'amount' => ['attribute' => 'amount', 'format' => 'raw'],
             'date' => ['attribute' => 'date', 'format' => 'raw'],
@@ -144,6 +152,7 @@ class CashFlow extends ActiveRecord
                 'visible' => !App::identity('isClient'),
             ],
             'typeBadge:raw',
+            'biller:raw',
             'statusBadge:raw',
             'date:raw',
             'amount:raw',
