@@ -88,4 +88,9 @@ class Url extends \yii\helpers\Url
         // check if the url host is a subdomain
         return strrpos(strtolower($components['host']), ".{$hostName}") !== strlen($components['host']) - strlen(".{$hostName}");
     }
+
+    public static function isLink($str)
+    {
+        return filter_var($str, FILTER_VALIDATE_URL);
+    }
 }

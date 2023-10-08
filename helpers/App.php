@@ -9,7 +9,6 @@ use yii\helpers\Inflector;
 
 class App
 {
-
 	public static function app($attr = '')
 	{
 		if ($attr) {

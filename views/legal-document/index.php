@@ -1,28 +1,18 @@
 <?php
 
-use app\helpers\Html;
-use app\widgets\BulkAction;
-use app\widgets\FilterColumn;
-use app\widgets\Grid;
+
+use app\widgets\FileExplorer;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\LegalDocumentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Legal Documents';
+$this->title = 'Legal Document';
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['searchModel'] = $searchModel; 
-$this->params['showCreateButton'] = true; 
-$this->params['showExportButton'] = true;
 ?>
-<div class="legal-document-index-page">
-    <?= FilterColumn::widget(['searchModel' => $searchModel]) ?>
-    <?= Html::beginForm(['bulk-action'], 'post'); ?>
-        <?= BulkAction::widget(['searchModel' => $searchModel]) ?>
-        
-        <?= Grid::widget([
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
-        ]); ?>
-    <?= Html::endForm(); ?> 
+<div class="bir-filling-index-page">
+    <?= FileExplorer::widget([
+        'tag' => 'Legal Document',
+        'breadcrumbs' => [['folderName' => 'Legal Document', 'folderPath' => '']],
+    ]) ?>
 </div>

@@ -8,16 +8,7 @@ use app\models\Role;
 use app\helpers\App;
 
 
-$this->addCssFile('amcharts/lib/3/plugins/export/export');
 $this->addCssFile('css/dashboard-income-expenses');
-
-$this->addJsFile('amcharts/lib/3/amcharts');
-$this->addJsFile('amcharts/lib/3/serial');
-
-$this->addJsFile('amcharts/lib/3/plugins/animate/animate.min');
-$this->addJsFile('amcharts/lib/3/plugins/export/export.min');
-$this->addJsFile('amcharts/lib/3/themes/light');
-
 $this->addJsFile('js/dashboard-income-expenses');
 
 $this->registerJs(<<< JS
@@ -55,7 +46,21 @@ JS);
             <?php ActiveForm::end(); ?>
         </div>
     </div>
-    <div class="card-body">
-        <div id="cashflow-chart" style="height: 500px;"></div>
+    <div class="card-body pb-0">
+        <div class="row">
+            <div class="col-md-9">
+                <div id="cashflow-chart"></div>
+            </div>
+            <div class="col-md-3">
+                <p class="text-muted mb-0 font-weight-bolder">Income</p>
+                <div class="font-weight-bolder display-4" id="total-income"></div>
+                <hr>
+                <p class="text-muted mb-0 font-weight-bolder mt-5">Expense</p>
+                <div class="font-weight-bolder display-4" id="total-expense"></div>
+                <hr>
+                <p class="text-muted mb-0 font-weight-bolder mt-5" id="total-balance-label">Balance</p>
+                <div class="font-weight-bolder display-4" id="total-balance"></div>
+            </div>
+        </div>
     </div>
 </div>

@@ -1029,4 +1029,9 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
             }
         }
     }
+
+    public function getAgo()
+    {
+        return App::formatter('asAgo', $this->updated_at);
+    }
 }

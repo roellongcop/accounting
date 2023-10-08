@@ -21,3 +21,6 @@
 .bootstrap-select button {
 	min-width: 200px;
 }
+.apexcharts-canvas {
+    background: #fff;
+}

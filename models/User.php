@@ -11,6 +11,7 @@ use app\models\form\user\ProfileForm;
 use app\models\form\user\AccountantProfileForm;
 use app\widgets\Anchor;
 use app\widgets\Label;
+use yii\helpers\FileHelper;
 
 /**
  * User model
@@ -734,5 +735,46 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
         ]);
 
         return array_keys($data);
+    }
+
+    public static function clientsDropdown()
+    {
+        return self::dropdown('id', 'username', ['role_id' => Role::CLIENT]);
+    }
+
+    public function createDirectories() {
+        $subFolders = ['BIR Filling', 'Legal Document', 'KPI', 'Payroll', 'Inventory'];
+
+        foreach ($subFolders as $subFolder) {
+            $filePath = implode(DIRECTORY_SEPARATOR, ['clients', $subFolder, $this->email]);
+            FileHelper::createDirectory($filePath);
+        }
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        if (!$insert) return;
+
+        if (!$this->isClient) return;
+
+        $this->createDirectories();
+    }
+
+    public function getClientWebroot($tag='tag')
+    {
+        $webRoot = "@webroot/clients/{$tag}";
+        if ($this->isClient) $webRoot = implode('/', [$webRoot, $this->email]);
+        return $webRoot;
+    }
+
+    public function getClientRoot($tag='tag')
+    {
+        $webRoot = ['clients', $tag];
+        if ($this->isClient) {
+            $webRoot[] = $this->email;
+        }
+        return $webRoot;
     }
 }

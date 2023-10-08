@@ -3,6 +3,16 @@
 return [
     'user.passwordResetTokenExpire' => 3600,
     'pagination' => [25 => 25, 50 => 50, 75 => 75, 100 => 100],
+    'receivable_status' => [
+        0 => ['id' => 0, 'label' => 'Un-Paid', 'class' => 'warning'],
+        1 => ['id' => 1, 'label' => 'Partially Paid', 'class' => 'primary'],
+        2 => ['id' => 2, 'label' => 'Fully Paid', 'class' => 'success'],
+    ],
+    'payable_status' => [
+        0 => ['id' => 0, 'label' => 'Un-Paid', 'class' => 'warning'],
+        1 => ['id' => 1, 'label' => 'Partial Paid', 'class' => 'primary'],
+        2 => ['id' => 2, 'label' => 'Fully Paid', 'class' => 'success'],
+    ],
     'cash_flow_statuses' => [
         0 => ['id' => 0, 'label' => 'Pending', 'class' => 'warning'],
         1 => ['id' => 1, 'label' => 'Completed', 'class' => 'success'],
@@ -52,4 +62,7 @@ return [
         0 => ['id' => 0, 'label' => 'Disable', 'class' => 'danger'],
         1 => ['id' => 1, 'label' => 'Enable (require internet connection)', 'class' => 'success'],
     ],
+    'months' => [
+        "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+    ]
 ];

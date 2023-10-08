@@ -27,7 +27,7 @@ class CashFlowSearch extends CashFlow
         return [
             [['id', 'created_by', 'updated_by'], 'integer'],
             [['name', 'description', 'slug', 'created_at', 'updated_at', 'user_id', 'biller'], 'safe'],
-            [['keywords', 'pagination', 'date_range', 'record_status'], 'safe'],
+            [['keywords', 'pagination', 'date_range', 'record_status', 'type'], 'safe'],
             [['keywords'], 'trim'],
         ];
     }
@@ -92,12 +92,15 @@ class CashFlowSearch extends CashFlow
             'cf.created_at' => $this->created_at,
             'cf.updated_at' => $this->updated_at,
             'cf.biller' => $this->biller,
+            'cf.type' => $this->type,
+            'cf.amount' => $this->amount,
         ]);
                 
         $query->andFilterWhere(['or', 
             ['like', 'cf.name', $this->keywords],  
             ['like', 'cf.description', $this->keywords],  
             ['like', 'cf.biller', $this->keywords],  
+            ['like', 'cf.amount', $this->keywords],  
         ]);
 
         $query->daterange($this->date_range);

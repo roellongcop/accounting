@@ -86,12 +86,14 @@ class Html extends \yii\helpers\Html
     public static function exportButton($params)
     {
         if ($params['showExportButton'] ?? '') {
-            return ExportButton::widget();
+            return ExportButton::widget($params['exportOptions'] ?? []);
         }
     }
 
     public static function createButton($params)
     {
+        if (isset($params['createButton'])) return $params['createButton'];
+        
         if ($params['showCreateButton'] ?? '') {
             return Anchors::widget([
                 'names' => 'create',

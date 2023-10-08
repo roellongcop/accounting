@@ -32,12 +32,34 @@ class Dropzone extends BaseWidget
     public $inputName;
     public $attribute;
     public $extensions;
+    public $path;
+
+    public $documentLibrary = false;
 
 
     public function init()
     {
         // your logic here
         parent::init();
+        if ($this->documentLibrary) {
+            $_path = implode(DIRECTORY_SEPARATOR, App::identity()->getClientRoot($this->tag));
+
+            if ($this->path) {
+                $this->path = implode(DIRECTORY_SEPARATOR, [
+                    $_path,
+                    $this->path
+                ]);
+            }
+            else {
+                $this->path = $_path;
+            }
+
+            $this->path = implode(',', (explode(DIRECTORY_SEPARATOR, $this->path)));
+
+            if ($this->path) {
+                $this->parameters["UploadForm[path]"] = $this->path;
+            }
+        }
 
         $className = App::className($this->model);
         if (!$this->description) {

@@ -148,4 +148,12 @@ class FormatterComponent extends \yii\i18n\Formatter
 
         return date($format, strtotime($date));
     }
+
+    public function asNumber($num = 0)
+    {
+        // Check if the number is a whole number (no decimal part)
+        if (floor($num) == $num) return number_format($num, 0);
+
+        return number_format($num, 2);
+    }
 }

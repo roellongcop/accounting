@@ -1,9 +1,6 @@
 <?php
 
 use app\helpers\Html;
-use app\widgets\BulkAction;
-use app\widgets\FilterColumn;
-use app\widgets\Grid;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\AccountingReportSearch */
@@ -11,18 +8,20 @@ use app\widgets\Grid;
 
 $this->title = 'Accounting Reports';
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['searchModel'] = $searchModel; 
-$this->params['showCreateButton'] = true; 
-$this->params['showExportButton'] = true;
+
+$this->registerCss(<<< CSS
+    .accounting-report-index-page {
+        height: 45vh; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+    }
+CSS);
 ?>
-<div class="accounting-report-index-page">
-    <?= FilterColumn::widget(['searchModel' => $searchModel]) ?>
-    <?= Html::beginForm(['bulk-action'], 'post'); ?>
-        <?= BulkAction::widget(['searchModel' => $searchModel]) ?>
-        
-        <?= Grid::widget([
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
-        ]); ?>
-    <?= Html::endForm(); ?> 
+<div class="accounting-report-index-page"> <div>
+        <?= Html::a('Login to Manager.io', 'https://manager.io', [
+            'class' => 'btn btn-lg btn-outline-primary font-weight-bolder',
+            'target' => '_blank'
+        ]) ?>
+    </div>
 </div>

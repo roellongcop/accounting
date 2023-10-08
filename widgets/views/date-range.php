@@ -17,7 +17,7 @@ $this->registerJs( <<< JS
     }).init();
 JS);
 ?>
-<?= $header ?: <<< HTML
+<?= $header !== null ? $header: <<< HTML
     <br> <p class="font-weight-bold"><?= $title ?></p>
 HTML ?>
 <div class="date-range-search" id="<?= $widgetId ?>">

@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\helpers\App;
 use app\models\BirFilling;
 use app\models\search\BirFillingSearch;
+use app\helpers\FileHelper;
 
 /**
  * BirFillingController implements the CRUD actions for BirFilling model.

@@ -222,7 +222,7 @@ class UserController extends Controller
             App::success('Successfully Updated');
             return $this->refresh();
         }
-
+        $model->flashErrors();
         return $this->render('my_account', [
             'model' => $model,
         ]);

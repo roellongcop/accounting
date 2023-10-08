@@ -20,6 +20,7 @@ class BootstrapSelect extends BaseWidget
     public $searchable = true;
     public $multiple = false;
     public $label = true;
+    public $withPrompt = true;
 
 
     public function init()
@@ -43,6 +44,9 @@ class BootstrapSelect extends BaseWidget
             $this->options['multiple'] = 'true';
         }
 
+        if (!$this->withPrompt && isset($this->options['prompt'])) {
+            unset($this->options['prompt']);
+        }
     }
 
     public function listOptions($value = '')
@@ -61,6 +65,9 @@ class BootstrapSelect extends BaseWidget
                 $this->options
             );
 
-        return (!$this->label || $this->label === true) ? $select : $select->label($this->label);
+        if ($this->label === false) return $select->label(false);
+        if ($this->label === true) return $select;
+        
+        return $select->label($this->label);
     }
 }

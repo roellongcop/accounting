@@ -4,6 +4,7 @@ namespace app\models\query;
 
 use app\helpers\App;
 use app\models\User;
+use app\models\CashFlow;
 
 /**
  * This is the ActiveQuery class for [[\app\models\CashFlow]].
@@ -12,6 +13,20 @@ use app\models\User;
  */
 class CashFlowQuery extends ActiveQuery
 {
+    public function income()
+    {
+        return $this->andFilterWhere([
+            $this->field('type') => CashFlow::TYPE_RECEIVABLE
+        ]);
+    }
+
+    public function expense()
+    {
+        return $this->andFilterWhere([
+            $this->field('type') => CashFlow::TYPE_PAYABLE
+        ]);
+    }
+
 	public function client()
 	{
 		if (App::identity('isClient')) {

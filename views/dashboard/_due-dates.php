@@ -16,7 +16,7 @@ $this->addCssFile('css/dashboard-due-dates');
 $this->addJsFile('js/dashboard-due-dates');
 ?>
 
-<div class="card card-custom gutter-b due-dates-card">
+<div class="card card-custom due-dates-card">
     <div class="card-header">
         <div class="card-title">
             <h3 class="card-label">Events</h3>

@@ -10,6 +10,8 @@ use app\models\search\FileSearch;
 use app\widgets\ActiveForm;
 use yii\web\UploadedFile;
 use app\models\form\SpreadsheetReaderForm;
+use app\helpers\FileHelper;
+
 
 /**
  * FileController implements the CRUD actions for File model.
@@ -366,5 +368,57 @@ class FileController extends Controller
                 return $this->redirect($model->getDisplayPath(500, 500));
                 break;
         }
+    }
+
+    public function actionBrowse()
+    {
+        if (App::isAjax()) return (
+            $this->asJson([
+                'html' => $this->renderAjax('_browse', [
+                    'path' => App::post('path'),
+                    'tag' => App::post('tag'),
+                ])
+            ])
+        );
+
+        return $this->redirect(['index']);
+    }
+
+    public function actionAddFolder()
+    {
+        $folderPath = App::post('folderPath');
+        $folderName = App::post('folderName');
+        $tag = App::post('tag');
+
+        $path = \Yii::getAlias(App::identity()->getClientWebroot($tag));
+        $path = implode(DIRECTORY_SEPARATOR, [$path, $folderPath, $folderName]);
+        $path = FileHelper::normalizePath($path);
+
+        FileHelper::createDirectory($path);
+
+        return $this->asJson([
+            'path' => $path
+        ]);
+    }
+
+    public function actionDeleteFolder()
+    {
+        $path = App::post('path');
+        $tag = App::post('tag');
+
+        if (!$path || !$tag) return $this->asJson([
+            'status' => 'failed',
+            'message' => 'No data found'
+        ]);
+
+        $path = implode(DIRECTORY_SEPARATOR, [\Yii::getAlias(App::identity()->getClientWebroot($tag)), $path]);
+
+        FileHelper::removeDirectory($path);
+
+        return $this->asJson([
+            'status' => 'success',
+            'message' => 'Directory deleted',
+            'path' => $path
+        ]);
     }
 }

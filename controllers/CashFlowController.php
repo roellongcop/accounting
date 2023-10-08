@@ -5,16 +5,19 @@ namespace app\controllers;
 use app\helpers\App;
 use app\models\CashFlow;
 use app\models\search\CashFlowSearch;
+use yii\web\ForbiddenHttpException;
 
 /**
  * CashFlowController implements the CRUD actions for CashFlow model.
  */
 class CashFlowController extends Controller 
 {
-    public function actionFindByKeywords($keywords = '')
+    public function actionFindByKeywords($keywords = '', $type=CashFlow::TYPE_RECEIVABLE)
     {
         return $this->asJson(
-            CashFlow::findByKeywords($keywords, ['cf.name', 'cf.description'])
+            CashFlow::findByKeywords($keywords, ['cf.name', 'cf.amount'], 10, [
+                'type' => $type
+            ])
         );
     }
 
@@ -22,14 +25,50 @@ class CashFlowController extends Controller
      * Lists all CashFlow models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($type=CashFlow::TYPE_RECEIVABLE)
     {
         $searchModel = new CashFlowSearch();
+
+        if (!$searchModel->isTypeValid($type)) throw new ForbiddenHttpException('invalid type');
+
         $dataProvider = $searchModel->search(['CashFlowSearch' => App::queryParams()]);
+        $dataProvider->query->andWhere(['cf.type' => $type]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionIncome()
+    {
+        $searchModel = new CashFlowSearch([
+            'type' => CashFlow::TYPE_RECEIVABLE,
+            'searchAction' => ['cash-flow/income']
+        ]);
+        $dataProvider = $searchModel->search(['CashFlowSearch' => App::queryParams()]);
+        $dataProvider->query->income();
+
+        return $this->render('income', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'model' => CashFlow::income()
+        ]);
+    }
+
+    public function actionExpense()
+    {
+        $searchModel = new CashFlowSearch([
+            'type' => CashFlow::TYPE_PAYABLE,
+            'searchAction' => ['cash-flow/expense']
+        ]);
+        $dataProvider = $searchModel->search(['CashFlowSearch' => App::queryParams()]);
+        $dataProvider->query->expense();
+
+        return $this->render('expense', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'model' => CashFlow::expense()
         ]);
     }
 
@@ -51,10 +90,13 @@ class CashFlowController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($type=CashFlow::TYPE_RECEIVABLE)
     {
-        $model = new CashFlow();
-
+        $model = new CashFlow([
+            'type' => $type,
+            'status' => CashFlow::STATUS_COMPLETED
+        ]);
+        if (!$model->validate('type')) throw new ForbiddenHttpException('invalid type');
         if ($model->load(App::post()) && $model->save()) {
             App::success('Successfully Created');
 

@@ -5,6 +5,8 @@ namespace app\models;
 use app\widgets\Anchor;
 use app\widgets\Label;
 use app\helpers\App;
+use app\helpers\Url;
+use yii\web\ForbiddenHttpException;
 
 /**
  * This is the model class for table "{{%cash_flows}}".
@@ -89,7 +91,7 @@ class CashFlow extends ActiveRecord
     {
         return $this->setAttributeLabels([
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Title',
             'description' => 'Description',
             'file_tokens' => 'Files',
             'user_id' => 'Client',
@@ -123,7 +125,8 @@ class CashFlow extends ActiveRecord
                     ]);
                 }
             ],
-            'name' => [
+            'title' => [
+                'label' => 'title',
                 'attribute' => 'name', 
                 'format' => 'raw',
                 'value' => function($model) {
@@ -134,10 +137,12 @@ class CashFlow extends ActiveRecord
                     ]);
                 }
             ],
-            'type' => ['attribute' => 'type', 'value' => 'typeBadge', 'format' => 'raw'],
-            'biller' => ['attribute' => 'biller', 'format' => 'raw'],
-            'status' => ['attribute' => 'status', 'value' => 'statusBadge', 'format' => 'raw'],
-            'amount' => ['attribute' => 'amount', 'format' => 'raw'],
+           'biller' => [
+                'attribute' => 'biller', 
+                'format' => 'raw',
+                'visible' => App::isControllerAction('cash-flow/expense')
+            ],
+            'amount' => ['attribute' => 'amount', 'format' => 'number'],
             'date' => ['attribute' => 'date', 'format' => 'raw'],
         ];
     }
@@ -151,11 +156,14 @@ class CashFlow extends ActiveRecord
                 'format' => 'raw',
                 'visible' => !App::identity('isClient'),
             ],
-            'typeBadge:raw',
-            'biller:raw',
-            'statusBadge:raw',
+            [
+                'label' => $this->getAttributeLabel('biller'),
+                'value' => 'biller',
+                'format' => 'raw',
+                'visible' => $this->type === self::TYPE_PAYABLE,
+            ],
             'date:raw',
-            'amount:raw',
+            'amount:number',
             'name:raw',
             'description:raw',
         ];
@@ -219,13 +227,6 @@ class CashFlow extends ActiveRecord
         return $behaviors;
     }
 
-    public function getDetailView()
-    {
-        return App::partial('/layouts/generic/view', [
-            'model' => $this
-        ]);
-    }
-
     public static function findByKeywords($keywords = '', $attributes = [], $limit = 10, $andFilterWhere = [])
     {
         return parent::findByKeywordsData($attributes, fn($attribute) => self::find()
@@ -238,5 +239,137 @@ class CashFlow extends ActiveRecord
             ->limit($limit)
             ->asArray()
             ->all());
+    }
+
+    public function isTypeValid($type=self::TYPE_RECEIVABLE)
+    {
+        return (new CashFlow(['type' => $type]))->validate('type');
+    }
+
+    public static function income()
+    {
+        return new self(['type' => self::TYPE_RECEIVABLE]);
+    }
+
+    public static function expense()
+    {
+        return new self(['type' => self::TYPE_PAYABLE]);
+    }
+
+    public function getIsIncome()
+    {
+        return $this->type === self::TYPE_RECEIVABLE;
+    }
+
+    public function getIsExpense()
+    {
+        return $this->type === self::TYPE_PAYABLE;
+    }
+
+    public function getActionId()
+    {
+        return $this->isIncome ? 'income': 'expense';
+    }
+
+    public function getModelLabel()
+    {
+        return $this->isIncome ? 'Income': 'Expense';
+    }
+
+    public function getIndexUrl($fullpath = true)
+    {
+        if ($this->checkLinkAccess($this->actionId)) {
+            $paramName = $this->paramName();
+            $url = [
+                implode('/', [$this->controllerID(), $this->actionId]),
+            ];
+            return ($fullpath) ? Url::toRoute($url, true) : $url;
+        }
+    }
+
+    public function getFindByKeywordsUrl($fullpath = true)
+    {
+        if ($this->checkLinkAccess('find-by-keywords')) {
+            $paramName = $this->paramName();
+            $url = [
+                implode('/', [$this->controllerID(), 'find-by-keywords']),
+                'type' => $this->isIncome ? self::TYPE_RECEIVABLE: self::TYPE_PAYABLE
+            ];
+            return ($fullpath) ? Url::toRoute($url, true) : $url;
+        }
+    }
+
+    public function getCreateUrl($fullpath = true)
+    {
+        if ($this->checkLinkAccess('create')) {
+            $paramName = $this->paramName();
+            $url = [
+                implode('/', [$this->controllerID(), 'create']),
+                'type' => $this->type
+            ];
+            return ($fullpath) ? Url::toRoute($url, true) : $url;
+        }
+    }
+
+    public function getPrintUrl($fullpath = true)
+    {
+        if ($this->checkLinkAccess('print')) {
+            $url = [
+                implode('/', [$this->controllerID(), 'print']),
+                'type' => $this->type
+            ];
+            return ($fullpath) ? Url::toRoute($url, true) : $url;
+        }
+    }
+
+    public function getExportPdfUrl($fullpath = true)
+    {
+        if ($this->checkLinkAccess('export-pdf')) {
+            $url = [
+                implode('/', [$this->controllerID(), 'export-pdf']),
+                'type' => $this->type
+            ];
+            return ($fullpath) ? Url::toRoute($url, true) : $url;
+        }
+    }
+
+    public function getExportCsvUrl($fullpath = true)
+    {
+        if ($this->checkLinkAccess('export-csv')) {
+            $url = [
+                implode('/', [$this->controllerID(), 'export-csv']),
+                'type' => $this->type
+            ];
+            return ($fullpath) ? Url::toRoute($url, true) : $url;
+        }
+    }
+
+    public function getExportXlsUrl($fullpath = true)
+    {
+        if ($this->checkLinkAccess('export-xls')) {
+            $url = [
+                implode('/', [$this->controllerID(), 'export-xls']),
+                'type' => $this->type
+            ];
+            return ($fullpath) ? Url::toRoute($url, true) : $url;
+        }
+    }
+
+    public function getExportXlsxUrl($fullpath = true)
+    {
+        if ($this->checkLinkAccess('export-xlsx')) {
+            $url = [
+                implode('/', [$this->controllerID(), 'export-xlsx']),
+                'type' => $this->type
+            ];
+            return ($fullpath) ? Url::toRoute($url, true) : $url;
+        }
+    }
+
+    public function getActiveMenuLink()
+    {
+        return $this->isIncome 
+            ? Url::toRoute(['cash-flow/income'])
+            : Url::toRoute(['cash-flow/expense']);
     }
 }

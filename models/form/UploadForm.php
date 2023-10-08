@@ -16,6 +16,7 @@ class UploadForm extends \yii\base\Model
     public $token;
     public $extensions;
     public $tag;
+    public $path;
 
     public function init()
     {
@@ -42,6 +43,7 @@ class UploadForm extends \yii\base\Model
                 'extensions' => $this->extensions,
                 'checkExtensionByMimeType' => false
             ],
+            ['path', 'safe']
         ];
     }
 
@@ -99,6 +101,10 @@ class UploadForm extends \yii\base\Model
 
         $slug = $model->modelName ?? App::className($model);
         $folders[] = strtolower(Inflector::slug($slug));
+
+        if ($this->path) {
+            $folders = explode(',', $this->path);
+        }
 
         $this->createDirectory($folders);
         $this->createIndexFile($folders);
