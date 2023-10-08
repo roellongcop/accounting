@@ -3,6 +3,7 @@
 namespace app\widgets;
 
 use app\models\File;
+use app\helpers\App;
 
 class FileTagFilter extends BaseWidget
 {
@@ -20,7 +21,8 @@ class FileTagFilter extends BaseWidget
         $this->activeTag = $this->activeTag ?: 'Filter Tag';
 
         $this->tags = File::filter('tag', [
-            'extension' => ($this->type == 'all' ? '' : File::EXTENSIONS['image'])
+            'extension' => ($this->type == 'all' ? '' : File::EXTENSIONS['image']),
+            'created_by' => App::identity('id')
         ]);
     }
 

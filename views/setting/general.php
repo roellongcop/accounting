@@ -34,7 +34,7 @@ $this->params['activeMenuLink'] = Url::toRoute(['setting/general']);
 		<div class="col-md-3">
 			<ul class="navi navi-accent navi-hover navi-bold navi-border">
 				<?= Html::foreach($setting_modules, function($menu, $keyTab) use ($tab) {
-					if ($tab === 'developer' && !App::identity('isDeveloper')) return;
+					if ($keyTab === 'developer' && !App::identity('isDeveloper')) return;
 					return $this->render('_general-navigation', [
 						'tab' => $tab,
 						'keyTab' => $keyTab,
