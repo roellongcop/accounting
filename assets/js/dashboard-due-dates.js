@@ -25,15 +25,9 @@ var KTCalendarListView = function() {
                     }
                 },
                 loading: function(isLoading) {
-                    if (isLoading) {
-                        KTApp.block('.fc-view-container', {
-                            message: 'Loading events...'
-                        });
-                    } else {
-                        KTApp.unblock('.fc-view-container');
-                        const customButton = document.querySelector('.fc-myCustomButton-button');
-                        if (customButton) customButton.blur();
-                    }
+                    const customButton = document.querySelector('.fc-myCustomButton-button');
+                    if (customButton) customButton.blur();
+                    isLoading ? KTApp.block('.fc-view-container', {message: 'Loading events...'}) : KTApp.unblock('.fc-view-container');
                 },
                 header: {
                     left: 'prev,next today myCustomButton',
