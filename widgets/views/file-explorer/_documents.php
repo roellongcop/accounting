@@ -4,6 +4,8 @@ use yii\helpers\FileHelper;
 use app\helpers\App;
 use app\helpers\Html;
 use app\widgets\DataTable;
+
+asort($directories);
 ?>
 
 <div class="row">

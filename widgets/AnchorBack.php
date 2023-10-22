@@ -7,8 +7,8 @@ use app\widgets\Anchor;
 
 class AnchorBack extends BaseWidget
 {
-    public $title = 'Back';
-    public $options = ['class' => 'btn btn-default'];
+    public $title = 'Cancel';
+    public $options = ['class' => 'btn btn-danger'];
     public $link;
     public $tooltip;
 

@@ -102,7 +102,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
         return $this->setAttributeLabels([
             'role_id' => 'Role',
             'is_blocked' => 'Blocked',
-            'username' => 'Username/Company',
+            'username' => 'Company',
             'accountant_id' => 'Accountant',
             'accountantName' => 'Accountant'
         ]);
@@ -743,11 +743,53 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     }
 
     public function createDirectories() {
-        $subFolders = ['BIR Filling', 'Legal Document', 'KPI', 'Payroll', 'Inventory'];
+        $folders = [
+            ['folder' => 'BIR Filling', 'subFolders' => [] ],
+            [
+                'folder' => 'Legal Document',
+                'subFolders' => [
+                    'Business Registrations',
+                    'Business Permits',
+                    'Lease Contracts',
+                    'Licenses',
+                    'Other Contracts',
+                ]
+            ], 
+            ['folder' => 'KPI', 'subFolders' => []],
+            [
+                'folder' => 'Payroll',
+                'subFolders' => [
+                    'Payroll Reports',
+                    'SSS Reports',
+                    'PHIC Reports',
+                    'HDMF Reports',
+                    'Tax Reports',
+                    'Other Reports',
+                ]
+            ],
+            [
+                'folder' => 'Inventory',
+                'subFolders' => [
+                    'Inventory Report',
+                    'Purchases Report',
+                    'Sold Inventory Report',
+                    'Inventory Count Report',
+                    'Other Reports',
+                ]
+            ],
+        ];
 
-        foreach ($subFolders as $subFolder) {
-            $filePath = implode(DIRECTORY_SEPARATOR, ['clients', $subFolder, $this->email]);
-            FileHelper::createDirectory($filePath);
+        foreach ($folders as $folder) {
+            if ($folder['subFolders']) {
+                foreach ($folder['subFolders'] as $subFolder) {
+                    $filePath = implode(DIRECTORY_SEPARATOR, ['clients', $folder['folder'], $this->email, $subFolder]);
+                    FileHelper::createDirectory($filePath);
+                }
+            }
+            else {
+                $filePath = implode(DIRECTORY_SEPARATOR, ['clients', $folder['folder'], $this->email]);
+                FileHelper::createDirectory($filePath);
+            }
         }
     }
 
