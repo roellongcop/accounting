@@ -218,6 +218,7 @@ $this->registerWidgetJs($widgetFunction, <<< JS
     });
 
     $('#{$widgetId} #btn-add-folder').click(function() {
+        KTApp.block('#modal-add-folder .modal-body');
         const folderPath = $('#{$widgetId} #folder-path').val();
         const folderName = $('#{$widgetId} #folder-name').val();
 
@@ -232,6 +233,7 @@ $this->registerWidgetJs($widgetFunction, <<< JS
             method: 'post',
             dataType: 'json',
             success: (s) => {
+                KTApp.unblock('#modal-add-folder .modal-body');
                 $('#{$widgetId} #folder-path').val('');
                 $('#{$widgetId} #folder-name').val('');
                 $('#{$widgetId} #modal-add-folder').modal('hide');
@@ -239,6 +241,7 @@ $this->registerWidgetJs($widgetFunction, <<< JS
                 loadDirectories('', folderPath);
             },
             error: function(e) {
+                KTApp.unblock('#modal-add-folder .modal-body');
                 Swal.fire('Error', e.responseText, 'error');
             },
         });
