@@ -112,8 +112,9 @@ class InvoiceLog extends ActiveRecord
 	public function getCreatorImage()
 	{
 		if (($createdBy = $this->createdBy) != null) {
-			return Url::image($createdBy->photo ?: '');
+			return Url::image($createdBy->photo ?: App::setting('image')->image_holder);
 		}
+		return Url::image(App::setting('image')->image_holder);
 	}
 
 
