@@ -451,7 +451,9 @@ class File extends ActiveRecord
 
     public function getRawUrlLocationPath()
     {
-        return Url::home(true) . $this->rawUrlLocation;
+        $url = Url::home(true) . $this->rawUrlLocation;
+        
+        return str_replace(' ', '%20', $url);
     }
 
     public static function imageExtensions()

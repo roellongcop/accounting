@@ -13,9 +13,7 @@ $this->registerCss(<<< CSS
 	    padding: 10px;
 	}
 CSS);
-
 ?>
- 
 <?= Html::tag('pre', implode('<hr>', [
 	Html::a('Download', $model->downloadUrl, [
 		'class' => 'btn btn-success font-weight-bolder',
