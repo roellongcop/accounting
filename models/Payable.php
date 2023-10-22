@@ -88,7 +88,7 @@ class Payable extends ActiveRecord
       'id' => 'ID',
       'title' => 'Title',
       'due_date' => 'Due Date',
-      'description' => 'Customer',
+      'description' => 'Biller',
       'file_tokens' => 'Files',
       'status' => 'Status',
       'amount' => 'Amount',
@@ -134,7 +134,7 @@ class Payable extends ActiveRecord
         }
       ],
       'due_date' => ['attribute' => 'due_date', 'format' => 'raw'],
-      'customer' => ['attribute' => 'description', 'format' => 'raw', 'label' => 'Customer'],
+      'biller' => ['attribute' => 'description', 'format' => 'raw', 'label' => 'Biller'],
       'amount' => ['attribute' => 'amount', 'format' => 'number'],
       'amount_paid' => ['attribute' => 'amount_paid', 'format' => 'number'],
       'balance' => ['attribute' => 'balance', 'format' => 'number', 'value' => 'balance'],
