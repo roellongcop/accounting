@@ -32,4 +32,4 @@ asort($directories);
 
 <div class="mt-10"></div>
 
-<?= DataTable::widget(['models' => $files, 'pageLength' => 5]) ?>
+<?= App::if($files, DataTable::widget(['models' => $files, 'pageLength' => 5])) ?>
