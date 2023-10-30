@@ -5,6 +5,7 @@ use app\widgets\Anchor;
 use app\widgets\Anchors;
 use app\widgets\Detail;
 use app\helpers\App;
+use app\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
@@ -40,5 +41,18 @@ $this->params['showCreateButton'] = true;
         'link' => ['log/index', 'userSlug' => $model->slug],
         'options' => ['class' => 'btn btn-secondary']
     ]) ?>
-    <?= Detail::widget(['model' => $model]) ?>
+    <div class="row">
+        <div class="col-md-6">
+            <?= Detail::widget(['model' => $model]) ?>
+        </div>
+        <div class="col-md-6">
+            <div class="text-center">
+                <?= Html::img($model->qRCodeurl, [
+                    'class' => 'img-thumbnail symbol'
+                ]) ?>
+
+                <p class="lead font-weight-bold mt-10">Scan These QR Code to add to Google Authenticator</p>
+            </div>
+        </div>
+    </div>
 </div>

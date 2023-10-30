@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use app\helpers\App;
 use app\helpers\Html;
+use app\helpers\Url;
 use app\models\form\export\ExportForm;
 use app\models\form\user\MySettingForm;
 use app\models\form\user\ProfileForm;
@@ -30,6 +31,10 @@ use yii\helpers\FileHelper;
  */
 class User extends ActiveRecord implements \yii\web\IdentityInterface
 {
+    const LOGIN_TYPE_DEFAULT = 0;
+    const LOGIN_TYPE_EMAIL_AUTH = 1;
+    const LOGIN_TYPE_GOOGLE_AUTH = 2;
+
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
@@ -88,12 +93,18 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
             ['email', 'trim'],
             ['email', 'unique'],
             ['username', 'unique'],
-            [['password_hint', 'password_reset_token', 'password_hash', 'photo'], 'safe'],
+            [['password_hint', 'password_reset_token', 'password_hash', 'photo', 'google2fa', 'google2fa_ts'], 'safe'],
             ['role_id', 'exist', 'targetRelation' => 'role'],
             ['role_id', 'validateRoleId'],
             ['accountant_id', 'validateAccountantId'],
             ['accountant_id', 'integer'],
             ['accountant_id', 'default', 'value' => 0],
+            ['login_type', 'integer'],
+            ['login_type', 'in', 'range' => [
+                self::LOGIN_TYPE_DEFAULT, 
+                // self::LOGIN_TYPE_EMAIL_AUTH, 
+                self::LOGIN_TYPE_GOOGLE_AUTH, 
+            ]],
         ]);
     }
 
@@ -104,8 +115,45 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
             'is_blocked' => 'Blocked',
             'username' => 'Company',
             'accountant_id' => 'Accountant',
-            'accountantName' => 'Accountant'
+            'accountantName' => 'Accountant',
+            'userStatusHtml' => 'User Status',
+            'blockedStatusHtml' => 'Blocked Status'
         ]);
+    }
+
+    public function getIsLoginEmailAuth()
+    {
+        return $this->login_type == self::LOGIN_TYPE_EMAIL_AUTH;
+    }
+
+    public function getLoginTypeLabel()
+    {
+        return $this->loginTypes[$this->login_type] ?? '';
+    }
+
+    public function generateGoogle2Fa()
+    {
+        $g2fa = new \PragmaRX\Google2FA\Google2FA();
+        $exist = true;
+        do {
+            $google2fa = $g2fa->generateSecretKey();
+            if (self::findOne(['google2fa' => $google2fa]) == null) {
+                $this->google2fa = $google2fa;
+                $this->google2fa_ts = time() / 30;
+                $exist = false;
+            }
+        } while ($exist);
+    }
+
+    public function setGoogleAuthenticator()
+    {
+        if (! $this->google2fa) {
+            $this->generateGoogle2Fa();
+            self::updateAll([
+                'google2fa' => $this->google2fa,
+                'google2fa_ts' => $this->google2fa_ts,
+            ], ['id' => $this->id]);
+        }
     }
 
     /**
@@ -268,7 +316,23 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        if ($this->login_type == self::LOGIN_TYPE_DEFAULT || $this->login_type == self::LOGIN_TYPE_EMAIL_AUTH) {
+            return Yii::$app->security->validatePassword($password, $this->password_hash);
+        }
+
+        if ($this->login_type == self::LOGIN_TYPE_GOOGLE_AUTH) {
+            if ($this->google2fa) {
+                $google2fa = new \PragmaRX\Google2FA\Google2FA();
+                $timestamp = $google2fa->verifyKeyNewer($this->google2fa, $password, $this->google2fa_ts);
+
+                if ($timestamp !== false) {
+                    User::updateAll(['google2fa_ts' => $timestamp], ['id' => $this->id]);
+                    return true;
+                } 
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -366,6 +430,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
         }
 
         if ($this->isNewRecord) {
+            $this->generateGoogle2Fa();
             $this->generateAuthKey();
             $this->generatePasswordResetToken();
             $this->generateEmailVerificationToken();
@@ -373,6 +438,26 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
         }
 
         return true;
+    }
+
+    public function getQRCodeurl()
+    {
+        // USE IT IF THERE's NO INTERNET
+        /*$google2fa = (new \PragmaRX\Google2FAQRCode\Google2FA());
+        $inlineUrl = $google2fa->getQRCodeInline(
+            Url::domain(),
+            $this->username,
+            $this->google2fa
+        );
+        return $inlineUrl;*/
+
+        $g2fa = new \PragmaRX\Google2FA\Google2FA();
+        $text = $g2fa->getQRCodeUrl(
+            Url::domain(),
+            $this->username,
+            $this->google2fa
+        );
+        return 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl='.$text;
     }
 
     public function getMySettings()
@@ -532,6 +617,40 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
                     return $model->blockedStatusHtml;
                 }
             ],
+            'login_type' => [
+                'attribute' => 'login_type',
+                'format' => 'raw',
+                'value' => 'loginTypeSelect'
+            ]
+        ];
+    }
+
+    public function getLoginTypeSelect()
+    {
+        $options = App::foreach($this->loginTypes, fn ($label, $type) => Html::tag('a', $label, [
+            'class' => 'dropdown-item',
+            'href' => Url::toRoute(['user/change-login-type', 'slug' => $this->slug, 'type' => $type]),
+            'data-confirm' => 'Set Login Type to ' . $label,
+            'data-method' => 'post'
+        ]));
+        return <<< HTML
+            <div class="dropdown">
+                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {$this->loginTypeLabel}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {$options}
+                </div>
+            </div>
+        HTML;
+    }
+
+    public function getLoginTypes()
+    {
+        return [
+            self::LOGIN_TYPE_DEFAULT => 'Default Authentication',
+            // self::LOGIN_TYPE_EMAIL_AUTH => 'Email Authentication',
+            self::LOGIN_TYPE_GOOGLE_AUTH => 'Google Authentication',
         ];
     }
 
@@ -570,6 +689,11 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
             // 'slug:raw',
             'userStatusHtml:raw',
             'blockedStatusHtml:raw',
+            'login_type' => [
+                'attribute' => 'login_type',
+                'format' => 'raw',
+                'value' => $this->loginTypeSelect
+            ]
         ];
     }
 

@@ -12,5 +12,6 @@ $this->params['searchModel'] = new UserSearch();
 <div class="user-my-password-page">
 	<?= $this->render('_change_password', [
 		'model' => $model,
+		'user' => $user,
 	]) ?>
 </div>

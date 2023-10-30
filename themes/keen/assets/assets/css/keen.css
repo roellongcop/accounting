@@ -72,3 +72,7 @@ form.form .form-control {
 a[title="JavaScript charts"] {
     display: none !important;
 }
+
+table.detail-view th {
+    text-wrap: nowrap;
+}

@@ -160,6 +160,7 @@ class ActiveForm extends \yii\widgets\ActiveForm
 			'model' => $model,
 			'attribute' => $attribute,
 			'options' => $options,
+			'id' => App::randomString(10) . time()
 		]);
 	}
 }

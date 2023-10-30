@@ -93,4 +93,9 @@ class Url extends \yii\helpers\Url
     {
         return filter_var($str, FILTER_VALIDATE_URL);
     }
+
+    public static function domain()
+    {
+        return str_replace('//', '', self::ensureScheme(self::base(true), ''));
+    }
 }

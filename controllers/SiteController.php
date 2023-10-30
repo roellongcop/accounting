@@ -22,6 +22,7 @@ class SiteController extends Controller
                 'reset-password',
                 'contact',
                 'set-new-password',
+                // 'test'
             ]
         ];
         $behaviors['VerbFilter'] = [
@@ -185,5 +186,15 @@ class SiteController extends Controller
         }
 
         throw new NotFoundHttpException('Reset Token Invalid');
+    }
+
+    public function actionTest()
+    {
+        // $users = User::find()->all();
+
+        // foreach($users as $user) {
+        //     $user->generateGoogle2Fa();
+        //     $user->save();
+        // }
     }
 }

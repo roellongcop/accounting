@@ -155,8 +155,11 @@ class UserController extends Controller
             return $this->redirect(['user/my-password']);
         }
 
+        $user->setGoogleAuthenticator();
+
         return $this->render('my_password', [
             'model' => $model,
+            'user' => $user,
         ]);
     }
 
@@ -246,6 +249,20 @@ class UserController extends Controller
             return $this->redirect(['dashboard/index']);
         } else {
             App::danger('No user found or user is cannot be log in.');
+        }
+
+        return $this->redirect(App::referrer());
+    }
+
+    public function actionChangeLoginType($slug, $type=User::LOGIN_TYPE_DEFAULT)
+    {
+        $model = User::controllerFind($slug, 'slug');
+        $model->login_type = $type;
+        if ($model->save()) {
+            App::success('Login Type Changed.');
+        }
+        else {
+            App::danger($model->errorSummary);
         }
 
         return $this->redirect(App::referrer());

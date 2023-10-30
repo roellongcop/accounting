@@ -15,18 +15,18 @@ use app\models\Theme;
 			'complete' => <<< JS
 				$( ".file-explorer-widget ul.breadcrumb li" ).last().click();
 
-				$.ajax({
-					url: app.baseUrl + 'notification/file-upload-notification',
-					data: {path: '{$path}'},
-					dataType: 'json',
-					method: 'post',
-					success: function(s) {
+				// $.ajax({
+				// 	url: app.baseUrl + 'notification/file-upload-notification',
+				// 	data: {path: '{$path}'},
+				// 	dataType: 'json',
+				// 	method: 'post',
+				// 	success: function(s) {
 
-					},
-					error: function(e) {
-						console.log('notification/file-upload-notification', e)
-					}
-				})
+				// 	},
+				// 	error: function(e) {
+				// 		console.log('notification/file-upload-notification', e)
+				// 	}
+				// })
 			JS
     ]) ?>
 	</div>
