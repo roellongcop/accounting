@@ -68,4 +68,9 @@ class NotificationController extends Controller
 
         return $this->redirect($model->indexUrl);
     }
+
+    public function actionFileUploadNotification()
+    {
+        // code...
+    }
 }
