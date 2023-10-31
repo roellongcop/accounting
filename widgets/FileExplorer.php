@@ -31,67 +31,72 @@ class FileExplorer extends BaseWidget
     public function init()
     {
         parent::init();
-        $identity = App::identity();
 
-        $this->webRoot = $identity->getClientWebroot($this->tag);
-        
-        if ($identity->isClient) {
-            $this->breadcrumbs = [
-                [
-                    'folderName' => $identity->email,
-                    'folderPath' => ''
-                ]
-            ];
-        }
+        try {
+            $identity = App::identity();
 
-        $this->path = $this->path ?: (App::get('path') ?: '');
-
-        if (! Url::isLink($this->folderImage)) {
-            $this->folderImage = App::baseUrl($this->folderImage);
-        }
-
-        if (! Url::isLink($this->addFolderImage)) {
-            $this->addFolderImage = App::baseUrl($this->addFolderImage);
-        }
-
-        $this->reloadUrl = Url::to($this->reloadUrl);
-        $this->addFolderUrl = Url::to($this->addFolderUrl);
-
-        $path = FileHelper::normalizePath($this->path);
-        $path = FileHelper::normalizePath(implode(DIRECTORY_SEPARATOR, [
-            Yii::getAlias($this->webRoot),
-            $path
-        ]));
-
-       $this->generateBreadcrumbs($path);
-
-
-        $directories = FileHelper::findDirectories($path, ['recursive' => false]);
-
-        $_this = $this;
-        $files = FileHelper::findFiles($path, [
-            'recursive' => false,
-            'filter' => function($path) use ($_this) {
-                $exp = explode(DIRECTORY_SEPARATOR, $path);
-
-                $file = File::find()
-                    ->select(['*', 'SUBSTRING_INDEX(location, "/", -1) AS folderFileName'])
-                    ->where(['SUBSTRING_INDEX(location, "/", -1)' => end($exp)])
-                    ->one();
-
-                if (!$file) {
-                    return false;
-                }
-
-                $_this->files[] = $file;
-                return true;
-
-                $hideFiles = ['.htaccess', 'index.php'];
-                return ! in_array(end($file), $hideFiles);
+            $this->webRoot = $identity->getClientWebroot($this->tag);
+            
+            if ($identity->isClient) {
+                $this->breadcrumbs = [
+                    [
+                        'folderName' => $identity->email,
+                        'folderPath' => ''
+                    ]
+                ];
             }
-        ]);
 
-        $this->formatDirectories($directories);
+            $this->path = $this->path ?: (App::get('path') ?: '');
+
+            if (! Url::isLink($this->folderImage)) {
+                $this->folderImage = App::baseUrl($this->folderImage);
+            }
+
+            if (! Url::isLink($this->addFolderImage)) {
+                $this->addFolderImage = App::baseUrl($this->addFolderImage);
+            }
+
+            $this->reloadUrl = Url::to($this->reloadUrl);
+            $this->addFolderUrl = Url::to($this->addFolderUrl);
+
+            $path = FileHelper::normalizePath($this->path);
+            $path = FileHelper::normalizePath(implode(DIRECTORY_SEPARATOR, [
+                Yii::getAlias($this->webRoot),
+                $path
+            ]));
+
+           $this->generateBreadcrumbs($path);
+
+
+            $directories = FileHelper::findDirectories($path, ['recursive' => false]);
+
+            $_this = $this;
+            $files = FileHelper::findFiles($path, [
+                'recursive' => false,
+                'filter' => function($path) use ($_this) {
+                    $exp = explode(DIRECTORY_SEPARATOR, $path);
+
+                    $file = File::find()
+                        ->select(['*', 'SUBSTRING_INDEX(location, "/", -1) AS folderFileName'])
+                        ->where(['SUBSTRING_INDEX(location, "/", -1)' => end($exp)])
+                        ->one();
+
+                    if (!$file) {
+                        return false;
+                    }
+
+                    $_this->files[] = $file;
+                    return true;
+
+                    $hideFiles = ['.htaccess', 'index.php'];
+                    return ! in_array(end($file), $hideFiles);
+                }
+            ]);
+
+            $this->formatDirectories($directories);
+        } catch (\yii\base\InvalidArgumentException $e) {
+            App::danger($e->getName() . ' or directory doesn\'t exist');
+        }
     }
 
     public function generateBreadcrumbs($path)

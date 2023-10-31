@@ -26,13 +26,11 @@ use app\helpers\App;
         </div>
     </div>
 
-    <?php if ($model->isExpense): ?>
-        <div class="row">
-            <div class="col-md-6">
-                <?= $form->field($model, 'biller')->textInput(['maxlength' => true]) ?>
-            </div>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'biller')->textInput(['maxlength' => true]) ?>
         </div>
-    <?php endif ?>
+    </div>
     <div class="row">
         <div class="col-md-6">
             <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>

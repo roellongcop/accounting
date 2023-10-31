@@ -3,6 +3,7 @@
 namespace app\models\query;
 
 use app\helpers\App;
+use app\models\User;
 /**
  * This is the ActiveQuery class for [[\app\models\Event]].
  *
@@ -19,7 +20,12 @@ class EventQuery extends ActiveQuery
     	}
 
         if (App::identity('isAdmin')) {
-        	return $this->innerJoinWith('accountant');
+            return $this->andFilterWhere([
+                $this->field('user_id') => User::find()
+                    ->select('id')
+                    ->where(['accountant_id' => App::identity('id')])
+            ]);
+        	// return $this->innerJoinWith('accountant');
         }
 
         return $this;

@@ -3,9 +3,11 @@
 namespace app\controllers;
 
 use app\helpers\App;
+use app\helpers\Html;
 use app\models\CashFlow;
 use app\models\search\CashFlowSearch;
 use yii\web\ForbiddenHttpException;
+use app\models\form\CashflowImportForm;
 
 /**
  * CashFlowController implements the CRUD actions for CashFlow model.
@@ -176,5 +178,87 @@ class CashFlowController extends Controller
         }
 
         return $this->redirect($model->indexUrl);
+    }
+
+    public function actionImportIncome($process = 'validate')
+    {
+        $searchModel = new CashFlowSearch();
+        $model = CashflowImportForm::income();
+
+        $post = App::post();
+        if ($post) {
+            $model->file_token = $post['token'];
+
+            if ($process === 'validate') {
+
+                if ($model->validate()) {
+                    return $this->asJson([
+                        'status' => 'success',
+                        'message' => 'File is valid!',
+                    ]);
+                }
+            }
+            else {
+                $import = $model->import();
+                if ($import) {
+                    App::success('File imported successfully');
+                    return $this->asJson([
+                        'status' => 'success',
+                        'message' => 'File imported successfully',
+                    ]);
+                }
+            }
+
+            return $this->asJson([
+                'status' => 'failed',
+                'message' => Html::errorSummary($model),
+            ]);
+        }
+
+        return $this->render('import-income', [
+            'searchModel' => $searchModel,
+            'model' => $model,
+        ]);
+    }
+
+    public function actionImportExpense($process = 'validate')
+    {
+        $searchModel = new CashFlowSearch();
+        $model = CashflowImportForm::expense();
+
+        $post = App::post();
+        if ($post) {
+            $model->file_token = $post['token'];
+
+            if ($process === 'validate') {
+
+                if ($model->validate()) {
+                    return $this->asJson([
+                        'status' => 'success',
+                        'message' => 'File is valid!',
+                    ]);
+                }
+            }
+            else {
+                $import = $model->import();
+                if ($import) {
+                    App::success('File imported successfully');
+                    return $this->asJson([
+                        'status' => 'success',
+                        'message' => 'File imported successfully',
+                    ]);
+                }
+            }
+
+            return $this->asJson([
+                'status' => 'failed',
+                'message' => Html::errorSummary($model),
+            ]);
+        }
+
+        return $this->render('import-expense', [
+            'searchModel' => $searchModel,
+            'model' => $model,
+        ]);
     }
 }

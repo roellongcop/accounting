@@ -17,6 +17,7 @@ class ExportForm extends \yii\base\Model
     ];
 
     const IGNORE_ATTRIBUTES = [
+        'serial',
         'checkbox',
         'actions'
     ];

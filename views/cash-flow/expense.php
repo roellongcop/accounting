@@ -27,6 +27,9 @@ $this->params['exportOptions'] = [
     'xlsUrl' => $model->getExportXlsUrl(false),
     'xlsxUrl' => $model->getExportXlsxUrl(false),
 ];
+$this->params['headerButtons'] = Html::a('Import', ['import-expense'], [
+    'class' => 'ml-2 btn btn-primary font-weight-bolder',
+]);
 ?>
 <div class="cash-flow-index-page">
     <?= FilterColumn::widget([

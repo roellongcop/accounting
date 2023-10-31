@@ -30,11 +30,11 @@ use yii\helpers\Inflector;
                 <div>
                     <?= Checkbox::widget([
                         'data' => array_combine($actions, $actions),
-                        'name' => "Role[module_access][{$controller}][]",
+                        'name' => "{$name}[{$controller}][]",
                         'inputClass' => 'module_access checkbox',
                         'options' => ['data-belongs_to' => $controller],
-                        'checkedFunction' => function($value) use ($model, $controller) {
-                            return Html::if($model->module_access[$controller] ?? false, 
+                        'checkedFunction' => function($value) use ($module_access, $controller) {
+                            return Html::if($module_access[$controller] ?? false, 
                                 function($moduleAccess) use($value) {
                                     return in_array($value, $moduleAccess);
                                 }

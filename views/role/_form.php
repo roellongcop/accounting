@@ -74,7 +74,8 @@ CSS);
             <div class="tab-pane fade" id="_form_actions" role="tabpanel" aria-labelledby="_form_actions">
                 <?= $this->render('_form_actions', [
                     'controller_actions' => $controller_actions,
-                    'model' => $model
+                    'module_access' => $model->module_access,
+                    'name' => 'Role[module_access]'
                 ]) ?>
             </div> 
         </div>

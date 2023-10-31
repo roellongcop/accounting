@@ -93,7 +93,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
             ['email', 'trim'],
             ['email', 'unique'],
             ['username', 'unique'],
-            [['password_hint', 'password_reset_token', 'password_hash', 'photo', 'google2fa', 'google2fa_ts'], 'safe'],
+            [['password_hint', 'password_reset_token', 'password_hash', 'photo', 'google2fa', 'google2fa_ts', 'navigation', 'module_access'], 'safe'],
             ['role_id', 'exist', 'targetRelation' => 'role'],
             ['role_id', 'validateRoleId'],
             ['accountant_id', 'validateAccountantId'],
@@ -531,11 +531,13 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
 
     public function getModuleAccess()
     {
-        return App::if ($this->role, fn($role) => $role->module_access);
+        return $this->module_access ?: App::if ($this->role, fn($role) => $role->module_access);
     }
 
     public function getMainNavigation()
     {
+        if ($this->navigation) return $this->navigation;
+
         return App::if ($this->role, fn($role) => $role->main_navigation);
     }
 
@@ -547,6 +549,11 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
             'class' => 'yii\behaviors\SluggableBehavior',
             'attribute' => 'username',
             'ensureUnique' => true,
+        ];
+
+        $behaviors['JsonBehavior']['fields'] = [
+            'navigation',
+            'module_access',
         ];
 
         return $behaviors;
@@ -681,11 +688,11 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
                 ]): 'N/A',
                 'label' => 'Accountant'
             ],
-            'auth_key:raw',
-            'password_hash:raw',
-            'password_hint:raw',
-            'password_reset_token:raw',
-            'verification_token:raw',
+            // 'auth_key:raw',
+            // 'password_hash:raw',
+            // 'password_hint:raw',
+            // 'password_reset_token:raw',
+            // 'verification_token:raw',
             // 'slug:raw',
             'userStatusHtml:raw',
             'blockedStatusHtml:raw',

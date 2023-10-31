@@ -116,7 +116,7 @@ class EventController extends Controller
      */
     public function actionDuplicate($slug)
     {
-        $originalModel = Event::controllerFind($slug, 'slug');
+        $model = Event::controllerFind($slug, Event::tableName() . '.slug');
         $model = new Event();
         $model->attributes = $originalModel->attributes;
 
@@ -141,7 +141,7 @@ class EventController extends Controller
      */
     public function actionUpdate($slug)
     {
-        $model = Event::controllerFind($slug, 'slug');
+        $model = Event::controllerFind($slug, Event::tableName() . '.slug');
 
         if (App::get('ajaxValidate')) {
             return $this->_ajaxValidate($model);
@@ -175,7 +175,7 @@ class EventController extends Controller
      */
     public function actionDelete($slug)
     {
-        $model = Event::controllerFind($slug, 'slug');
+        $model = Event::controllerFind($slug, Event::tableName() . '.slug');
 
         if($model->delete()) {
             App::success('Successfully Deleted');

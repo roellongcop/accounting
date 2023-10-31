@@ -267,4 +267,42 @@ class UserController extends Controller
 
         return $this->redirect(App::referrer());
     }
+
+    public function actionUpdateRoleAccess($slug)
+    {
+        $model = User::controllerFind($slug, 'slug');
+        $post = App::post();
+
+        if (!$post) {
+            App::warning('No post data');
+            return $this->redirect(App::referrer());
+        }
+
+        $model->navigation = $post['User']['navigation'] ?? [];
+        $model->module_access = $post['User']['module_access'] ?? [];
+        if ($model->save()) {
+            App::success('Role updated');
+        }
+        else {
+            App::error($model->errorSummary);
+        }
+
+        return $this->redirect(App::referrer());
+    }
+
+    public function actionResetRoleAccess($slug)
+    {
+        $model = User::controllerFind($slug, 'slug');
+
+        $model->navigation = [];
+        $model->module_access = [];
+        if ($model->save()) {
+            App::success('Role was reset');
+        }
+        else {
+            App::error($model->errorSummary);
+        }
+
+        return $this->redirect(App::referrer());
+    }
 }

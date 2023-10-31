@@ -91,13 +91,14 @@ class CashFlow extends ActiveRecord
     {
         return $this->setAttributeLabels([
             'id' => 'ID',
-            'name' => 'Title',
+            'name' => 'Invoice No',
             'description' => 'Description',
             'file_tokens' => 'Files',
             'user_id' => 'Client',
             'username' => 'Client',
             'typeBadge' => 'Type',
             'statusBadge' => 'Status',
+            'date' => 'Invoice Date',
         ]);
     }
 
@@ -125,8 +126,8 @@ class CashFlow extends ActiveRecord
                     ]);
                 }
             ],
-            'title' => [
-                'label' => 'title',
+            'invoice_no' => [
+                // 'label' => 'title',
                 'attribute' => 'name', 
                 'format' => 'raw',
                 'value' => function($model) {
@@ -140,10 +141,10 @@ class CashFlow extends ActiveRecord
            'biller' => [
                 'attribute' => 'biller', 
                 'format' => 'raw',
-                'visible' => App::isControllerAction('cash-flow/expense')
+                // 'visible' => App::isControllerAction('cash-flow/expense')
             ],
             'amount' => ['attribute' => 'amount', 'format' => 'number'],
-            'date' => ['attribute' => 'date', 'format' => 'raw'],
+            'invoice_date' => ['attribute' => 'date', 'format' => 'raw'],
         ];
     }
 
@@ -160,7 +161,6 @@ class CashFlow extends ActiveRecord
                 'label' => $this->getAttributeLabel('biller'),
                 'value' => 'biller',
                 'format' => 'raw',
-                'visible' => $this->type === self::TYPE_PAYABLE,
             ],
             'date:raw',
             'amount:number',
