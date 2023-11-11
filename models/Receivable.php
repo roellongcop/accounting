@@ -6,7 +6,6 @@ use app\widgets\Anchor;
 use app\widgets\Label;
 use app\widgets\PaymentButton;
 use app\helpers\App;
-use app\helpers\Date;
 use app\helpers\Html;
 use yii\db\Expression;
 
@@ -109,75 +108,6 @@ class Receivable extends ActiveRecord
     return new \app\models\query\ReceivableQuery(get_called_class());
   }
 
-  public function getDueDateLabel()
-  {
-    $today = Date::currentDateAndTime('Y-m-d');
-    $due_date = date('Y-m-d', strtotime($this->due_date));
-
-    $dueDateTime = new \DateTime($due_date);
-    $todayTime = new \DateTime($today);
-
-    $interval = $todayTime->diff($dueDateTime);
-    
-    if ($today == $due_date) {
-      return Html::tag('div', 'Due Today', ['class' => 'nowrap']);
-    } elseif ($todayTime < $dueDateTime) {
-      return $this->formatInterval($interval, 'before');
-    } else {
-      return $this->formatInterval($interval, 'overdue');
-    }
-  }
-
-  private function formatInterval($interval, $type)
-  {
-    $years = $interval->y;
-    $months = $interval->m;
-    $days = $interval->d;
-
-    $label = '';
-    if ($years > 0) {
-      if ($label == 1) {
-        $label .= "$years year ";
-      }
-      else {
-        $label .= "$years years ";
-      }
-    }
-    if ($months > 0) {
-      if ($months == 1) {
-        $label .= "$months month ";
-      } 
-      else {
-        $label .= "$months months ";
-      }
-    }
-    if ($days > 0 && $months == 0 && $years == 0) { // Display days only if there are no years
-      if ($days == 1) {
-        $label .= "$days day ";
-      } 
-      else {
-        $label .= "$days days ";
-      }
-    }
-
-    $label = trim($label);
-    $label .= " $type";
-
-    return Html::tag('div', $label, ['class' => 'nowrap']);
-  }
-
-
-  public function getDueAndLabel()
-  {
-    return <<< HTML
-      <div>
-        {$this->due_date}
-      <div>
-      <small>
-        {$this->dueDateLabel}
-      </small>
-    HTML;
-  }
   public function gridColumns()
   {
     return [
@@ -204,7 +134,7 @@ class Receivable extends ActiveRecord
           ]);
         }
       ],
-      'due_date' => ['attribute' => 'due_date', 'format' => 'raw', 'value' => 'dueAndLabel'],
+      'due_date' => ['attribute' => 'due_date', 'format' => 'dueAndLabel',],
       'customer' => ['attribute' => 'description', 'format' => 'raw', 'label' => 'Customer'],
       'amount' => ['attribute' => 'amount', 'format' => 'number'],
       'amount_paid' => ['attribute' => 'amount_paid', 'format' => 'number'],
@@ -226,7 +156,8 @@ class Receivable extends ActiveRecord
         'attribute' => 'id',
         'label' => 'Payment',
         'format' => 'raw',
-        'value' => 'paymentButton'
+        'value' => 'paymentButton',
+        'visible' => !App::identity('isClient')
       ]
     ];
 
@@ -235,7 +166,7 @@ class Receivable extends ActiveRecord
         'attribute' => 'record_status',
         'label' => 'active',
         'format' => 'raw',
-        'value' => 'recordStatusHtml'
+        'value' => 'recordStatusHtml',
       ];
     }
 
@@ -252,16 +183,11 @@ class Receivable extends ActiveRecord
         'visible' => !App::identity('isClient'),
       ],
       'title:raw',
-      'due_date:raw',
+      'due_date:dueAndLabel',
       'description:raw',
       'amount:number',
       'amount_paid:number',
       'balance:number',
-      [
-        'label' => 'Due Label',
-        'format' => 'raw', 
-        'value' => $this->dueDateLabel
-      ],
       'statusBadge:raw',
     ];
   }

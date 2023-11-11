@@ -133,7 +133,7 @@ class Payable extends ActiveRecord
           ]);
         }
       ],
-      'due_date' => ['attribute' => 'due_date', 'format' => 'raw'],
+      'due_date' => ['attribute' => 'due_date', 'format' => 'dueAndLabel'],
       'biller' => ['attribute' => 'description', 'format' => 'raw', 'label' => 'Biller'],
       'amount' => ['attribute' => 'amount', 'format' => 'number'],
       'amount_paid' => ['attribute' => 'amount_paid', 'format' => 'number'],
@@ -155,7 +155,8 @@ class Payable extends ActiveRecord
         'attribute' => 'id',
         'label' => 'Payment',
         'format' => 'raw',
-        'value' => 'paymentButton'
+        'value' => 'paymentButton',
+        'visible' => !App::identity('isClient')
       ]
     ];
 
@@ -181,7 +182,7 @@ class Payable extends ActiveRecord
         'visible' => !App::identity('isClient'),
       ],
       'title:raw',
-      'due_date:raw',
+      'due_date:dueAndLabel',
       'description:raw',
       'amount:number',
       'amount_paid:number',
