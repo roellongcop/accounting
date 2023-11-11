@@ -46,6 +46,11 @@ use app\widgets\ActiveForm;
 			]) ?>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-md-8">
+			<?= $form->field($model, 'manager_io_link')->textInput(['maxlength' => true]) ?>
+		</div>
+	</div>
 	<div class="form-group"> <br>
 		<?= $form->buttons() ?>
 	</div>

@@ -18,6 +18,7 @@ class SystemSettingForm extends SettingForm
     public $theme;
     public $whitelist_ip_only;
     public $enable_visitor;
+    public $manager_io_link;
 
     /**
      * @return array the validation rules.
@@ -25,8 +26,8 @@ class SystemSettingForm extends SettingForm
     public function rules()
     {
         return [
-            [['timezone', 'pagination', 'theme', 'auto_logout_timer',], 'required'],
-            [['timezone',], 'string'],
+            [['timezone', 'pagination', 'theme', 'auto_logout_timer', 'manager_io_link'], 'required'],
+            [['timezone', 'manager_io_link'], 'string'],
             [['whitelist_ip_only', 'enable_visitor'], 'safe'],
             [['pagination', 'auto_logout_timer', 'theme', 'whitelist_ip_only', 'enable_visitor'], 'integer'],
 
@@ -64,6 +65,10 @@ class SystemSettingForm extends SettingForm
             'enable_visitor' => [
                 'name' => 'enable_visitor',
                 'default' => self::OFF,
+            ],
+            'manager_io_link' => [
+                'name' => 'manager_io_link',
+                'default' => 'https://accountitrightaccountingfirm.manager.io/',
             ],
         ];
     }

@@ -1,5 +1,6 @@
 <?php
 
+use app\helpers\App;
 use app\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -19,7 +20,7 @@ $this->registerCss(<<< CSS
 CSS);
 ?>
 <div class="accounting-report-index-page"> <div>
-        <?= Html::a('Login to Manager.io', 'https://manager.io', [
+        <?= Html::a('Login to Manager.io', App::setting('system')->manager_io_link, [
             'class' => 'btn btn-lg btn-outline-primary font-weight-bolder',
             'target' => '_blank'
         ]) ?>

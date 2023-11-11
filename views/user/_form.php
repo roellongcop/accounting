@@ -26,17 +26,16 @@ use app\widgets\ModelAttribute;
                 'attribute' => 'email',
             ]) ?>
 
-            <?= App::identity('isClient') || App::identity('isAdmin') ?'': $form->bootstrapSelect($model, 'role_id', RoleSearch::dropdown('id', 'name', [
+            <?= App::identity('isClient') ?'': $form->bootstrapSelect($model, 'role_id', RoleSearch::dropdown('id', 'name', [
                 'id' => App::identity('roleAccess')
             ])) ?>
 
             <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
-            <?= App::identity('isClient') || App::identity('isAdmin') ?'': $form->bootstrapSelect($model, 'accountant_id', User::dropdown('id', 'email', [
+            <?= App::identity('isClient') ?'': $form->bootstrapSelect($model, 'accountant_id', User::dropdown('id', 'email', [
                 'role_id' => Role::ADMIN
             ])) ?>
              
-            
             <?= Html::if($model->isNewRecord, implode(' ', [
                 $form->field($model, 'password')->passwordInput(['maxlength' => true]),
                 $form->field($model, 'password_repeat')->passwordInput(['maxlength' => true])
