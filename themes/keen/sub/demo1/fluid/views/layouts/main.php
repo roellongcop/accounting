@@ -152,6 +152,7 @@ KeenAsset::register($this);
 			"font-family": "Poppins" 
 		};
 	</script>
+	<?= \app\widgets\TawtTo::widget() ?>
 <?php $this->endBody() ?>
 </body>
 </html>
