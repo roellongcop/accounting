@@ -87,7 +87,7 @@ class Receivable extends ActiveRecord
   {
     return $this->setAttributeLabels([
       'id' => 'ID',
-      'title' => 'Title',
+      'title' => 'Invoice No.',
       'due_date' => 'Due Date',
       'description' => 'Customer',
       'file_tokens' => 'Files',
@@ -123,7 +123,7 @@ class Receivable extends ActiveRecord
           ]);
         }
       ],
-      'title' => [
+      'invoice_no' => [
         'attribute' => 'title', 
         'format' => 'raw',
         'value' => function($model) {

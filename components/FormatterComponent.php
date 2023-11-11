@@ -171,7 +171,7 @@ class FormatterComponent extends \yii\i18n\Formatter
     if ($today == $due_date) {
       return Html::tag('div', 'Due Today', ['class' => 'nowrap']);
     } elseif ($todayTime < $dueDateTime) {
-      return $this->formatInterval($interval, 'before');
+      return $this->formatInterval($interval, 'before due date');
     } else {
       return $this->formatInterval($interval, 'overdue');
     }

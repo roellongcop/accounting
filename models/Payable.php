@@ -86,7 +86,7 @@ class Payable extends ActiveRecord
   {
     return $this->setAttributeLabels([
       'id' => 'ID',
-      'title' => 'Title',
+      'title' => 'Invoice No.',
       'due_date' => 'Due Date',
       'description' => 'Biller',
       'file_tokens' => 'Files',
@@ -122,7 +122,7 @@ class Payable extends ActiveRecord
           ]);
         }
       ],
-      'title' => [
+      'invoice_no' => [
         'attribute' => 'title', 
         'format' => 'raw',
         'value' => function($model) {
