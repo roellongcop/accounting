@@ -118,17 +118,54 @@ class Receivable extends ActiveRecord
     $todayTime = new \DateTime($today);
 
     $interval = $todayTime->diff($dueDateTime);
-    $days = $interval->days;
-
+    
     if ($today == $due_date) {
-        return Html::tag('div', 'Due Today', ['class' => '']);
+      return Html::tag('div', 'Due Today', ['class' => 'nowrap']);
     } elseif ($todayTime < $dueDateTime) {
-        return Html::tag('div', "{$days} days before due date", ['class' => '']);
+      return $this->formatInterval($interval, 'before');
     } else {
-        return Html::tag('div', "{$days} days overdue", ['class' => '']);
-      return $days . ' days overdue';
+      return $this->formatInterval($interval, 'overdue');
     }
   }
+
+  private function formatInterval($interval, $type)
+  {
+    $years = $interval->y;
+    $months = $interval->m;
+    $days = $interval->d;
+
+    $label = '';
+    if ($years > 0) {
+      if ($label == 1) {
+        $label .= "$years year ";
+      }
+      else {
+        $label .= "$years years ";
+      }
+    }
+    if ($months > 0) {
+      if ($months == 1) {
+        $label .= "$months month ";
+      } 
+      else {
+        $label .= "$months months ";
+      }
+    }
+    if ($days > 0 && $months == 0 && $years == 0) { // Display days only if there are no years
+      if ($days == 1) {
+        $label .= "$days day ";
+      } 
+      else {
+        $label .= "$days days ";
+      }
+    }
+
+    $label = trim($label);
+    $label .= " $type";
+
+    return Html::tag('div', $label, ['class' => 'nowrap']);
+  }
+
 
   public function getDueAndLabel()
   {
