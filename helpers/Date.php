@@ -4,10 +4,11 @@ namespace app\helpers;
 
 class Date
 {
-	public static function currentDateAndTime($format='Y-m-d H:i:s', $timezone='UTC')
+	public static function currentDateAndTime($format='Y-m-d H:i:s', $timezone='')
 	{
-		$utc = new \DateTimeZone($timezone);
-    $dateTime = new \DateTime('now', $utc);
+    $timezone = $timezone ?: App::setting('system')->timezone;
+		$dateTimezone = new \DateTimeZone($timezone);
+    $dateTime = new \DateTime('now', $dateTimezone);
     return $dateTime->format($format);
 	}
 }
