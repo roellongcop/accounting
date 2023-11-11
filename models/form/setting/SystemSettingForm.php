@@ -19,6 +19,7 @@ class SystemSettingForm extends SettingForm
     public $whitelist_ip_only;
     public $enable_visitor;
     public $manager_io_link;
+    public $tawk_to_link;
 
     /**
      * @return array the validation rules.
@@ -28,7 +29,7 @@ class SystemSettingForm extends SettingForm
         return [
             [['timezone', 'pagination', 'theme', 'auto_logout_timer', 'manager_io_link'], 'required'],
             [['timezone', 'manager_io_link'], 'string'],
-            [['whitelist_ip_only', 'enable_visitor'], 'safe'],
+            [['whitelist_ip_only', 'enable_visitor', 'tawk_to_link'], 'safe'],
             [['pagination', 'auto_logout_timer', 'theme', 'whitelist_ip_only', 'enable_visitor'], 'integer'],
 
             ['pagination', 'in', 'range' => array_keys(App::params('pagination'))],
@@ -70,6 +71,10 @@ class SystemSettingForm extends SettingForm
                 'name' => 'manager_io_link',
                 'default' => 'https://accountitrightaccountingfirm.manager.io/',
             ],
+            'tawk_to_link' => [
+                'name' => 'tawk_to_link',
+                'default' => 'https://embed.tawk.to/654f1d49cec6a912820ed232/1heugkqlg',
+            ]
         ];
     }
 }

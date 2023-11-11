@@ -50,6 +50,10 @@ use app\widgets\ActiveForm;
 		<div class="col-md-8">
 			<?= $form->field($model, 'manager_io_link')->textInput(['maxlength' => true]) ?>
 		</div>
+		<div class="col-md-4">
+			<?= $form->field($model, 'tawk_to_link')->textInput(['maxlength' => true]) ?>
+		</div>
+
 	</div>
 	<div class="form-group"> <br>
 		<?= $form->buttons() ?>

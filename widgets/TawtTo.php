@@ -7,6 +7,7 @@ use app\helpers\App;
 class TawtTo extends BaseWidget
 {
     public $user;
+    public $tawk_to_link;
 
     public function init()
     {
@@ -14,6 +15,7 @@ class TawtTo extends BaseWidget
         parent::init();
 
         $this->user = $this->user ?: App::identity();
+        $this->tawk_to_link = $this->tawk_to_link ?: App::setting('system')->tawk_to_link;
     }
 
     /**
@@ -22,9 +24,11 @@ class TawtTo extends BaseWidget
     public function run()
     {
         if (! App::identity('isClient')) return;
+        if (! $this->tawk_to_link) return;
 
         return $this->render('tawt-to', [
-            'user' => $this->user
+            'user' => $this->user,
+            'tawk_to_link' => $this->tawk_to_link,
         ]);
     }
 }
