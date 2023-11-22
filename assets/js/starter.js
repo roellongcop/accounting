@@ -78,5 +78,12 @@ $(document).ready(function() {
             tr.css('border', '');
             tr.css('background', '');
         }
-    })
+    });
+
+    $(document).on('dblclick', '.image-file-viewer', function() {
+        const viewerUrl = $(this).data('viewer-url');
+        const name = $(this).data('name');
+        popupCenter(viewerUrl, name);
+    });
 })
+

@@ -5,7 +5,7 @@ use app\helpers\Url;
 use yii\helpers\StringHelper;
 
 $params = [
-    'class' => "img-thumbnail pointer",
+    'class' => "img-thumbnail pointer image-file-viewer",
     'loading' => 'lazy',
     'data-id' => $model->id,
     'data-name' => $model->name,
@@ -19,7 +19,8 @@ $params = [
     'data-created_at' => App::formatter('asFulldate', $model->created_at),
     'title' => $model->name,
     'data-can-delete' => $model->canDelete && App::identity()->can('delete', 'file') ? 'true': 'false',
-    'data-download-url' => Url::toRoute(['file/download', 'token' => $model->token], true),
+    'data-download-url' => $model->getDownloadUrl(true),
+    'data-viewer-url' => $model->viewerUrl,
 ];
 ?>
 

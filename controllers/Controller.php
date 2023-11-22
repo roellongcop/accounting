@@ -185,12 +185,17 @@ abstract class Controller extends \yii\web\Controller
         $model = $model ?: $this->modelObject();
 
         $post = App::post();
+        $indexUrl = $model->indexUrl;
 
         if (isset($post['process-selected'])) {
             $process = Inflector::humanize($post['process-selected']);
             if (isset($post['selection'])) {
 
                 $models = $model::all($post['selection']);
+                
+                if (isset($models[0])) {
+                    $indexUrl = $models[0]->indexUrl;
+                }
 
                 if (isset($post['confirm_button'])) {
                     foreach ($model->bulkActions as $postAction => $action) {
@@ -214,7 +219,7 @@ abstract class Controller extends \yii\web\Controller
             App::warning('No Process Selected');
         }
 
-        return $this->redirect($model->indexUrl);
+        return $this->redirect($indexUrl);
     }
 
     public function _ajaxCreated($model)

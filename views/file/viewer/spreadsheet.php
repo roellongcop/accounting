@@ -68,7 +68,9 @@ $this->registerJs(<<< JS
 	    			}
     			}
     			else {
-    				spreadsheetData[i] = initTable('spreadsheet-container', d[0]['row']);
+    				if (d[0]) {
+    					spreadsheetData[i] = initTable('spreadsheet-container', d[0]['row']);
+    				}
     			}
     		}
     	}
