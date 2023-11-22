@@ -53,13 +53,14 @@ let popupCenter = (url, title='Print Report', w=1000, h=700) => {
     const systemZoom = width / window.screen.availWidth;
     const left = (width - w) / 2 / systemZoom + dualScreenLeft
     const top = (height - h) / 2 / systemZoom + dualScreenTop
+
     const newWindow = window.open(url, title, 
       `
       scrollbars=yes,
-      width=(w/systemZoom), 
-      height=(h/systemZoom), 
-      top=top, 
-      left=left
+      width=${width}, 
+      height=${height}, 
+      top=${top}, 
+      left=${left}
       `
     )
     // if (window.focus) newWindow.print();
@@ -83,7 +84,7 @@ $(document).ready(function() {
     $(document).on('dblclick', '.image-file-viewer', function() {
         const viewerUrl = $(this).data('viewer-url');
         const name = $(this).data('name');
-        popupCenter(viewerUrl, name);
+        popupCenter(viewerUrl, name, window.screen.availWidth);
     });
 })
 

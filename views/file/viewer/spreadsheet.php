@@ -39,6 +39,12 @@ $this->registerJs(<<< JS
     	// async: false,
     	success: function(s) {
     		KTApp.unblock('body');
+    		if (s.status == 'failed') {
+    			Swal.fire('No Viewer', 'The file cannot be viewed, Download instead!', 'warning').then(() => {
+    				window.location.href = s.download_url;
+    			});
+    			return;
+    		}
     		if(s.data) {
     			spreadsheetData = s.data;
     			d = s.data;
@@ -79,14 +85,14 @@ $this->registerJs(<<< JS
 	$(document).on('click', '.nav-item', function() {
 		KTApp.block('body', {
 	        overlayColor: '#000000',
-	        message: 'Please wait...',
+	        message: 'Please waits...',
 	        state: 'primary'
 	    });
 		setTimeout(function() {
 			for (var i = 0; i <= spreadsheetData.length - 1; i++) {
 				spreadsheetData[i].render();
 			}
-    		KTApp.unblock('body');
+  		KTApp.unblock('body');
 		}, 5)
 	});
 JS);

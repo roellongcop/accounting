@@ -316,58 +316,76 @@ class FileController extends Controller
     {
         $model = File::controllerFind($token, 'token');
 
-        $this->layout = 'file-viewer';
+        
+            $this->layout = 'file-viewer';
 
-        switch ($model->extension) {
-            case 'pdf':
-                return $this->render('viewer/pdf', ['model' => $model]);
-                break;
+            switch ($model->extension) {
+                case 'pdf':
+                    return $this->render('viewer/pdf', ['model' => $model]);
+                    break;
 
-            case 'gif':
-                return $this->render('viewer', [
-                    'model' => $model, 
-                    'location' => App::baseUrl($model->location)
-                ]);
-                break;
+                case 'gif':
+                    return $this->render('viewer', [
+                        'model' => $model, 
+                        'location' => App::baseUrl($model->location)
+                    ]);
+                    break;
 
-            case 'xls':
-            case 'xlsx':
-                if (App::isAjax()) {
-                    return $this->asJson(['data' => (new SpreadsheetReaderForm(['file' => $model]))->data]);
-                }
-                else {
-                    return $this->render('viewer/spreadsheet', ['model' => $model]);
-                }
-                break;
+                case 'xls':
+                case 'xlsx':
+                    try {
+                        if (App::isAjax()) {
+                            return $this->asJson([
+                                'data' => (new SpreadsheetReaderForm(['file' => $model]))->data,
+                                'status' => 'success'
+                            ]);
+                        }
+                        else {
+                            return $this->render('viewer/spreadsheet', ['model' => $model]);
+                        }
+                    } 
+                    catch (\Box\Spout\Common\Exception\UnsupportedTypeException $e) {
+                        if (App::isAjax()) {
+                            return $this->asJson([
+                                'status' => 'failed',
+                                'download_url' => $model->downloadUrl
+                            ]);
+                        }
+                        else {
+                            return 'No viewer available for this file';
+                        }
+                    }
+                    break;
 
-            case 'jpeg':
-            case 'jpg':
-            case 'bmp':
-            case 'tiff':
-            case 'png':
-            case 'ico':
-            case 'webp':
-            case 'giff':
-            case 'jfif':
-                // return $this->redirect($model->drawUrl);
-                return $this->render('viewer', ['model' => $model]);
-                break;
+                case 'jpeg':
+                case 'jpg':
+                case 'bmp':
+                case 'tiff':
+                case 'png':
+                case 'ico':
+                case 'webp':
+                case 'giff':
+                case 'jfif':
+                    // return $this->redirect($model->drawUrl);
+                    return $this->render('viewer', ['model' => $model]);
+                    break;
 
-            case 'doc':
-            case 'docx':
-                return $this->render('viewer/docx', ['model' => $model]);
-                break;
+                case 'doc':
+                case 'docx':
+                    return $this->render('viewer/docx', ['model' => $model]);
+                    break;
 
-            case 'sql':
-            case 'txt':
-            case 'csv':
-                return $this->render('viewer/sql', ['model' => $model]);
+                case 'sql':
+                case 'txt':
+                case 'csv':
+                    return $this->render('viewer/sql', ['model' => $model]);
 
-            default:
-                return 'No Preview Available';
-                return $this->redirect($model->getDisplayPath(500, 500));
-                break;
-        }
+                default:
+                    return 'No Preview Available';
+                    return $this->redirect($model->getDisplayPath(500, 500));
+                    break;
+            }
+        
     }
 
     public function actionBrowse()
