@@ -20,7 +20,10 @@ $this->registerCss(<<< CSS
 CSS);
 ?>
 <div class="accounting-report-index-page"> <div>
-        <?= Html::a('Login to Manager.io', App::setting('system')->manager_io_link, [
+        <?= Html::a(Html::image(App::setting('image')->primary_logo, ['w' => 200]) . '
+        <p class="lead text-center font-weight-bold my-2">
+            Login to Manager.io
+        </p>', App::setting('system')->manager_io_link, [
             'class' => 'btn btn-lg btn-outline-primary font-weight-bolder',
             'target' => '_blank'
         ]) ?>
