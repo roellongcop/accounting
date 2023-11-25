@@ -13,6 +13,73 @@ $this->params['breadcrumbs'][] = $this->title;
 $publishedUrl = App::publishedUrl();
 
 $this->registerCss(<<< CSS
+    .login.login-1 .login-aside,
+    .login.login-1 .login-content  {
+        width: 50% !important;
+        max-width: none !important;
+    }
+    .login-aside {
+        background-image: url('C:/Users/Jorvi/Desktop/FREELANCE/ACCOUNT%20IT%20RIGHT/images/BG/login-gradient-bg2.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        position: relative;
+        overflow: hidden;
+        border-top-right-radius: 30px;
+        border-bottom-right-radius: 30px;
+    }
+    .arrow-img-top {
+        background-repeat: no-repeat;
+        position: absolute;
+        top: -250px;
+        left: -78px;
+        animation: diagonal-move-anim 2s linear;
+        animation-fill-mode: forwards;  
+    }
+    .arrow-img-bottom {
+        background-repeat: no-repeat;
+        position: absolute;
+        bottom: -250px;
+        right: -98px;
+        animation: diagonal-move-anim2 2s linear;
+        animation-fill-mode: forwards;      
+    }
+    @keyframes diagonal-move-anim {
+        0% {
+            top: -250px;
+            left: -78px;
+        }
+        100% {
+            top: -230px;
+            left: -108px;
+        }
+    }
+
+    @keyframes diagonal-move-anim2 {
+        0% {
+            bottom: -250px;
+            right: -98px;
+        }
+        100% {
+            bottom: -230px;
+            right: -128px;
+        }
+    }
+    .color-default {
+        color: #3a3a3a;
+        text-align: center;
+    }
+    .color-subdefault {
+        color: #767676;
+        text-align: center;
+    }
+    .btn-login {
+        background-color: #50CD89; 
+        width: 100%;
+        color: #ffffff;
+    }
+    .btn-cancel {
+        width: 100%;
+    }
     .login-aside {
         background-color: #7EBFDB;
     }
@@ -24,18 +91,26 @@ CSS);
 ?>
 <div class="d-flex flex-column flex-root">
     <div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login">
-        <div class="login-aside d-flex flex-column flex-row-auto">
-            <div class="d-flex flex-column-auto flex-column pt-lg-40 pt-15">
-                <a href="#" class="text-center mb-15">
+        <div class="login-aside d-flex flex-column flex-row-auto justify-content-center">
+            <div class="d-flex tagline align-items-center">
+                <a href="#" class="text-center">
                     <?= Html::image(App::setting('image')->primary_logo, ['w' => 70], [
                         'alt' => 'Logo',
-                        'class' => 'h-70px'
+                        'class' => 'h-250px mw-250 air-logo'
                     ]) ?>
                 </a>
-                <h3 class="font-weight-bolder text-center font-size-h4 font-size-h1-lg text-white">Account It Right
-                <br />Information Portal</h3>
+
+                <?= Html::image(App::setting('image')->primary_logo, ['w' => 70], [
+                    'alt' => 'tagline',
+                    'class' => 'tagline-img'
+                ]) ?>
             </div>
-            <div class="aside-img d-flex flex-row-fluid bgi-no-repeat bgi-position-y-bottom bgi-position-x-center"></div>
+            <div class="arrow-img-top">
+                <?= Html::image(App::setting('image')->primary_logo) ?>
+            </div>
+            <div class="arrow-img-bottom">
+                <?= Html::image(App::setting('image')->primary_logo) ?>
+            </div>
         </div>
         <div class="login-content flex-row-fluid d-flex flex-column justify-content-center position-relative overflow-hidden p-7 mx-auto">
             <div class="d-flex flex-column-fluid flex-center">
@@ -52,10 +127,10 @@ CSS);
                         ]
                     ]); ?>
                         <div class="pb-13 pt-lg-0 pt-5">
-                            <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">Welcome</h3>
-                            <span class="text-muted font-weight-bold font-size-h4">
-                                Sign In your account
-                            </span>
+                            <h3 class="font-weight-bolder color-default  font-size-h4 font-size-h1-lg">Sign In</h3>
+                            <div class="text-muted font-weight-bold color-subdefault font-size-h4">
+                                Welcome to My AIR
+                            </div>
                         </div>
                         <?= $form->field($model, 'username', [
                             'template' => '
@@ -70,17 +145,17 @@ CSS);
                         ]) ?>
                         <?= $form->field($model, 'password', [
                             'template' => '
-                                <div class="d-flex justify-content-between mt-n5">
-                                    <label class="font-size-h6 font-weight-bolder text-dark pt-5">Password</label>
-                                    <a href="#" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5" id="kt_login_forgot">Forgot Password ?</a>
-                                </div>
+                                <label class="font-size-h6 font-weight-bolder text-dark pt-5">Password</label>
                                 {input}{error}
                             '
                         ])->passwordInput([
                             'class' => 'form-control form-control-solid h-auto p-6 rounded-lg'
                         ]) ?>
                         <div class="pb-lg-0 pb-5">
-                            <button type="submit" id="kt_login_signin_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Sign In</button>
+                            <button type="submit" id="kt_login_signin_submit" class="btn btn-login font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Sign In</button>
+                            <div class="forgot text-center">
+                                <a href="#" class="text-primary font-size-h6 text-hover-primary pt-5" id="kt_login_forgot">Forgot Password ?</a>
+                            </div>
                         </div>
                     <?php ActiveForm::end(); ?>
                 </div>
@@ -111,8 +186,8 @@ CSS);
                             <a href="#" class="ml-1">terms and conditions</a></div>
                         </div>
                         <div class="form-group d-flex flex-wrap pb-lg-0 pb-3">
-                        <button type="button" id="kt_login_signup_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4">Submit</button>
-                            <button type="button" id="kt_login_signup_cancel" class="btn btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3">Cancel</button>
+                        <button type="button" id="kt_login_signup_submit" class="btn btn-login btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4">Submit</button>
+                            <button type="button" id="kt_login_signup_cancel" class="btn  btn-cancel  btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3">Cancel</button>
                         </div>
                     </form>
                 </div>
@@ -150,8 +225,8 @@ CSS);
                             </div>
                         </div>
                         <div class="form-group d-flex flex-wrap pb-lg-0">
-                        <button type="submit" id="" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4">Submit</button>
-                            <button type="button" id="kt_login_forgot_cancel" class="btn btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3">Cancel</button>
+                        <button type="submit" id="" class="btn btn-login font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4">Submit</button>
+                            <button type="button" id="kt_login_forgot_cancel" class="btn btn-cancel btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3">Cancel</button>
                         </div>
                     <?php ActiveForm::end(); ?>
                 </div>
