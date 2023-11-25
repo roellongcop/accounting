@@ -26,7 +26,8 @@ $this->registerCss(<<< CSS
 
     .file-explorer-widget .img-folder,
     .file-explorer-widget .img-create-folder {
-        max-width: 100px !important;
+        width: 100px !important;
+        height: 100px !important;
     }
     .file-explorer-widget .folder-label {
         overflow-wrap: anywhere;

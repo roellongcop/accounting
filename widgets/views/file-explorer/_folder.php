@@ -3,6 +3,7 @@
 use app\helpers\Html;
 use app\helpers\App;
 use app\models\User;
+use app\widgets\FileExplorer;
 
 $show = true;
 if ($folderName == $folder['path']) {
@@ -10,6 +11,7 @@ if ($folderName == $folder['path']) {
 		$show = false;
 	}
 }
+$folderImage = FileExplorer::FOLDER_MAP[$folderName] ?? $folderImage;
 ?>
 
 <?php if ($show): ?>

@@ -27,6 +27,12 @@ class FileExplorer extends BaseWidget
     ];
     public $tag = 'tag';
     public $webRoot = '@webroot/clients';
+    const FOLDER_MAP = [
+        'HDMF Reports' => 'default/file-explorer/pagibig.png',
+        'PHIC Reports' => 'default/file-explorer/philhealth.jpg',
+        'SSS Reports' => 'default/file-explorer/sss.png',
+        'Tax Reports' => 'default/file-explorer/bir.png',
+    ];
 
     public function init()
     {
