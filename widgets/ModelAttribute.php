@@ -22,7 +22,7 @@ class ModelAttribute extends BaseWidget
             $this->content = $this->model->{$this->attribute};
         }
 
-        $this->content = $this->content !== null ? $this->content: $this->default;
+        $this->content = $this->content ?: $this->default;
     }
 
     /**
