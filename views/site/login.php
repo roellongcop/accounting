@@ -128,7 +128,7 @@ $this->registerCss(<<< CSS
             width: 80% !important;
         }
     }
-    @media only screen and (max-width: 767px) {
+    @media only screen and (max-width: 425px) {
         .img-container {
             flex-wrap: wrap;
             justify-content: center;

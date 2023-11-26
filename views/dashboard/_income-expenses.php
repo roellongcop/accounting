@@ -51,7 +51,7 @@ JS);
             <div class="col-md-9">
                 <div id="cashflow-chart"></div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 total-container">
                 <p class="text-muted mb-0 font-weight-bolder">Income</p>
                 <div class="font-weight-bolder display-4" id="total-income"></div>
                 <hr>

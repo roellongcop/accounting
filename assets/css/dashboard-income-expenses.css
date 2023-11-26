@@ -24,3 +24,22 @@
 .apexcharts-canvas {
     background: #fff;
 }
+@media only screen and (max-width: 426px) {
+    .cashflow-card #filter-form {
+        flex-wrap: wrap;
+    }
+    .date-range-search {
+        margin: 0 auto;
+    }
+    button[data-id="cashflow-user_id"] {
+        margin-left: 4px;
+        width: 212px !important;
+    }
+    .field-cashflow-user_id {
+        margin-top: 5px;
+    }
+    .cashflow-card .total-container {
+        text-align: center;
+        padding: 20px;
+    }
+}
