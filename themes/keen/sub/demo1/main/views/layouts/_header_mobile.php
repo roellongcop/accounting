@@ -3,11 +3,24 @@
 use app\helpers\App;
 use app\helpers\Html;
 use app\widgets\AnchorBack;
+
+$this->registerJs(<<< JS
+    $('#kt_quick_user_toggle_container_mobile').click(function(e) {
+        e.preventDefault();
+        $('#kt_quick_user').addClass('offcanvas-on');
+        $('#kt_quick_user').after('<div class="offcanvas-overlay"></div>')
+    });
+
+    $(document).on('click', '.offcanvas-overlay, #kt_quick_user_close', function() {
+        $('#kt_quick_user').removeClass('offcanvas-on');
+        $("#kt_quick_user").next(".offcanvas-overlay").remove();
+    });
+JS)
 ?>
 
 <div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
     <!--begin::Logo-->
-    <a href="/">
+    <a href="#" id="kt_quick_user_toggle_container_mobile">
         <?= Html::image(App::setting('image')->primary_logo, ['w' => 50, 'quality' => 90], [
             'alt' => 'Primary Logo',
         ]) ?>
