@@ -19,7 +19,7 @@ $this->registerCss(<<< CSS
         max-width: none !important;
     }
     .login-aside {
-        background-image: url('C:/Users/Jorvi/Desktop/FREELANCE/ACCOUNT%20IT%20RIGHT/images/BG/login-gradient-bg2.png');
+        background-image: url('/default/login-gradient-bg2.png');
         background-size: cover;
         background-repeat: no-repeat;
         position: relative;
@@ -87,29 +87,72 @@ $this->registerCss(<<< CSS
         background-image: url("{$publishedUrl}/media/svg/illustrations/payment.svg");
         min-height: auto !important;
     }
+
+    @media only screen and (max-width: 991px) {
+
+        .arrow-img-top,
+        .arrow-img-bottom {
+            display: none;
+        }
+
+        .login.login-1 .login-aside {
+            background-color: #7EBFDB;
+            width: 100% !important;
+            border-top-right-radius: 0px;
+            border-bottom-left-radius: 30px !important;
+            border-bottom-right-radius: 30px !important;
+        }
+
+        .login.login-1 .login-content {
+            width: 100% !important;      
+        }
+
+        .login-logo {
+            height: 200px !important;
+        }
+
+        .tagline-img {
+            margin-bottom: 50px;
+        }    
+    }
+
+    @media only screen and (max-width: 767px) {
+        .air-logo {
+            height: 200px !important;
+        }
+        .arrow-img-top,
+        .arrow-img-bottom {
+            display: none;
+        }
+        .tagline-img {
+            width: 80% !important;
+        }
+    }
+    @media only screen and (max-width: 767px) {
+        .img-container {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .air-logo {
+            height: 140px !important;
+        }
+    }
 CSS);
 ?>
 <div class="d-flex flex-column flex-root">
     <div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login">
         <div class="login-aside d-flex flex-column flex-row-auto justify-content-center">
-            <div class="d-flex tagline align-items-center">
+            <div class="d-flex tagline align-items-center img-container">
                 <a href="#" class="text-center">
-                    <?= Html::image(App::setting('image')->primary_logo, ['w' => 70], [
-                        'alt' => 'Logo',
-                        'class' => 'h-250px mw-250 air-logo'
-                    ]) ?>
+                    <img class="h-250px mw-250 air-logo" src="/default/account-it-right-circle-logo.png" alt="Logo">
                 </a>
-
-                <?= Html::image(App::setting('image')->primary_logo, ['w' => 70], [
-                    'alt' => 'tagline',
-                    'class' => 'tagline-img'
-                ]) ?>
+                <img class="tagline-img" src="/default/tagline.png" alt="tagline">
             </div>
             <div class="arrow-img-top">
-                <?= Html::image(App::setting('image')->primary_logo) ?>
+                <img src="/default/Group 289288.png">
             </div>
             <div class="arrow-img-bottom">
-                <?= Html::image(App::setting('image')->primary_logo) ?>
+                <img src="/default/Group 289287.png">
             </div>
         </div>
         <div class="login-content flex-row-fluid d-flex flex-column justify-content-center position-relative overflow-hidden p-7 mx-auto">
