@@ -267,3 +267,14 @@ div.required label.control-label:after {
 .table thead th, .table thead td, .nowrap {
     text-wrap: nowrap;
 }
+
+@media only screen and (max-width: 400px) {
+    #kt_header_mobile #dashboardsearch-keywords {
+        width: 170px !important;
+    }
+}
+@media only screen and (max-width: 400px) {
+    #kt_header_mobile #dashboardsearch-keywords {
+        display: none;
+    }
+}
