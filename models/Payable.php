@@ -62,8 +62,9 @@ class Payable extends ActiveRecord
   {
     return $this->setRules([
       ['pay_amount', 'required', 'on' => self::SCENARIO_RECEIVE_PAYMENT],
-      [['title', 'due_date', 'amount', 'description', 'user_id'], 'required'],
+      [['title', 'due_date', 'amount', 'description', 'user_id', 'invoice_date'], 'required'],
       [['description'], 'string'],
+      [['invoice_date'], 'string', 'max' => 16],
       [['status'], 'integer'],
       [['amount', 'amount_paid', 'pay_amount'], 'number'],
       [['title', 'due_date'], 'string', 'max' => 255],
@@ -133,6 +134,7 @@ class Payable extends ActiveRecord
           ]);
         }
       ],
+      'invoice_date' => ['attribute' => 'invoice_date', 'format' => 'raw',],
       'due_date' => ['attribute' => 'due_date', 'format' => 'dueAndLabel'],
       'biller' => ['attribute' => 'description', 'format' => 'raw', 'label' => 'Biller'],
       'amount' => ['attribute' => 'amount', 'format' => 'number'],
@@ -182,6 +184,7 @@ class Payable extends ActiveRecord
         'visible' => !App::identity('isClient'),
       ],
       'title:raw',
+      'invoice_date:raw',
       'due_date:dueAndLabel',
       'description:raw',
       'amount:number',
@@ -206,7 +209,7 @@ class Payable extends ActiveRecord
      
     $behaviors['DateBehavior'] = [
       'class' => 'app\behaviors\DateBehavior',
-      'attributes' => ['due_date'],
+      'attributes' => ['due_date', 'invoice_date'],
     ];
 
     return $behaviors;

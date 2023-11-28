@@ -16,20 +16,23 @@ use app\models\User;
                     <?= $form->bootstrapSelect($model, 'user_id', User::clientDropdown()) ?>
                 </div>
                 <div class="col-md-6">
-                    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
                 </div>
                 <div class="col-md-6">
-                    <?= $form->datePicker($model, 'due_date', ['endDate' => false]) ?>
+                    <?= $form->datePicker($model, 'invoice_date', ['endDate' => false]) ?>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <?= $form->field($model, 'amount')->textInput(['type' => 'number']) ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $form->datePicker($model, 'due_date', ['endDate' => false]) ?>
                 </div>
             </div>
             <div class="row">

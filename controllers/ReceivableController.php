@@ -135,7 +135,6 @@ class ReceivableController extends Controller
         return $this->redirect($model->indexUrl);
     }
 
-
     public function actionReceivePayment($id)
     {
         $model = Receivable::controllerFind($id);
