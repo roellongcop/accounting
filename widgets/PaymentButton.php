@@ -25,7 +25,7 @@ class PaymentButton extends BaseWidget
     {
         if (!App::identity()->can('receive-payment', $this->model->controllerID())) return;
 
-        if ($this->model->amount_paid >= $this->model->amount ) return;
+        if ($this->model->amount_paid >= $this->model->amount ) return "Payment Complete";
 
         return $this->render("payment-button", [
             'model' => $this->model,

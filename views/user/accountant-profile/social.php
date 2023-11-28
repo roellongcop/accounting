@@ -16,7 +16,7 @@ use app\helpers\Html;
         </div>
     </section>
     <div class="my-5"></div>
-    <section>
+    <!-- <section>
         <p class="lead font-weight-bolder mb-5">General Social Media</p>
         <div class="row">
             <div class="col-md-6">
@@ -31,7 +31,7 @@ use app\helpers\Html;
                 <?= $form->field($model, 'twitter')->textInput(['maxlength' => true]) ?>
             </div>
         </div>
-    </section>
+    </section> -->
     <div class="my-5"></div>
     <section>
         <p class="lead font-weight-bolder mb-5">Video Sharing Platforms</p>
