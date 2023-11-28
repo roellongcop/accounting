@@ -142,9 +142,9 @@ CSS);
 <div class="d-flex flex-column flex-root">
     <div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login">
         <div class="login-aside d-flex flex-column flex-row-auto justify-content-center">
-            <div class="d-flex tagline align-items-center img-container">
+            <div class="d-flex flex-column tagline align-items-center">
                 <a href="#" class="text-center">
-                    <img class="h-250px mw-250 air-logo" src="/default/account-it-right-circle-logo.png" alt="Logo">
+                    <img class=" mw-250 air-logo" src="/default/account-it-right-circle-logo.png" alt="Logo">
                 </a>
                 <img class="tagline-img" src="/default/tagline.png" alt="tagline">
             </div>
@@ -195,7 +195,7 @@ CSS);
                             'class' => 'form-control form-control-solid h-auto p-6 rounded-lg'
                         ]) ?>
                         <div class="pb-lg-0 pb-5">
-                            <button type="submit" id="kt_login_signin_submit" class="btn btn-login font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Sign In</button>
+                            <button type="submit" id="kt_login_signin_submit" class="btn btn-login font-weight-bolder font-size-h6 px-8 py-4 my-3">Sign In</button>
                             <div class="forgot text-center">
                                 <a href="#" class="text-primary font-size-h6 text-hover-primary pt-5" id="kt_login_forgot">Forgot Password ?</a>
                             </div>
@@ -229,7 +229,7 @@ CSS);
                             <a href="#" class="ml-1">terms and conditions</a></div>
                         </div>
                         <div class="form-group d-flex flex-wrap pb-lg-0 pb-3">
-                        <button type="button" id="kt_login_signup_submit" class="btn btn-login btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4">Submit</button>
+                        <button type="button" id="kt_login_signup_submit" class="btn btn-login btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3">Submit</button>
                             <button type="button" id="kt_login_signup_cancel" class="btn  btn-cancel  btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3">Cancel</button>
                         </div>
                     </form>
@@ -268,7 +268,7 @@ CSS);
                             </div>
                         </div>
                         <div class="form-group d-flex flex-wrap pb-lg-0">
-                        <button type="submit" id="" class="btn btn-login font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4">Submit</button>
+                        <button type="submit" id="" class="btn btn-login font-weight-bolder font-size-h6 px-8 py-4 my-3">Submit</button>
                             <button type="button" id="kt_login_forgot_cancel" class="btn btn-cancel btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3">Cancel</button>
                         </div>
                     <?php ActiveForm::end(); ?>
