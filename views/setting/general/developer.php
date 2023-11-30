@@ -6,13 +6,19 @@ use app\helpers\App;
 
 <?php if (App::identity('isDeveloper')): ?>
 	<?php $form = ActiveForm::begin(['id' => 'setting-general-developer-form']); ?>
-	    <h4 class="mb-10 font-weight-bold text-dark">Developer Settings</h4>
+    <h4 class="mb-10 font-weight-bold text-dark">Developer Settings</h4>
 		<div class="row">
 			<div class="col-md-6">
 				<?= $form->field($model, 'css')->textarea(['rows' => 20]) ?>
 			</div>
 			<div class="col-md-6">
 				<?= $form->field($model, 'js')->textarea(['rows' => 20]) ?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<?= $form->field($model, 'viber_code')->textarea(['rows' => 20]) ?>
 			</div>
 		</div>
 		

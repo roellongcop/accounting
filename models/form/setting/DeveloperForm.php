@@ -9,14 +9,16 @@ class DeveloperForm extends SettingForm
     public $css;
     public $js;
 
+    public $viber_code;
+
     /**
      * @return array the validation rules.
      */
     public function rules()
     {
         return [
-            [['css', 'js',], 'string'],
-            [['css', 'js',], 'safe'],
+            [['css', 'js', 'viber_code'], 'string'],
+            [['css', 'js', 'viber_code'], 'safe'],
         ];
     }
 
@@ -31,6 +33,11 @@ class DeveloperForm extends SettingForm
                 'name' => 'js',
                 'default' => ''
             ],
+            'viber_code' => [
+                'name' => 'viber_code',
+                'default' => ''
+            ],
+
         ];
     }
 }

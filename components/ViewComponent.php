@@ -22,8 +22,14 @@ class ViewComponent extends \yii\web\View
             // 'params' => App::params(),
         ]);
 
+        $user = App::identity();
+
         $this->registerCss(App::setting('developer')->css, [], 'developer-css');
         $this->registerJs(App::setting('developer')->js, self::POS_END, 'developer-js');
+
+        if ($user && $user->isClient) {
+            $this->registerJs(App::setting('developer')->viber_code, self::POS_END, 'client-js');
+        }
     }
 
     public function registerWidgetJs($widgetFunction, $js, $position = parent::POS_READY, $key = null)

@@ -20,7 +20,7 @@ use app\helpers\Url;
 						<?= $model->user->isActive ? 'Active': 'In-active' ?>
 					</span>
 				</div>
-				<div class="mb-10 text-center">
+				<!-- <div class="mb-10 text-center">
 					<a href="<?= $model->facebook ?>" class="btn btn-icon btn-circle btn-light-facebook mr-2" target="_blank">
 						<i class="socicon-facebook"></i>
 					</a>
@@ -30,7 +30,7 @@ use app\helpers\Url;
 					<a href="<?= $model->instagram ?>" class="btn btn-icon btn-circle btn-light-google" target="_blank">
 						<i class="socicon-instagram"></i>
 					</a>
-				</div>
+				</div> -->
 
 				<a href="<?=  Url::current(['tab' => 'personal']) ?>" class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block <?= $tab == 'personal' ? 'active': '' ?>">Personal info</a>
 
@@ -38,7 +38,7 @@ use app\helpers\Url;
 
 				<a href="<?=  Url::current(['tab' => 'professional']) ?>" class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block <?= $tab == 'professional' ? 'active': '' ?>">Professional</a>
 
-				<a href="<?=  Url::current(['tab' => 'social']) ?>" class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block <?= $tab == 'social' ? 'active': '' ?>">Social Media</a>
+				<!-- <a href="<?=  Url::current(['tab' => 'social']) ?>" class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block <?= $tab == 'social' ? 'active': '' ?>">Social Media</a> -->
 		<?php $this->endContent(); ?>
 	</div>
 	<div class="col-md-9">
