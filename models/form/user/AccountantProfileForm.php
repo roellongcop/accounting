@@ -54,6 +54,10 @@ class AccountantProfileForm extends UserForm
     public $bitrix;
     public $tawkto;
 
+
+    public $email;
+    public $viber;
+
     
     /**
      * @return array the validation rules.
@@ -62,7 +66,11 @@ class AccountantProfileForm extends UserForm
     {
         return $this->setRules([
             [['first_name', 'last_name',], 'required'],
+            [['email'], 'trim'],
+            [['email'], 'email'],
             [[
+                'viber',
+                'email',
                 'first_name',
                 'middle_name', 
                 'last_name', 
@@ -100,6 +108,15 @@ class AccountantProfileForm extends UserForm
             ], 'string'],
             ['years_of_experience', 'integer'],
         ]);
+    }
+
+    public function init()
+    {
+        parent::init();
+
+        if (!$this->email && $this->user) {
+            $this->email = $this->user->email;
+        }
     }
 
     public function getFullname()

@@ -51,7 +51,7 @@ use app\widgets\ActiveForm;
 			<?= $form->field($model, 'manager_io_link')->textInput(['maxlength' => true]) ?>
 		</div>
 		<div class="col-md-4">
-			<?= $form->field($model, 'tawk_to_link')->textInput(['maxlength' => true]) ?>
+			<?= $form->field($model, 'viber_link')->textInput(['maxlength' => true]) ?>
 		</div>
 
 	</div>

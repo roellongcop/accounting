@@ -53,6 +53,8 @@ $this->params['activeMenuLink'] = Url::toRoute(['user/profile']);
 
 					<a href="<?=  Url::current(['tab' => 'professional']) ?>" class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block <?= $tab == 'professional' ? 'active': '' ?>">Professional</a>
 
+					<a href="<?=  Url::current(['tab' => 'contact']) ?>" class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block <?= $tab == 'contact' ? 'active': '' ?>">Contact Details</a>
+
 					<!-- <a href="<?=  Url::current(['tab' => 'social']) ?>" class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block <?= $tab == 'social' ? 'active': '' ?>">Social Media</a> -->
 			<?php $this->endContent(); ?>
 		</div>

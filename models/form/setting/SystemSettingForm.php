@@ -20,6 +20,7 @@ class SystemSettingForm extends SettingForm
     public $enable_visitor;
     public $manager_io_link;
     public $tawk_to_link;
+    public $viber_link;
 
     /**
      * @return array the validation rules.
@@ -29,7 +30,7 @@ class SystemSettingForm extends SettingForm
         return [
             [['timezone', 'pagination', 'theme', 'auto_logout_timer', 'manager_io_link'], 'required'],
             [['timezone', 'manager_io_link'], 'string'],
-            [['whitelist_ip_only', 'enable_visitor', 'tawk_to_link'], 'safe'],
+            [['whitelist_ip_only', 'enable_visitor', 'tawk_to_link', 'viber_link'], 'safe'],
             [['pagination', 'auto_logout_timer', 'theme', 'whitelist_ip_only', 'enable_visitor'], 'integer'],
 
             ['pagination', 'in', 'range' => array_keys(App::params('pagination'))],
@@ -74,6 +75,10 @@ class SystemSettingForm extends SettingForm
             'tawk_to_link' => [
                 'name' => 'tawk_to_link',
                 'default' => 'https://embed.tawk.to/654f1d49cec6a912820ed232/1heugkqlg',
+            ],
+            'viber_link' => [
+                'name' => 'viber_link',
+                'default' => 'viber://pa?chatURI=accountitright',
             ]
         ];
     }
