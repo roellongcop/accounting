@@ -119,7 +119,7 @@ JS);
                                     </div>
                                     <div class="col-md-5 col-sm-6 image-properties-panel">
                                         <p class="lead text-warning">Image Properties</p>
-                                        <table class="table-bordered font-size-sm">
+                                        <table class="w-100 table-bordered font-size-sm">
                                             <tbody>
                                                 <tr>
                                                     <th>Name</th>
@@ -174,7 +174,7 @@ JS);
                                     </div>
                                     <div class="col-md-5 col-sm-6 image-properties-panel-crop pl-8">
                                         <p class="lead text-warning">Image Properties</p>
-                                        <table class="table-bordered font-size-sm">
+                                        <table class="w-100 table-bordered font-size-sm">
                                             <tbody>
                                                 <tr>
                                                     <th>Name</th>
