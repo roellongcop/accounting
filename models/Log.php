@@ -63,7 +63,7 @@ class Log extends ActiveRecord
             [['url'], 'string'],
             [['request_data', 'change_attribute', 'server', 'ip', 'action', 'controller'], 'safe'],
             [['method', 'table_name', 'model_name', 'browser', 'os', 'device'], 'required'],
-            [['method', 'ip'], 'string', 'max' => 32],
+            [['method', 'ip'], 'string', 'max' => 64],
             [['action', 'controller', 'table_name', 'model_name'], 'string', 'max' => 255],
             [['browser', 'os', 'device'], 'string', 'max' => 128],
             [
@@ -261,7 +261,6 @@ class Log extends ActiveRecord
 
     public static function record($model, $changedAttributes = [])
     {
-        // if (App::isLogin()) {
         $userAgent = new UserAgentForm();
         $log = new Log();
         $log->request_data = App::getBodyParams();
@@ -283,6 +282,5 @@ class Log extends ActiveRecord
         if ($log->save()) {
             return true;
         }
-        // }
     }
 }

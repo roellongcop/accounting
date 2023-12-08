@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\helpers\App;
 use app\models\User;
+use app\models\Role;
 use app\models\form\ChangePasswordForm;
 use app\models\search\UserSearch;
 use yii\web\NotFoundHttpException;
@@ -59,6 +60,11 @@ class UserController extends Controller
             'record_status' => User::RECORD_ACTIVE,
             'is_blocked' => User::UNBLOCKED
         ]);
+
+        if (App::identity('isAccountant')) {
+            $model->role_id = Role::CLIENT;
+            $model->accountant_id = App::identity('id');
+        }
 
         if ($model->load(App::post()) && $model->validate()) {
             $model->setPassword($model->password);

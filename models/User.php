@@ -829,6 +829,11 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
         return App::if ($this->role, fn($role) => $role->getIsAdmin());
     }
 
+    public function getIsAccountant()
+    {
+        return $this->isAdmin;
+    }
+
     public function getIsClient()
     {
         return App::if ($this->role, fn($role) => $role->getIsClient());
