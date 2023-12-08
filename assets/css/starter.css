@@ -278,3 +278,6 @@ div.required label.control-label:after {
         display: none;
     }
 }
+.wrap-anywhere {
+    overflow-wrap: anywhere;
+}

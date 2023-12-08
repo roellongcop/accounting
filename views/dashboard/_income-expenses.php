@@ -33,9 +33,10 @@ JS);
 
                 <?php if (!App::identity('isClient')): ?>
                     <div class="d-flex ml-5">
-                        <?= $form->bootstrapSelect($cashFlow, 'user_id', User::dropdown('id', 'username', [
-                            'role_id' => Role::CLIENT
-                        ]), [
+                        <?= $form->bootstrapSelect($cashFlow, 'user_id', User::dropdown('id', 'username', App::identity('isAccountant') ? [
+                            'role_id' => Role::CLIENT,
+                            'accountant_id' => App::identity('id')
+                        ]: ['role_id' => Role::CLIENT]), [
                             'options' => [
                                 'class' => 'kt-selectpicker form-control',
                                 'tabindex' => 'null',

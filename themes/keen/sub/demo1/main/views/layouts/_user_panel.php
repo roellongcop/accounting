@@ -53,7 +53,6 @@ $access = App::component('access');
                         <span class="navi-link p-0 pb-2">
                             <span class="navi-icon mr-1">
                                 <span class="svg-icon svg-icon-lg svg-icon-primary">
-                                    <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Mail-notification.svg-->
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <rect x="0" y="0" width="24" height="24" />
@@ -61,10 +60,9 @@ $access = App::component('access');
                                             <circle fill="#000000" opacity="0.3" cx="19.5" cy="17.5" r="2.5" />
                                         </g>
                                     </svg>
-                                    <!--end::Svg Icon-->
                                 </span>
                             </span>
-                            <span class="navi-text text-muted text-hover-primary">
+                            <span class="navi-text text-muted text-hover-primary wrap-anywhere">
                                 <?= $identity->email ?>
                             </span>
                         </span>

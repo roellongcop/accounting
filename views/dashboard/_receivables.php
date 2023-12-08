@@ -50,7 +50,7 @@ CSS);
 					stackChart.fetchData();
 				});
 			JS
-  	]), 'No data found') ?>
+  	]), Html::tag('p', 'No data found', ['class' => 'text-center font-weight-bold'])) ?>
 	</div>
 
 	<div class="card-footer d-flex justify-content-between">
