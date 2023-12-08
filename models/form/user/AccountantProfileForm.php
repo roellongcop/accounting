@@ -121,10 +121,10 @@ class AccountantProfileForm extends UserForm
 
     public function getFullname()
     {
-        return implode(' ', [
+        return implode(' ', array_filter([
             $this->first_name,
             $this->last_name
-        ]);
+        ]));
     }
 
     public function attributeLabels()

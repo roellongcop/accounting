@@ -706,7 +706,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
 
     public function getFullname()
     {
-        return $this->profile->fullname;
+        return $this->profile->fullname ?: $this->username;
     }
 
     public function getAccountantName()

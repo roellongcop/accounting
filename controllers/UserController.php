@@ -61,12 +61,14 @@ class UserController extends Controller
             'is_blocked' => User::UNBLOCKED
         ]);
 
-        if (App::identity('isAccountant')) {
-            $model->role_id = Role::CLIENT;
-            $model->accountant_id = App::identity('id');
+       
+        $post = App::post();
+        if ($post && App::identity('isAccountant')) {
+            $post['User']['role_id'] = Role::CLIENT;
+            $post['User']['accountant_id'] = App::identity('id');
         }
 
-        if ($model->load(App::post()) && $model->validate()) {
+        if ($model->load($post) && $model->validate()) {
             $model->setPassword($model->password);
             if ($model->save()) {
                 App::success('Successfully Created');
@@ -92,7 +94,13 @@ class UserController extends Controller
         $model = new User();
         $model->attributes = $originalModel->attributes;
 
-        if ($model->load(App::post()) && $model->validate()) {
+        $post = App::post();
+        if ($post && App::identity('isAccountant')) {
+            $post['User']['role_id'] = Role::CLIENT;
+            $post['User']['accountant_id'] = App::identity('id');
+        }
+
+        if ($model->load($post) && $model->validate()) {
             $model->setPassword($model->password);
             if ($model->save()) {
                 App::success('Successfully Duplicated');
@@ -117,7 +125,13 @@ class UserController extends Controller
     {
         $model = User::controllerFind($slug, 'slug');
 
-        if ($model->load(App::post()) && $model->save()) {
+        $post = App::post();
+        if ($post && App::identity('isAccountant')) {
+            $post['User']['role_id'] = Role::CLIENT;
+            $post['User']['accountant_id'] = App::identity('id');
+        }
+
+        if ($model->load($post) && $model->save()) {
             App::success('Successfully Updated');
             return $this->redirect($model->viewUrl);
         }
