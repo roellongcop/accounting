@@ -263,7 +263,7 @@ class Payable extends ActiveRecord
       'remarks' => $this->remarks,
       'status' => $this->status,
       'file_tokens' => $insert ? $this->file_tokens: $this->receive_payment_files,
-      'type' => InvoiceLog::TYPE_RECEIVABLE,
+      'type' => InvoiceLog::TYPE_PAYABLE,
     ]);
 
     $log->save();
@@ -312,7 +312,8 @@ class Payable extends ActiveRecord
 
   public function getInvoiceLogs()
   {
-    return $this->hasMany(InvoiceLog::class, ['model_id' => 'id']);
+    return $this->hasMany(InvoiceLog::class, ['model_id' => 'id'])
+      ->onCondition(['type' => InvoiceLog::TYPE_PAYABLE]);
   }
 
   public function getReceivePaymentUrl($fullpath = true)

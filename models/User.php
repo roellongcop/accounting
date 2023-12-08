@@ -858,6 +858,12 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
 
     public static function clientDropdown()
     {
+        if (App::identity('isAccountant')) {
+            return self::dropdown('id', 'username', [
+                'role_id' => Role::CLIENT,
+                'accountant_id' => App::identity('id')
+            ]);
+        }
         return self::dropdown('id', 'username', [
             'role_id' => Role::CLIENT
         ]);

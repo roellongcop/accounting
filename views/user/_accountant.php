@@ -41,7 +41,7 @@ use app\helpers\Url;
 
 				<a href="<?=  Url::current(['tab' => 'contact']) ?>" class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block <?= $tab == 'contact' ? 'active': '' ?>">Contact Details</a>
 
-				<a href="<?= App::setting('system')->viber_link ?>" class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block">Viber Chat</a>
+				<a href="<?= App::setting('system')->viber_link ?>" target="_blank" class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block">Viber Chat</a>
 				<!-- <a href="<?=  Url::current(['tab' => 'social']) ?>" class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block <?= $tab == 'social' ? 'active': '' ?>">Social Media</a> -->
 		<?php $this->endContent(); ?>
 	</div>

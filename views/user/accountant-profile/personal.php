@@ -37,19 +37,7 @@ use app\helpers\Html;
 			</div>
 			<div class="col-md-3">
 				<div class="mt-8 text-center">
-					<?= Html::image($model->photo, ['w' => 150], [
-		                'class' => 'img-thumbnail user-photo',
-		                'loading' => 'lazy',
-		            ] ) ?>
-		            <br>
-
-		            <?= $form->imageGallery($model, 'photo', 'User', [
-		                'ajaxSuccess' => "
-		                    if(s.status == 'success') {
-		                        $('.user-photo').attr('src', s.src);
-		                    }
-		                ",
-		            ]) ?>
+					
 				</div>
 			</div>
 		</div>

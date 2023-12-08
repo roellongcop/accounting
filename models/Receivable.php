@@ -313,7 +313,8 @@ class Receivable extends ActiveRecord
 
   public function getInvoiceLogs()
   {
-    return $this->hasMany(InvoiceLog::class, ['model_id' => 'id']);
+    return $this->hasMany(InvoiceLog::class, ['model_id' => 'id'])
+      ->onCondition(['type' => InvoiceLog::TYPE_RECEIVABLE]);
   }
 
   public function getReceivePaymentUrl($fullpath = true)

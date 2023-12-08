@@ -114,6 +114,10 @@ class AccountantProfileForm extends UserForm
     {
         parent::init();
 
+        if (!$this->photo && $this->user) {
+            $this->photo = $this->user->photo;
+        }
+
         if (!$this->email && $this->user) {
             $this->email = $this->user->email;
         }
