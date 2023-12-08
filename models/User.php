@@ -113,7 +113,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
         return $this->setAttributeLabels([
             'role_id' => 'Role',
             'is_blocked' => 'Blocked',
-            'username' => 'Company',
+            'username' => $this->isClient ? 'Company': 'Username',
             'accountant_id' => 'Accountant',
             'accountantName' => 'Accountant',
             'userStatusHtml' => 'User Status',
@@ -588,6 +588,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
                 }
             ],
             'username' => [
+                'label' => App::identity('isAccountant') ? 'Company': 'Username',
                 'attribute' => 'username',
                 'format' => 'raw',
                 'value' => function ($model) {

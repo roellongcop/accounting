@@ -60,6 +60,10 @@ class UserController extends Controller
             'record_status' => User::RECORD_ACTIVE,
             'is_blocked' => User::UNBLOCKED
         ]);
+
+        if (App::identity('isAccountant')) {
+            $model->role_id = Role::CLIENT;
+        }
        
         $post = App::post();
         if ($post && App::identity('isAccountant')) {
