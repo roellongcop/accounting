@@ -150,7 +150,7 @@ class ImageResizeComponent extends \yii\base\Component
 			}
 		}
 
-		return $images[0];
+		return $images[0] ?? null;
 	}
 
 	/**
