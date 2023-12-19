@@ -101,7 +101,7 @@ class VisitLog extends ActiveRecord
                 'value' => function ($model) {
                     return Anchor::widget([
                         'title' => $model->username,
-                        'link' => $model->user->viewUrl,
+                        'link' => App::if($model->user, fn($user) => $user->viewUrl),
                         'text' => true
                     ]);
                 }
