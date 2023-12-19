@@ -175,7 +175,7 @@ class File extends ActiveRecord
                 $path .= 'xml.png';
                 break;
             default:
-                // return Url::image($this, $params);
+                $path .= 'file.png';
                 break;
         }
 
