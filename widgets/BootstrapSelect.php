@@ -44,6 +44,8 @@ class BootstrapSelect extends BaseWidget
             $this->options['multiple'] = 'true';
         }
 
+        $this->options['data-size'] = "8";
+
         if (!$this->withPrompt && isset($this->options['prompt'])) {
             unset($this->options['prompt']);
         }
