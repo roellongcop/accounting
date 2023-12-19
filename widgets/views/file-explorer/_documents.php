@@ -4,12 +4,17 @@ use yii\helpers\FileHelper;
 use app\helpers\App;
 use app\helpers\Html;
 use app\widgets\DataTable;
+use app\models\User;
 
 asort($directories);
 ?>
 
 <div class="row">
-    <?= Html::foreach($directories, function($folder, $folderName) use ($folderImage) {
+    <?= Html::foreach($directories, function($folder, $folderName) use ($folderImage, $path) {
+        if (!$path) {
+            $user = User::findOne(['email' => $folderName]);
+            $folderName = $user ? $user->username: $folderName;
+        }
         return $this->render('_folder', [
             'folder' => $folder,
             'folderName' => $folderName,
