@@ -53,7 +53,6 @@ $this->registerCss(<<< CSS
             left: -108px;
         }
     }
-
     @keyframes diagonal-move-anim2 {
         0% {
             bottom: -250px;
@@ -87,7 +86,7 @@ $this->registerCss(<<< CSS
         background-image: url("{$publishedUrl}/media/svg/illustrations/payment.svg");
         min-height: auto !important;
     }
-
+    .welcome-to-myair {color: #0054a3 !important;}
     @media only screen and (max-width: 991px) {
 
         .arrow-img-top,
@@ -115,7 +114,6 @@ $this->registerCss(<<< CSS
             margin-bottom: 50px;
         }    
     }
-
     @media only screen and (max-width: 767px) {
         .air-logo {
             height: 200px !important;
@@ -171,7 +169,7 @@ CSS);
                     ]); ?>
                         <div class="pb-13 pt-lg-0 pt-5">
                             <h3 class="font-weight-bolder color-default  font-size-h4 font-size-h1-lg">Sign In</h3>
-                            <div class="text-muted font-weight-bold color-subdefault font-size-h4">
+                            <div class="text-muted font-weight-bold color-subdefault font-size-h4 welcome-to-myair">
                                 Welcome to My AIR
                             </div>
                         </div>

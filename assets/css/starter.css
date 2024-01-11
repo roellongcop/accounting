@@ -313,3 +313,6 @@ div.required label.control-label:after {
 }
 
  
+ .aside-menu .menu-nav > .menu-item > .menu-heading .menu-text, .aside-menu .menu-nav > .menu-item > .menu-link .menu-text {
+    font-size: 15px;
+ }
