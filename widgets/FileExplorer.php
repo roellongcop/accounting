@@ -7,6 +7,7 @@ use app\helpers\FileHelper;
 use app\helpers\Url;
 use app\helpers\App;
 use app\models\File;
+use app\models\User;
 
 
 class FileExplorer extends BaseWidget
@@ -124,8 +125,9 @@ class FileExplorer extends BaseWidget
             foreach ($explodePath as $xp) {
                 if ($xp) {
                     $currentPath[] = $xp;
+                    $user = User::findOne(['email' => $xp]);
                     $breadcrumbs[] = [
-                        'folderName' => $xp,
+                        'folderName' => $user ? $user->username: $xp,
                         'folderPath' => FileHelper::normalizePath(implode(DIRECTORY_SEPARATOR, $currentPath)),
                     ];
                 }
