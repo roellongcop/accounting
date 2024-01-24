@@ -5,6 +5,8 @@ class SwitcherWidget {
     }
 
     init() {
+        $(`#${this.widgetId}.switch-danger-custom`).closest('tr').find('td, a[href!="#"]').addClass('text-danger')
+        
         $(`#${this.widgetId} .input-switcher`).on('change', function() {
             let is_checked = $(this).is(':checked');
             $.ajax({
@@ -24,10 +26,12 @@ class SwitcherWidget {
                         $(this).prop('checked', is_checked? false: true);
                     }
                     if ($(this).prop('checked')) {
+                        $(this).closest('tr').find('td, a[href!="#"]').removeClass('text-danger');
                         $(this).closest('span').removeClass('switch-danger-custom');
                         $(this).closest('span').addClass('switch-success-custom');
                     }
                     else {
+                        $(this).closest('tr').find('td, a[href!="#"]').addClass('text-danger');
                         $(this).closest('span').removeClass('switch-success-custom');
                         $(this).closest('span').addClass('switch-danger-custom');
                     }
