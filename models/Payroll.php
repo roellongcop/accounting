@@ -113,7 +113,7 @@ class Payroll extends ActiveRecord
         return [
             [
                 'label' => $this->getAttributeLabel('username'),
-                'value' => 'username',
+                'value' => fn ($model) => $model->username,
                 'format' => 'raw',
                 'visible' => !App::identity('isClient'),
             ],

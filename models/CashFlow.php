@@ -99,6 +99,7 @@ class CashFlow extends ActiveRecord
             'typeBadge' => 'Type',
             'statusBadge' => 'Status',
             'date' => 'Invoice Date',
+            'biller' => $this->type == self::TYPE_PAYABLE ? 'Biller': 'Customers'
         ]);
     }
 
@@ -138,10 +139,10 @@ class CashFlow extends ActiveRecord
                     ]);
                 }
             ],
-           'biller' => [
+           App::isControllerAction('cash-flow/expense') ? 'biller': 'customers' => [
                 'attribute' => 'biller', 
                 'format' => 'raw',
-                // 'visible' => App::isControllerAction('cash-flow/expense')
+                'label' => App::isControllerAction('cash-flow/expense') ? 'Biller': 'Customers'
             ],
             'amount' => ['attribute' => 'amount', 'format' => 'number'],
             'invoice_date' => ['attribute' => 'date', 'format' => 'raw'],
@@ -153,13 +154,13 @@ class CashFlow extends ActiveRecord
         return [
             [
                 'label' => $this->getAttributeLabel('username'),
-                'value' => 'username',
+                'value' => fn ($model) => $model->username,
                 'format' => 'raw',
                 'visible' => !App::identity('isClient'),
             ],
             [
                 'label' => $this->getAttributeLabel('biller'),
-                'value' => 'biller',
+                'value' => fn ($model) => $model->biller,
                 'format' => 'raw',
             ],
             'date:raw',
