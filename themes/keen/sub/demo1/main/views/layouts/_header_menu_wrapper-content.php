@@ -1,7 +1,6 @@
 <?php
 
 use app\widgets\ActiveForm;
-
 ?>
 <?php $form = ActiveForm::begin([
     'id' => 'main-search-form',

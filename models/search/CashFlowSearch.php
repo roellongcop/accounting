@@ -101,6 +101,7 @@ class CashFlowSearch extends CashFlow
             ['like', 'cf.description', $this->keywords],  
             ['like', 'cf.biller', $this->keywords],  
             ['like', 'cf.amount', $this->keywords],  
+            ['like', 'u.username', $this->keywords],  
         ]);
 
         $query->daterange($this->date_range);
