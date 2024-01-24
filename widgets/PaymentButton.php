@@ -3,6 +3,7 @@
 namespace app\widgets;
 
 use app\helpers\App;
+use app\models\Payable;
 
 class PaymentButton extends BaseWidget
 {
@@ -19,6 +20,7 @@ class PaymentButton extends BaseWidget
         parent::init();
         $this->buttonOptions['data-target'] = "#staticBackdrop-{$this->id}";
         $this->buttonOptions['id'] = "payment-btn-modal-{$this->id}";
+        $this->model->scenario = Payable::SCENARIO_RECEIVE_PAYMENT;
     }
 
     public function run()

@@ -212,7 +212,7 @@ class FormatterComponent extends \yii\i18n\Formatter
     $label = trim($label);
     $label .= " $type";
 
-    return Html::tag('div', $label, ['class' => 'nowrap']);
+    return Html::tag('div', $label, ['class' =>  $type == "overdue" ? 'nowrap text-danger': 'nowrap']);
   }
 
   public function AsDueAndLabel($due_date)
