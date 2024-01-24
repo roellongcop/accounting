@@ -12,7 +12,7 @@ class PaymentButton extends BaseWidget
         'class' => 'btn btn-primary',
         'data-toggle' => 'modal',
     ];
-    public $buttonLabel = 'Receive Payment';
+    public $buttonLabel = 'Make Payment';
 
     public function init()
     {

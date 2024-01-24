@@ -16,7 +16,8 @@ use app\helpers\App;
 ]); ?>
     <?= $form->search($model) ?>
     <?= $form->dateRange($model) ?>
-    <?= $form->filter($model, 'user_id', User::dropdown('id', 'username', ['role_id' => Role::CLIENT]), 'Client') ?>
+    <?= App::if(!App::identity('isClient'), $form->filter($model, 'user_id', User::dropdown('id', 'username', ['role_id' => Role::CLIENT]), 'Client')) ?>
+    
     <?= $form->filter($model, 'status', App::keyMapParams('receivable_status')) ?>
     <?= $form->recordStatusFilter($model) ?>
     <?= $form->pagination($model) ?>

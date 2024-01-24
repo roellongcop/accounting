@@ -2,6 +2,7 @@
 
 use app\helpers\App;
 use app\helpers\Html;
+use yii\helpers\StringHelper;
 
 $this->registerCss(<<< CSS
     #kt_quick_user_toggle {
@@ -27,7 +28,7 @@ CSS)
                     ]) ?>
                 </div>
                 <span>
-                    <?= App::identity('username') ?>
+                    <?= StringHelper::truncate(App::identity('username'), 30) ?>
                 </span>
             </a>
         </div>

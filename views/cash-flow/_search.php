@@ -19,7 +19,8 @@ use app\helpers\App;
         'url' => $this->params['findByKeywordsUrl'] ?? null
     ]) ?>
     <?= $form->dateRange($model) ?> 
-    <?= $form->filter($model, 'user_id', User::dropdown('id', 'username', ['role_id' => Role::CLIENT]), 'Client') ?>
+
+    <?= App::if(!App::identity('isClient'), $form->filter($model, 'user_id', User::dropdown('id', 'username', ['role_id' => Role::CLIENT]), 'Client')) ?>
 
     <?= App::if(App::isAction('expense'), $form->filter($model, 'biller', CashFlow::filter('biller'))) ?>
 
