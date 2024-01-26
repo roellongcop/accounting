@@ -345,6 +345,7 @@ class Receivable extends ActiveRecord
   public function getPaymentButton()
   {
     return PaymentButton::widget([
+      'buttonLabel' => 'Receive Payment',
       'id' => App::randomString(10) . $this->id,
       'model' => $this,
       'buttonOptions' => [

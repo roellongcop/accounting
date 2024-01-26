@@ -476,7 +476,10 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
 
     public function getHeaderGridColumns()
     {
-        $columns['serial'] = ['class' => 'yii\grid\SerialColumn'];
+        $columns['serial'] = [
+            'class' => 'yii\grid\SerialColumn',
+            'header' => null
+        ];
 
         if ($this->bulkActions) {
             $columns['checkbox'] = ['class' => 'app\widgets\CheckboxColumn'];
