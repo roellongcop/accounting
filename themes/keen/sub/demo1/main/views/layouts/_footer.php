@@ -8,9 +8,10 @@ use app\helpers\App;
         <!--begin::Copyright-->
         <div class="text-dark order-2 order-md-1">
             <span class="text-muted font-weight-bold mr-2"><?= date('Y') ?>©</span>
-            <a href="#" target="_blank" class="text-dark-75 text-hover-primary">
-                <?= App::appName() ?>
+            <a href="/" class="text-dark-75 text-hover-primary">
+                <?= App::appName() ?>.
             </a>
+            <span>All Rights Reserved.</span>
         </div>
         <!--end::Copyright-->
         <!--begin::Nav-->

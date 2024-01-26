@@ -6,7 +6,7 @@ class DataTable extends BaseWidget
 {
     public $tableId;
     public $withAction = true;
-    public $pageLength = 5;
+    public $pageLength = 10;
     public $models;
     public function init()
     {

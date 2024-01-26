@@ -51,6 +51,6 @@ CSS);
   <?php $this->beginContent('@app/views/layouts/_card_wrapper.php', [
     'title' => 'FILES',
   ]) ?>
-    <?= DataTable::widget(['models' => $model->files, 'pageLength' => 3]) ?>
+    <?= DataTable::widget(['models' => $model->files, 'pageLength' => 10]) ?>
   <?php $this->endContent() ?>
 </div>
