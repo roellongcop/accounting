@@ -325,3 +325,6 @@ div.required label.control-label:after {
 th.table-th {
     vertical-align: top !important;
 }
+#kt_subheader {
+    padding-top: 0 !important;
+}

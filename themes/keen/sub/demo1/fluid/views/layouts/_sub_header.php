@@ -4,7 +4,22 @@ use app\helpers\App;
 use app\helpers\Html;
 use app\widgets\Breadcrumbs;
 ?>
-<div class="subheader py-6 py-lg-8 subheader-transparent" id="kt_subheader">
+<div class="container pt-5">
+    <?= Breadcrumbs::widget([
+        'homeLink' => [
+            'label' => 'Dashboard',
+            'url' => ['dashboard/index']
+        ],
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+        'options' => [
+            'class' => 'breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm',
+        ],
+        'itemTemplate' => "<li class='breadcrumb-item'>{link}</li>\n",
+        'activeItemTemplate' => "<li class=\"breadcrumb-item\">{link}</li>\n",
+        'anchorClass' => 'text-muted'
+    ]); ?>
+</div>
+<div class="subheader py-6 py-lg-8 pt-0 subheader-transparent" id="kt_subheader">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
         <!--begin::Info-->
         <div class="d-flex align-items-center flex-wrap mr-1">
@@ -16,19 +31,6 @@ use app\widgets\Breadcrumbs;
                 ])) ?>
                 <!--end::Page Title-->
                 <!--begin::Breadcrumb-->
-                <?= Breadcrumbs::widget([
-                    'homeLink' => [
-                        'label' => 'Dashboard',
-                        'url' => ['dashboard/index']
-                    ],
-                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                    'options' => [
-                        'class' => 'breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm',
-                    ],
-                    'itemTemplate' => "<li class='breadcrumb-item'>{link}</li>\n",
-                    'activeItemTemplate' => "<li class=\"breadcrumb-item\">{link}</li>\n",
-                    'anchorClass' => 'text-muted'
-                ]); ?>
                 <!--end::Breadcrumb-->
             </div>
             <!--end::Page Heading-->
