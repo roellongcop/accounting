@@ -4,7 +4,7 @@ use app\helpers\App;
 use app\helpers\Html;
 use app\widgets\Breadcrumbs;
 ?>
-<div class="container pt-5">
+<div class="pt-5 pl-8">
     <?= Breadcrumbs::widget([
         'homeLink' => [
             'label' => 'Dashboard',
