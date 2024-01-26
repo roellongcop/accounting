@@ -17,8 +17,8 @@ $this->registerJs( <<< JS
     }).init();
 JS);
 ?>
-<?= $header !== null ? $header: <<< HTML
-    <br> <p class="font-weight-bold"><?= $title ?></p>
+<?= $header ? $header: <<< HTML
+    <br> <p class="font-weight-bold">{$title}</p>
 HTML ?>
 <div class="date-range-search" id="<?= $widgetId ?>">
     <input name="<?= $name ?>" class="form-control pointer"  readonly placeholder="Select Date" type="hidden"  />

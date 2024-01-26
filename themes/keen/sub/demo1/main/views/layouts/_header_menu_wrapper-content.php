@@ -9,9 +9,9 @@ use app\widgets\ActiveForm;
 ]); ?>
     <?= $form->search($searchModel, [
         'submitOnclick' => true,
+        'url' => $this->params['findByKeywordsUrl'] ?? null,
         'options' => [
             'style' => 'width: 30vw;margin-left: 10px;',
-            'url' => $this->params['findByKeywordsUrl'] ?? null
         ]
     ]) ?>
 <?php ActiveForm::end(); ?>

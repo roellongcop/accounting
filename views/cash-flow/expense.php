@@ -19,7 +19,7 @@ $this->params['createButton'] = Html::a('Create', $model->createUrl, [
 ]); 
 $this->params['showExportButton'] = true;
 $this->params['activeMenuLink'] = Url::toRoute(['cash-flow/expense']);
-$this->params['findByKeywordsUrl'] = Url::toRoute(['cash-flow/index', 'type' => CashFlow::TYPE_PAYABLE]);
+$this->params['findByKeywordsUrl'] = Url::toRoute(['cash-flow/find-by-keywords', 'type' => CashFlow::TYPE_PAYABLE]);
 
 $this->params['exportOptions'] = [
     'printUrl' => $model->getPrintUrl(false),
