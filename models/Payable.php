@@ -300,7 +300,7 @@ class Payable extends ActiveRecord
   {
     return parent::findByKeywordsData($attributes, fn($attribute) => self::find()
       ->select("{$attribute} AS data")
-      ->alias('r')
+      ->alias('p')
       ->joinWith('user u')
       ->groupBy($attribute)
       ->where(['LIKE', $attribute, $keywords])

@@ -14,7 +14,7 @@ class PayableController extends Controller
     public function actionFindByKeywords($keywords = '')
     {
         return $this->asJson(
-            Payable::findByKeywords($keywords, ['p.title', 'p.description', 'p.amount'])
+            Payable::findByKeywords($keywords, ['p.title', 'p.description', 'p.amount', 'u.username'])
         );
     }
 

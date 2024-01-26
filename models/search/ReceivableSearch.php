@@ -105,6 +105,7 @@ class ReceivableSearch extends Receivable
             ['like', 'r.title', $this->keywords],  
             ['like', 'r.description', $this->keywords],  
             ['like', 'r.amount', $this->keywords],  
+            ['like', 'u.username', $this->keywords], 
         ]);
 
         $query->daterange($this->date_range);

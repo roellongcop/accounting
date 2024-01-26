@@ -105,6 +105,7 @@ class PayableSearch extends Payable
             ['like', 'p.title', $this->keywords],  
             ['like', 'p.description', $this->keywords],  
             ['like', 'p.amount', $this->keywords],  
+            ['like', 'u.username', $this->keywords], 
         ]);
 
         $query->daterange($this->date_range);

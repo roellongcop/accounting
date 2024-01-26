@@ -14,7 +14,7 @@ class ReceivableController extends Controller
     public function actionFindByKeywords($keywords = '')
     {
         return $this->asJson(
-            Receivable::findByKeywords($keywords, ['r.title', 'r.description', 'r.amount'])
+            Receivable::findByKeywords($keywords, ['r.title', 'r.description', 'r.amount', 'u.username'])
         );
     }
 
