@@ -491,7 +491,10 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
     public function getFooterGridColumns()
     {
         $columns = [
-            'created_at' => ['attribute' => 'created_at', 'format' => 'fulldate'],
+            'created_at' => [
+                'attribute' => 'created_at',
+                'format' => 'fulldate'
+             ],
             'last_updated' => [
                 'attribute' => 'updated_at',
                 'label' => 'last updated',

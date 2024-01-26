@@ -6,6 +6,7 @@ use app\widgets\Anchor;
 use app\widgets\Label;
 use app\widgets\PaymentButton;
 use app\helpers\App;
+use app\helpers\Html;
 use yii\db\Expression;
 
 /**
@@ -134,8 +135,16 @@ class Payable extends ActiveRecord
           ]);
         }
       ],
-      'invoice_date' => ['attribute' => 'invoice_date', 'format' => 'raw',],
-      'due_date' => ['attribute' => 'due_date', 'format' => 'dueAndLabel'],
+      'invoice_date' => [
+        'headerOptions' => ['format' => 'mm/dd/yyyy'],
+        'attribute' => 'invoice_date', 
+        'format' => 'raw'
+      ],
+      'due_date' => [
+        'headerOptions' => ['format' => 'mm/dd/yyyy'],
+        'attribute' => 'due_date', 
+        'format' => 'dueAndLabel'
+      ],
       'biller' => ['attribute' => 'description', 'format' => 'raw', 'label' => 'Biller'],
       'amount' => ['attribute' => 'amount', 'format' => 'number'],
       'amount_paid' => ['attribute' => 'amount_paid', 'format' => 'number'],
@@ -147,7 +156,10 @@ class Payable extends ActiveRecord
   public function getFooterGridColumns()
   {
     $columns = [
-      'created_at' => ['attribute' => 'created_at', 'format' => 'fulldate'],
+      'created_at' => [
+        'attribute' => 'created_at', 
+        'format' => 'fulldate'
+      ],
       'last_updated' => [
         'attribute' => 'updated_at',
         'label' => 'last updated',
@@ -184,8 +196,18 @@ class Payable extends ActiveRecord
         'visible' => !App::identity('isClient'),
       ],
       'title:raw',
-      'invoice_date:raw',
-      'due_date:dueAndLabel',
+      [
+        'captionOptions' => ['format' => 'mm/dd/yyyy'],
+        'label' => $this->getAttributeLabel('invoice_date'),
+        'value' => fn ($model) => $model->invoice_date,
+        'format' => 'raw'
+      ],
+      [
+        'captionOptions' => ['format' => 'mm/dd/yyyy'],
+        'label' => $this->getAttributeLabel('due_date'),
+        'value' => fn ($model) => $model->due_date,
+        'format' => 'dueAndLabel'
+      ],
       'description:raw',
       'amount:number',
       'amount_paid:number',

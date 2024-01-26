@@ -86,5 +86,24 @@ $(document).ready(function() {
         const name = $(this).data('name');
         popupCenter(viewerUrl, name, window.screen.availWidth);
     });
+    // Select the <th> element with class 'table-th' and data-key 'invoice_date'
+    $('th').each(function() {
+        // For each element, get the format attribute value
+        var format = $(this).attr('format');
+
+        // If format is defined, create and append the <span> element
+        if (format) {
+            // Create a new <span> element with the format text
+            var span = $('<div>').text(format);
+            span.addClass('text-muted font-size-xs');
+            span.css({
+                'text-transform': 'lowercase',
+                'line-height': '10px'
+            });
+
+            // Append the <span> element to the current <th> element
+            $(this).append(' ').append(span);
+        }
+    });
 })
 

@@ -321,3 +321,7 @@ div.required label.control-label:after {
 .menu-icons {
     max-height: 25px;
 }
+
+th.table-th {
+    vertical-align: top !important;
+}

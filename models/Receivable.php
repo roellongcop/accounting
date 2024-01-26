@@ -135,8 +135,16 @@ class Receivable extends ActiveRecord
           ]);
         }
       ],
-      'invoice_date' => ['attribute' => 'invoice_date', 'format' => 'raw',],
-      'due_date' => ['attribute' => 'due_date', 'format' => 'dueAndLabel',],
+      'invoice_date' => [
+        'headerOptions' => ['format' => 'mm/dd/yyyy'],
+        'attribute' => 'invoice_date', 
+        'format' => 'raw'
+      ],
+      'due_date' => [
+        'headerOptions' => ['format' => 'mm/dd/yyyy'],
+        'attribute' => 'due_date', 
+        'format' => 'dueAndLabel'
+      ],
       'customer' => ['attribute' => 'description', 'format' => 'raw', 'label' => 'Customer'],
       'amount' => ['attribute' => 'amount', 'format' => 'number'],
       'amount_paid' => ['attribute' => 'amount_paid', 'format' => 'number'],
@@ -185,8 +193,18 @@ class Receivable extends ActiveRecord
         'visible' => !App::identity('isClient'),
       ],
       'title:raw',
-      'invoice_date:raw',
-      'due_date:dueAndLabel',
+      [
+        'captionOptions' => ['format' => 'mm/dd/yyyy'],
+        'label' => $this->getAttributeLabel('invoice_date'),
+        'value' => fn ($model) => $model->invoice_date,
+        'format' => 'raw'
+      ],
+      [
+        'captionOptions' => ['format' => 'mm/dd/yyyy'],
+        'label' => $this->getAttributeLabel('due_date'),
+        'value' => fn ($model) => $model->due_date,
+        'format' => 'dueAndLabel'
+      ],
       'description:raw',
       'amount:number',
       'amount_paid:number',

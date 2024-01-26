@@ -128,7 +128,6 @@ class CashFlow extends ActiveRecord
                 }
             ],
             'invoice_no' => [
-                // 'label' => 'title',
                 'attribute' => 'name', 
                 'format' => 'raw',
                 'value' => function($model) {
@@ -145,7 +144,11 @@ class CashFlow extends ActiveRecord
                 'label' => App::isControllerAction('cash-flow/expense') ? 'Biller': 'Customers'
             ],
             'amount' => ['attribute' => 'amount', 'format' => 'number'],
-            'invoice_date' => ['attribute' => 'date', 'format' => 'raw'],
+            'invoice_date' => [
+                'headerOptions' => ['format' => 'mm/dd/yyyy'],
+                'attribute' => 'date', 
+                'format' => 'raw'
+              ],
         ];
     }
 
@@ -163,7 +166,12 @@ class CashFlow extends ActiveRecord
                 'value' => fn ($model) => $model->biller,
                 'format' => 'raw',
             ],
-            'date:raw',
+            [
+                'captionOptions' => ['format' => 'mm/dd/yyyy'],
+                'label' => $this->getAttributeLabel('date'),
+                'value' => fn ($model) => $model->date,
+                'format' => 'raw'
+              ],
             'amount:number',
             'name:raw',
             'description:raw',
