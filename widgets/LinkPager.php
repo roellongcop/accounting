@@ -59,11 +59,11 @@ class LinkPager extends Widget
     /**
      * @var string the CSS class for the "first" page button.
      */
-    public $firstPageCssClass = 'first';
+    public $firstPageCssClass = 'btn btn-icon btn-sm border-0 btn-light mr-2 my-1';
     /**
      * @var string the CSS class for the "last" page button.
      */
-    public $lastPageCssClass = 'last';
+    public $lastPageCssClass = 'btn btn-icon btn-sm border-0 btn-light mr-2 my-1';
     /**
      * @var string the CSS class for the "previous" page button.
      */
@@ -109,13 +109,13 @@ class LinkPager extends Widget
      * If it's specified as true, page number will be used as label.
      * Default is false that means the "first" page button will not be displayed.
      */
-    public $firstPageLabel = false;
+    public $firstPageLabel = 'First';
     /**
      * @var string|bool the text label for the "last" page button. Note that this will NOT be HTML-encoded.
      * If it's specified as true, page number will be used as label.
      * Default is false that means the "last" page button will not be displayed.
      */
-    public $lastPageLabel = false;
+    public $lastPageLabel = "Last";
     /**
      * @var bool whether to register link tags in the HTML header for prev, next, first and last page.
      * Defaults to `false` to avoid conflicts when multiple pagers are used on one page.
