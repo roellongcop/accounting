@@ -14,10 +14,11 @@ use app\helpers\App;
     </div>
     <div>
         <div class="ml-4">
+            <b id="file-<?= $model->id ?>"><?= $model->nameWithExtension ?></b> 
+            <span class="badge badge-secondary py-1"><?= $model->fileSize ?></span>
+            <br>
             <span class="app-hidden"><?= strtotime($model->created_at) ?></span>
             <?= App::formatter('asFulldate', $model->created_at) ?>
-            <br><b id="file-<?= $model->id ?>"><?= $model->nameWithExtension ?></b> 
-            <span class="badge badge-secondary py-1"><?= $model->fileSize ?></span>
         </div>
     </div>
 </div>

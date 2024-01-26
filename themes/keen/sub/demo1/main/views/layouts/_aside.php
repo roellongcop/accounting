@@ -28,7 +28,7 @@ CSS)
                     ]) ?>
                 </div>
                 <span>
-                    <?= StringHelper::truncate(App::identity('username'), 30) ?>
+                   Hi <?= StringHelper::truncate(App::identity('username'), 30) ?>
                 </span>
             </a>
         </div>
