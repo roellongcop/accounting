@@ -56,17 +56,25 @@ var KTCalendarListView = function() {
             calendar.render();
 
             function eventRender(info) {
-                var element = $(info.el);
-                if (info.event.extendedProps && info.event.extendedProps.description) {
+                const element = $(info.el);
+                const {end, extendedProps} = info.event;
+                console.log('end', end)
+                if (extendedProps && extendedProps.description) {
                     if (element.hasClass('fc-day-grid-event')) {
-                        element.data('content', info.event.extendedProps.description);
+                        element.data('content', extendedProps.description);
                         element.data('placement', 'top');
                         KTApp.initPopover(element);
                     } else if (element.hasClass('fc-time-grid-event')) {
-                        element.find('.fc-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                        element.find('.fc-title').append('<div class="fc-description">' + extendedProps.description + '</div>');
                     } else if (element.find('.fc-list-item-title').length !== 0) {
-                        element.find('.fc-list-item-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                        element.find('.fc-list-item-title').append('<div class="fc-description">' + extendedProps.description + '</div>');
                     }
+                }
+
+                var specificDate = new Date(end);
+                var currentDate = new Date();
+                if (specificDate < currentDate) {
+                    element.css('opacity', 0.5)
                 }
             }
 
