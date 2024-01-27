@@ -468,4 +468,9 @@ class File extends ActiveRecord
             $this->extension,
         ]);
     }
+
+    public static function total()
+    {
+        return self::find()->sum('size');
+    }
 }

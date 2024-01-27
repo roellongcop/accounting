@@ -14,6 +14,7 @@ use app\widgets\ActiveForm;
 ]); ?>
     <?= $form->search($model) ?>
     <?= $form->dateRange($model) ?>
+    <?= $form->filter($model, 'tag', FileSearch::filter('tag')) ?>
     <?= $form->filter($model, 'extension', FileSearch::filter('extension'), 'Extension') ?>
     <?= $form->recordStatusFilter($model) ?>
     <?= $form->pagination($model)  ?>
