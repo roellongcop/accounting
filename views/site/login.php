@@ -141,16 +141,20 @@ CSS);
     <div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login">
         <div class="login-aside d-flex flex-column flex-row-auto justify-content-center">
             <div class="d-flex flex-column tagline align-items-center">
-                <a href="#" class="text-center">
+                <a href="https://accountitright.com" class="text-center">
                     <img class=" mw-250 air-logo" src="/default/account-it-right-circle-logo.png" alt="Logo">
                 </a>
                 <img class="tagline-img" src="/default/tagline.png" alt="tagline">
             </div>
             <div class="arrow-img-top">
-                <img src="/default/Group 289288.png">
+                <a href="https://accountitright.com">
+                    <img src="/default/Group 289288.png">
+                </a>
             </div>
             <div class="arrow-img-bottom">
-                <img src="/default/Group 289287.png">
+                <a href="https://accountitright.com">
+                    <img src="/default/Group 289287.png">
+                </a>
             </div>
         </div>
         <div class="login-content flex-row-fluid d-flex flex-column justify-content-center position-relative overflow-hidden p-7 mx-auto">

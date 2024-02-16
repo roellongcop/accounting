@@ -14,6 +14,10 @@ asort($directories);
         if (!$path) {
             $user = User::findOne(['email' => $folderName]);
             $folderName = $user ? $user->username: $folderName;
+
+            if ($user && App::identity('isAdmin') && $user->accountant_id != App::identity('id')) {
+                return;
+            }
         }
         return $this->render('_folder', [
             'folder' => $folder,
