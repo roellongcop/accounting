@@ -2,7 +2,7 @@
 
 use app\models\search\LogSearch;
 use app\widgets\ActiveForm;
-
+use app\models\search\LogSearch;
 /* @var $this yii\web\View */
 /* @var $model app\models\search\LogSearch */
 /* @var $form app\widgets\ActiveForm */
