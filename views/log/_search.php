@@ -1,6 +1,8 @@
 <?php
 
 use app\models\search\LogSearch;
+use app\models\Log;
+use app\models\User;
 use app\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -18,6 +20,7 @@ use app\widgets\ActiveForm;
     <?= $form->search($model) ?>
     <?= $form->dateRange($model) ?>
     <br>
+    <?= $form->filter($model, 'user_id', User::dropdown('id', 'username', ['id' => Log::find()->select('user_id')])) ?>
     <?= $form->filter($model, 'method', LogSearch::filter('method')) ?>
     <?= $form->filter($model, 'action', LogSearch::filter('action')) ?>
     <?= $form->filter($model, 'controller', LogSearch::filter('controller')) ?>
