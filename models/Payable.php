@@ -143,7 +143,13 @@ class Payable extends ActiveRecord
       'due_date' => [
         'headerOptions' => ['format' => 'mm/dd/yyyy'],
         'attribute' => 'due_date', 
-        'format' => 'dueAndLabel'
+        'value' => function($model) {
+          if ($model->status === self::COMPLETE_PAID) {
+            return $model->due_date;
+          }
+          return App::formatter()->asDueAndLabel($model->due_date);
+        },
+        'format' => 'raw'
       ],
       'biller' => ['attribute' => 'description', 'format' => 'raw', 'label' => 'Biller'],
       'amount' => ['attribute' => 'amount', 'format' => 'number'],
