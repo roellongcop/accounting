@@ -263,7 +263,7 @@ class File extends ActiveRecord
             'name:raw',
             'tag:raw',
             'extension:raw',
-            'size:raw',
+            'size:fileSize',
             'location:raw',
             'token:raw',
         ];

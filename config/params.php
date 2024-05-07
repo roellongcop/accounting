@@ -2,7 +2,7 @@
 
 return [
     'user.passwordResetTokenExpire' => 3600,
-    'pagination' => [25 => 25, 50 => 50, 75 => 75, 100 => 100],
+    'pagination' => [10 => 10, 25 => 25, 50 => 50, 75 => 75, 100 => 100],
     'receivable_status' => [
         0 => ['id' => 0, 'label' => 'Un-Paid', 'class' => 'warning'],
         1 => ['id' => 1, 'label' => 'Partially Paid', 'class' => 'primary'],
