@@ -15,6 +15,7 @@ $this->registerCss(<<< CSS
     margin-bottom: 0 !important;
   }
 CSS);
+if (!App::identity()->can('index', 'receivable')) return;
 ?>
 
 <div class="card card-custom gutter-b card-stretch">

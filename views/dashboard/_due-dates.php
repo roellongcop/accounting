@@ -14,6 +14,8 @@ $this->registerJsFile(App::publishedUrl("/plugins/custom/fullcalendar/fullcalend
 $this->addCssFile('css/dashboard-due-dates');
 
 $this->addJsFile('js/dashboard-due-dates');
+
+if (!App::identity()->can('index', 'event')) return;
 ?>
 
 <div class="card card-custom due-dates-card">

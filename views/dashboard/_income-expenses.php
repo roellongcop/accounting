@@ -14,6 +14,8 @@ $this->addJsFile('js/dashboard-income-expenses');
 $this->registerJs(<<< JS
     initData("{$cashFlow->allDateRange}");
 JS);
+
+if (!App::identity()->can('index', 'cash-flow')) return;
 ?>
 
 <div class="card card-custom gutter-b cashflow-card">
