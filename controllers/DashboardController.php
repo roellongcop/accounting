@@ -140,11 +140,11 @@ class DashboardController extends Controller
           ->groupBy($config['groupBy']);
       }
 
-      $user_id = $post['user_id'] ?? App::identity('id');
+      $user_id = $post['userId'] ?? App::identity('id');
       if (App::identity('isClient')) {
         $user_id = App::identity('id');
       }
-      
+
       $query->where(['between', 'date', $startDate, $endDate])
         ->andWhere(['user_id' => $user_id])
         ->orderBy(['date' => SORT_ASC]);
