@@ -140,8 +140,13 @@ class DashboardController extends Controller
           ->groupBy($config['groupBy']);
       }
 
+      $user_id = $post['user_id'] ?? App::identity('id');
+      if (App::identity('isClient')) {
+        $user_id = App::identity('id');
+      }
+      
       $query->where(['between', 'date', $startDate, $endDate])
-        ->andWhere(['user_id' => ($post['userId'] ?? App::identity('id'))])
+        ->andWhere(['user_id' => $user_id])
         ->orderBy(['date' => SORT_ASC]);
 
       $data = $query->asArray()->all();
@@ -231,8 +236,13 @@ class DashboardController extends Controller
       $endDateTime = new \DateTime($endDate);
       $year = $startDateTime->format('Y');
 
+      $user_id = $post['user_id'] ?? App::identity('id');
+      if (App::identity('isClient')) {
+        $user_id = App::identity('id');
+      }
+
       $query->where(['between', 'due_date', $startDate, $endDate])
-        ->andWhere(['user_id' => ($post['user_id'] ?? App::identity('id'))])
+        ->andWhere(['user_id' => $user_id])
         ->orderBy(['due_date' => SORT_ASC]);
 
       // Generate a list of months between the start and end dates
@@ -332,8 +342,13 @@ class DashboardController extends Controller
       $endDateTime = new \DateTime($endDate);
       $year = $startDateTime->format('Y');
 
+      $user_id = $post['user_id'] ?? App::identity('id');
+      if (App::identity('isClient')) {
+        $user_id = App::identity('id');
+      }
+
       $query->where(['between', 'due_date', $startDate, $endDate])
-        ->andWhere(['user_id' => $post['user_id']])
+        ->andWhere(['user_id' => $user_id])
         ->orderBy(['due_date' => SORT_ASC]);
 
 
