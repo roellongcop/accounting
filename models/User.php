@@ -865,6 +865,13 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
                 'accountant_id' => App::identity('id')
             ]);
         }
+
+        if (App::identity('isClient')) {
+            return [
+                App::identity('id') => App::identity('username')
+            ];
+        }
+
         return self::dropdown('id', 'username', [
             'role_id' => Role::CLIENT
         ]);
@@ -888,6 +895,13 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
                 'accountant_id' => App::identity('id')
             ]);
         }
+
+        if (App::identity('isClient')) {
+            return [
+                App::identity('id') => App::identity('username')
+            ];
+        }
+        
         return self::dropdown('id', 'username', ['role_id' => Role::CLIENT]);
     }
 
