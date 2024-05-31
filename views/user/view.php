@@ -8,6 +8,7 @@ use app\helpers\App;
 use app\helpers\Html;
 use app\widgets\ActiveForm;
 use app\widgets\Nestable;
+use chillerlan\QRCode\QRCode;
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 
@@ -62,9 +63,11 @@ CSS);
                 'stretch' => true
             ]) ?>
                 <div class="text-center">
-                    <?= Html::img($model->qRCodeurl, [
-                        'class' => 'img-thumbnail symbol'
+                    <?= Html::img((new QRCode)->render($model->qRCodeData), [
+                        'class' => 'img-thumbnail symbol',
+                        'width' => 300
                     ]) ?>
+                    <?php # Html::img($model->qRCodeurl, ['class' => 'img-thumbnail symbol']) ?>
                     <p class="lead font-weight-bold mt-10">Scan These QR Code to add to Google Authenticator</p>
                 </div>
             <?php $this->endContent() ?>

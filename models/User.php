@@ -440,6 +440,17 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
         return true;
     }
 
+    public function getQRCodeData()
+    {
+        $g2fa = new \PragmaRX\Google2FA\Google2FA();
+        $text = $g2fa->getQRCodeUrl(
+            Url::domain(),
+            $this->username,
+            $this->google2fa
+        );
+        return $text;
+    }
+
     public function getQRCodeurl()
     {
         // USE IT IF THERE's NO INTERNET
@@ -451,13 +462,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
         );
         return $inlineUrl;*/
 
-        $g2fa = new \PragmaRX\Google2FA\Google2FA();
-        $text = $g2fa->getQRCodeUrl(
-            Url::domain(),
-            $this->username,
-            $this->google2fa
-        );
-        return 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl='.$text;
+        return 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl='.$this->qRCodeData;
     }
 
     public function getMySettings()
