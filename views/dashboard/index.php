@@ -17,6 +17,11 @@ CSS);
 <div class="dashboard-page">
     <div class="row">
         <div class="col-md-12">
+            <h1>Hello World</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <?= $this->render('_income-expenses', [
                 'cashFlow' => $cashFlow
             ]) ?>
